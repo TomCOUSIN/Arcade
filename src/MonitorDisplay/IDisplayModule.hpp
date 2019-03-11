@@ -9,26 +9,22 @@
 
 #include <iostream>
 
-class IDisplayModule
+namespace displayModule
 {
-    public:
-
-    typedef enum e_type
-    {
+    enum e_type {
         UNKNOW = -1,
         ONE,
         TWO,
         THREE
-    }e_type;
+    };
 
     /* Get type of lib
     0 -> nCurses, NDK++, aa-lib, libcaca
     1 -> Allegro, Xlib, GTK+, SFML, SDL
     2 -> OpenGL, Vulkan, Qt */
 
-    typedef enum e_event
-    {
-        ERROR = - 1,
+    enum e_event {
+        ERROR = -1,
         NOTHING,
         ARROW_UP,
         ARROW_DOWN,
@@ -63,22 +59,22 @@ class IDisplayModule
         SPACE,
         ENTER,
         ESCAPE
-    }e_event;
+    };
 
-    virtual e_type getType() const = 0;
+    class IDisplayModule
+    {
+        public:
+            virtual ~IDisplayModule() = default;
+            virtual e_type getType() const = 0;
+            virtual void *createAsset(std::string &path) = 0;
+            virtual void drawAsset(void *sprite, int x, int y) = 0;
+            virtual void destroyAsset(void *sprite) = 0;
+            virtual void drawWindow() = 0;
+            virtual e_event catchEvent() = 0;
+            virtual void start_sound() = 0;
+            virtual void stop_sound() = 0;
+    };
+}
 
-    // Sprites
-    virtual void *createAsset(std::string &path) = 0;
-    virtual void drawAsset(void *sprite, int x, int y) = 0;
-    virtual void destroyAsset(void *sprite) = 0;
-    virtual void drawWindow() = 0;
-
-    // Events
-    virtual e_event catchEvent() = 0;
-
-    // Sounds
-    virtual void start_sound() = 0;
-    virtual void stop_sound() = 0;
-};
 
 #endif //OOP_ARCADE_2018_IDISPLAYMODULE_HPP
