@@ -7,6 +7,10 @@
 #ifndef OOP_ARCADE_2018_IDISPLAYMODULE_HPP
 #define OOP_ARCADE_2018_IDISPLAYMODULE_HPP
 
+/**
+ * @file IDisplayModule.hpp
+ */
+
 #include <iostream>
 
 namespace displayModule

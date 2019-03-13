@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file DLLoaderException.cpp
+ */
+
 #include "DLLoaderException.hpp"
 
 DLLoaderException::DLLoaderException(const std::string &message)

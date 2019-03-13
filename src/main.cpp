@@ -23,6 +23,20 @@ int print_usage()
     return 0;
 }
 
+/**
+ * Create and launch the Core Program to load libraries and play games
+ * @param char **argv
+ * @return 0 if no Error
+ * @return 84 if Error
+ */
+int launch_arcade(char **argv)
+{
+    coreProgram _coreProgram = coreProgram();
+
+    if (!_coreProgram.loadLib(argv[1]) || !_coreProgram.getInstanceFromGraphicLibrary())
+        return 84;
+    return 0;
+}
 
 /**
  * Arcade main function
@@ -33,13 +47,11 @@ int print_usage()
  */
 int main(int argc, char **argv)
 {
-
     if (argc != 2) {
         print_usage();
     }
     else {
-        coreProgram _coreProgram = coreProgram(argv[1]);
-        (void)_coreProgram;
+        launch_arcade(argv);
     }
     return 0;
 }

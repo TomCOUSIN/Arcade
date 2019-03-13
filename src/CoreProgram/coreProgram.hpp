@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_COREPROGRAM_HPP
 #define OOP_ARCADE_2018_COREPROGRAM_HPP
 
+/**
+ * @file coreProgram.hpp
+ */
+
 #include <memory>
 #include "DLLoader.hpp"
 #include "IDisplayModule.hpp"
@@ -15,8 +19,11 @@
 class coreProgram
 {
     public:
-        explicit coreProgram(const std::string &libPath);
+        explicit coreProgram();
         ~coreProgram() = default;
+
+        bool loadLib(const std::string &libPath);
+        bool getInstanceFromGraphicLibrary();
 
     private:
         std::shared_ptr<displayModule::IDisplayModule> _displayModule;

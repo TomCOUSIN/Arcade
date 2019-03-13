@@ -5,17 +5,53 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file coreProgram.cpp
+ */
+
 #include "coreProgram.hpp"
 
-coreProgram::coreProgram(const std::string &libPath)
+/**
+ * Construtor wich initialize dlloader and modules
+ */
+coreProgram::coreProgram()
+{
+    _dlloaderDisplayModule = dlloader::DLLoader<displayModule::IDisplayModule>();
+    _displayModule = nullptr;
+}
+
+/**
+ * Load the graphic library
+ * @param const std::string &libPath
+ * @return true if success
+ * @return false if failure
+ */
+bool coreProgram::loadLib(const std::string &libPath)
 {
     try {
-        _dlloaderDisplayModule = dlloader::DLLoader<displayModule::IDisplayModule>();
         _dlloaderDisplayModule.loadLibrary(libPath);
-        _displayModule = _dlloaderDisplayModule.getInstance();
-        _dlloaderDisplayModule.closeLibrary();
     }
     catch (const ArcadeException &arcadeException) {
         std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
+        return false;
     }
+    return true;
+}
+
+/**
+ * Get an instance from the linked graphic library
+ * @param void
+ * @return true if success
+ * @return false if failure
+ */
+bool coreProgram::getInstanceFromGraphicLibrary()
+{
+    try {
+        _displayModule = _dlloaderDisplayModule.getInstance();
+    }
+    catch (const ArcadeException &arcadeException) {
+        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
+        return false;
+    }
+    return true;
 }

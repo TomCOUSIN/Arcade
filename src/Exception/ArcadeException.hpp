@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_ARCADEEXCEPTION_HPP
 #define OOP_ARCADE_2018_ARCADEEXCEPTION_HPP
 
+/**
+ * @file ArcadeException.hpp
+ */
+
 #include <iostream>
 
 class ArcadeException : public std::exception

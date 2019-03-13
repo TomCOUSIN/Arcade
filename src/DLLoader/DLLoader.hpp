@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_DLLOADER_HPP
 #define OOP_ARCADE_2018_DLLOADER_HPP
 
+/**
+ * @file DLLoader.hpp
+ */
+
 #include <dlfcn.h>
 #include "IDisplayModule.hpp"
 #include "DLLoaderException.hpp"
@@ -16,11 +20,16 @@
 
 namespace dlloader
 {
+    /**
+     * Templated class for DLLoader
+     */
     template <class T>
     class DLLoader
     {
         public:
+            /*! Constructor */
             DLLoader() = default;
+            /*! Destructor */
             ~DLLoader() = default;
             void loadLibrary(const std::string &path);
             void closeLibrary();
@@ -31,6 +40,11 @@ namespace dlloader
     };
 }
 
+/**
+ * Load the library passed as parameter
+ * @param const std::string &path
+ * @return void
+ */
 template <class T>
 void dlloader::DLLoader<T>::loadLibrary(const std::string &path)
 {
@@ -39,6 +53,11 @@ void dlloader::DLLoader<T>::loadLibrary(const std::string &path)
         throw DLLoaderException(dlerror());
 }
 
+/**
+ * Close the linked library
+ * @param void
+ * @return void
+ */
 template <class T>
 void dlloader::DLLoader<T>::closeLibrary()
 {
@@ -46,6 +65,11 @@ void dlloader::DLLoader<T>::closeLibrary()
         throw DLLoaderException(dlerror());
 }
 
+/**
+ * Get instance from linked library
+ * @param void
+ * @return std::shared_ptr<T>
+ */
 template <class T>
 std::shared_ptr<T> dlloader::DLLoader<T>::getInstance()
 {
