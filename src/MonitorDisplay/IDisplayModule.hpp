@@ -76,5 +76,4 @@ namespace displayModule
     };
 }
 
-
 #endif //OOP_ARCADE_2018_IDISPLAYMODULE_HPP
