@@ -7,6 +7,8 @@
 
 #include "DisplayModuleNcurses.hpp"
 #include <fstream>
+#include <memory>
+#include <map>
 
 DisplayModuleNcurses::DisplayModuleNcurses()
 {
@@ -19,28 +21,56 @@ DisplayModuleNcurses::DisplayModuleNcurses()
 
 DisplayModuleNcurses::~DisplayModuleNcurses() { endwin(); }
 
-e_type DisplayModuleNcurses::getType() const { return ONE; }
 
-void* DisplayModuleNcurses::createAsset(const std::string &path)
+bool DisplayModuleNcurses::createAsset(const std::string &path, const std::string &assetName)
 {
-    std::fstream file(path, std::fstream::in);
-    std::string *asset = new std::string;
-    getline(file, *asset, '\0');
+    std::fstream file(path + "/1d/" + assetName, std::fstream::in);
+    std::string asset;
+    size_t pos = assetName.find('.');
+
+    if (file.is_open()) {
+        getline(file, asset, '\0');
+    } else {
+        // TODO MESSAGE ERROR
+        return false;
+    }
     file.close();
-    return asset;
+    if (pos == std::string::npos)
+        umap_curses_asset.insert(make_pair(assetName, asset));
+    else
+        umap_curses_asset.insert(make_pair(assetName.substr(0, pos), asset));
+    return true;
 }
 
-void DisplayModuleNcurses::drawAsset(void *sprite, int x, int y)
+bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 {
-    mvprintw(y, x, (char *)sprite);
+    auto it = umap_curses_asset.find(assetName);
+
+    if (it == umap_curses_asset.end()) {
+        return false;
+    } else {
+        mvprintw(y, x, umap_curses_asset.find(assetName)->second.data());
+        return true;
+    }
 }
 
-void DisplayModuleNcurses::destroyAsset(void *sprite)
+/**
+ * @param text : text to draw!!
+ * @param assetName : key to find the text in the unordered_map
+ */
+bool DisplayModuleNcurses::createText(const std::string &text, const std::string &assetName)
 {
-    (void)sprite;
+    umap_curses_asset.insert(make_pair(assetName, text));
+    return true;
 }
 
-void DisplayModuleNcurses::drawWindow()
+bool DisplayModuleNcurses::drawText(const std::string &textName, int x, int y)
+{
+    mvprintw(y, x, umap_curses_asset.find(textName)->second.data());
+    return true;
+}
+
+void DisplayModuleNcurses::refreshWindow()
 {
     refresh();
 }
@@ -86,6 +116,19 @@ e_event DisplayModuleNcurses::catchEvent()
         default:break;
     }
     return NOTHING;
+}
+
+extern "C"
+{
+    DisplayModuleNcurses *allocator()
+    {
+        return new DisplayModuleNcurses();
+    }
+
+    void deleter(DisplayModuleNcurses *ptr)
+    {
+        delete  ptr;
+    }
 }
 
 void DisplayModuleNcurses::start_sound()

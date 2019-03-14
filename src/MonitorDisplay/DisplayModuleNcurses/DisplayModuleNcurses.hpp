@@ -9,6 +9,7 @@
 
 #include "../IDisplayModule.hpp"
 #include <ncurses.h>
+#include <unordered_map>
 
 using namespace displayModule;
 
@@ -23,14 +24,12 @@ namespace displayModule
         //D_TOR
         ~DisplayModuleNcurses() final;
 
-        //Type of the lib
-        e_type getType() const final;
-
         //Sprites
-        void *createAsset(const std::string &path) final;
-        void drawAsset(void *sprite, int x, int y) final;
-        void destroyAsset(void *sprite) final;
-        void drawWindow() final;
+        bool createAsset(const std::string &path, const std::string &assetName) final;
+        bool createText(const std::string &text, const std::string &assetName) final;
+        bool drawAsset(const std::string &assetName, int x, int y) final;
+        bool drawText(const std::string &textName, int x, int y) final;
+        void refreshWindow() final;
 
         //Events
         e_event catchEvent() final;
@@ -38,7 +37,11 @@ namespace displayModule
         //Sounds
         void start_sound() final;
         void stop_sound() final;
+
+        private:
+            std::unordered_map<std::string, std::string> umap_curses_asset;
     };
+
 }
 
 #endif //OOP_ARCADE_2018_MONITORDISPLAYNCURSES_HPP
