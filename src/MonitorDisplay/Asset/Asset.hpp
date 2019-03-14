@@ -17,9 +17,9 @@ namespace displayModule
             ~Asset() = default;
             void setPosition(int x, int y);
             void setAsset(void *asset);
-            void *getAsset();
-            int getXPosition();
-            int getYPosition();
+            void *getAsset() const;
+            int getXPosition() const;
+            int getYPosition() const;
 
         private:
             void *_asset;

@@ -18,17 +18,17 @@ void displayModule::Asset::setAsset(void *asset)
     _asset = asset;
 }
 
-void *displayModule::Asset::getAsset()
+void *displayModule::Asset::getAsset() const
 {
     return _asset;
 }
 
-int displayModule::Asset::getXPosition()
+int displayModule::Asset::getXPosition() const
 {
     return _x;
 }
 
-int displayModule::Asset::getYPosition()
+int displayModule::Asset::getYPosition() const
 {
     return _y;
 }
