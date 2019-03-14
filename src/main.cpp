@@ -33,7 +33,8 @@ int launch_arcade(char **argv)
 {
     coreProgram _coreProgram = coreProgram();
 
-    if (!_coreProgram.loadLib(argv[1]) || !_coreProgram.getInstanceFromGraphicLibrary())
+    if (!_coreProgram.loadLib(argv[1]) || !_coreProgram.getInstanceFromGraphicLibrary()
+    || !_coreProgram.initLauncher() || !_coreProgram.launchLauncher())
         return 84;
     return 0;
 }
@@ -48,10 +49,9 @@ int launch_arcade(char **argv)
 int main(int argc, char **argv)
 {
     if (argc != 2) {
-        print_usage();
+        return print_usage();
     }
     else {
-        launch_arcade(argv);
+        return launch_arcade(argv);
     }
-    return 0;
 }
