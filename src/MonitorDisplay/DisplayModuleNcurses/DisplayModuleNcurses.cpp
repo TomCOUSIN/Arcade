@@ -10,6 +10,9 @@
 #include <memory>
 #include <map>
 
+/**
+ * Constructor
+ */
 DisplayModuleNcurses::DisplayModuleNcurses()
 {
     initscr();
@@ -19,8 +22,18 @@ DisplayModuleNcurses::DisplayModuleNcurses()
     keypad(stdscr, true);
 }
 
+/**
+ * Destructor
+ */
+
 DisplayModuleNcurses::~DisplayModuleNcurses() { endwin(); }
 
+/**
+ *
+ * @param path
+ * @param assetName
+ * @return
+ */
 
 bool DisplayModuleNcurses::createAsset(const std::string &path, const std::string &assetName)
 {
@@ -116,19 +129,6 @@ e_event DisplayModuleNcurses::catchEvent()
         default:break;
     }
     return NOTHING;
-}
-
-extern "C"
-{
-    DisplayModuleNcurses *allocator()
-    {
-        return new DisplayModuleNcurses();
-    }
-
-    void deleter(DisplayModuleNcurses *ptr)
-    {
-        delete  ptr;
-    }
 }
 
 void DisplayModuleNcurses::start_sound()

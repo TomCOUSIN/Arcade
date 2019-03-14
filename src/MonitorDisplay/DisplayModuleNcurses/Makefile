@@ -5,43 +5,35 @@
 ## Makefile created by tomcousin,
 ##
 
-SHELL		=	bash
+SHELL	=	bash
 
-CXX			=	g++ -std=c++11
+CXX		=	g++	-std=c++11
 
-RM			=	rm -f
+RM		=	rm -f
 
-DISPLAYMODULENCURSES	=	DisplayModuleNcurses.cpp
+SRC		=	./DisplayModuleNcurses.cpp
 
-MONITORDISPLAY	=	$(addprefix DisplayModuleNcurses/, $(DISPLAYMODULENCURSES))
+OBJ		=	$(SRC:.cpp=.o)
 
-SRC			=	./main.cpp											\
-				$(addprefix ./../, $(MONITORDISPLAY))
+CXXFLAGS	=	-I.
+CXXFLAGS	+=	-I..
+CXXFLAGS	+=	-Wall -Wextra
 
-OBJ			=	$(SRC:.cpp=.o)
+LDFLAGS	=	-lncurses
 
-CXXFLAGS	=	-I./../
-CXXFLAGS	+=	-I./MonitorDisplay/DisplayModuleNcurses
-CXXFLAGS	+=	-Wall -Wextra -Werror
+NAME	=	lib_arcade_ncurses.so
 
-NAME		=	lib_test
-
-all:		$(NAME)
+all:	$(NAME)
 
 $(NAME):	$(OBJ)
-			@$(CXX) -o $(NAME) $(OBJ) -lncurses
-			mv $(NAME) ../../../lib
-
+			$(CXX) -fPIC $(SRC) $(LDFLAGS) -shared -o $(NAME) $(CXXFLAGS)
+			mv $(NAME) ../../../lib/
 clean:
-			@$(RM)	$(OBJ)
+		$(RM) $(OBJ)
 
-fclean:		clean
-			@$(RM)	$(addprefix ../../../lib/, $(NAME))
+fclean:	clean
+		$(RM) $(addprefix ../../../lib/, $(NAME))
 
-re:			fclean all
+re:		fclean all
 
-.cpp.o:
-			@echo "compiling " $<
-			@$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-.PHONY:		fclean clean all re
+.PHONY:	fclean clean all re
