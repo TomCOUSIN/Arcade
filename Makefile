@@ -47,6 +47,7 @@ games:
 			@echo "Nothing to do"
 
 graphicals:
+			rm -rf ./lib
 			mkdir ./lib
 			make -C src/MonitorDisplay/SDLDisplayModule
 			make -C src/MonitorDisplay/DisplayModuleNcurses
@@ -59,6 +60,7 @@ clean:
 fclean:		clean
 			make -C src/MonitorDisplay/DisplayModuleNcurses fclean
 			make -C src/MonitorDisplay/SDLDisplayModule fclean
+			rm -rf ./lib
 			@$(RM)	$(NAME)
 
 re:			fclean all
