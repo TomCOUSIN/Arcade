@@ -38,7 +38,7 @@ CXXFLAGS	+=	-Wall -Wextra -Werror
 
 NAME		=	arcade
 
-all:		$(NAME)
+all:		core games graphicals
 
 core:		$(CORE_OBJ)
 			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
@@ -47,15 +47,15 @@ games:
 			@echo "Nothing to do"
 
 graphicals:
-			@echo "Nothing to do"
-
-$(NAME):	$(CORE_OBJ)
-			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
+			mkdir ./lib
+			make -C src/MonitorDisplay/SDLDisplayModule
 
 clean:
+			make -C src/MonitorDisplay/SDLDisplayModule clean
 			@$(RM)	$(OBJ)
 
 fclean:		clean
+			make -C src/MonitorDisplay/SDLDisplayModule fclean
 			@$(RM)	$(NAME)
 
 re:			fclean all
