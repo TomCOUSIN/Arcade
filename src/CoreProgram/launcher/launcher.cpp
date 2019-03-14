@@ -33,11 +33,11 @@ bool launcher::changeLibrary(
 bool launcher::loadAsset()
 {
     try {
-        _asset.insert(std::make_pair("Title", _displayModule->createText("Arcade")));
+        _displayModule->createText("Arcade", "Title");
         for (const auto &game : _availableGames) {
-            _asset.insert(std::make_pair(game, _displayModule->createText(game)));
+            _displayModule->createText(game, game);
         }
-        _asset.insert(std::make_pair("Selector", _displayModule->createText("->")));
+        _displayModule->createText("->", "Selector");
     }
     catch (const ArcadeException &arcadeException) {
         std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
@@ -74,10 +74,10 @@ size_t launcher::launchLauncher()
         else if (key_event == displayModule::e_event::ARROW_RIGHT) {
             _selectedGame = _selectedGame + 1 > _availableGames.size() ? _availableGames.size() : _selectedGame + 1;
         }
-        _displayModule->setAssetPosition(_asset["selector"], _selectedGame, 0);
-        _displayModule->drawAsset(_asset["Title"]);
+        _displayModule->drawAsset("Title", 0, 0);
+        _displayModule->drawAsset("Selector", static_cast<int>(_selectedGame), 0);
         for (const auto &gameName : _availableGames) {
-            _displayModule->drawAsset(_asset[gameName]);
+            _displayModule->drawAsset(gameName, 0, 0);
         }
         _displayModule->refreshWindow();
         key_event = _displayModule->catchEvent();
