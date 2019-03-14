@@ -69,7 +69,7 @@ size_t launcher::launchLauncher()
 
     while (key_event != displayModule::e_event::ENTER) {
         if (key_event == displayModule::e_event::ARROW_LEFT) {
-            _selectedGame = _selectedGame - 1 < 0 ? 0 : _selectedGame - 1;
+            _selectedGame = _selectedGame - 1;
         }
         else if (key_event == displayModule::e_event::ARROW_RIGHT) {
             _selectedGame = _selectedGame + 1 > _availableGames.size() ? _availableGames.size() : _selectedGame + 1;
