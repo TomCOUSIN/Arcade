@@ -11,23 +11,11 @@ CXX			=	g++ -std=c++11
 
 RM			=	rm -f
 
-COREPROGRAM	=	coreProgram.cpp
-
-DLLOADER	=	DLLoaderException.cpp
-
-EXCEPTION	=	ArcadeException.cpp
-
-SRC			=	./src/main.cpp									\
-				$(addprefix ./src/DLLoader/, $(DLLOADER))		\
-				$(addprefix ./src/CoreProgram/, $(COREPROGRAM))	\
-				$(addprefix ./src/Exception/, $(EXCEPTION))
+SRC			=	src/main.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
 
-CXXFLAGS	=	-I./src/CoreProgram
-CXXFLAGS	+=	-I./src/DLLoader
-CXXFLAGS	+=	-I./src/Exception
-CXXFLAGS	+=	-I./src/MonitorDisplay
+CXXFLAGS	=	-I./include
 CXXFLAGS	+=	-Wall -Wextra -Werror
 
 NAME		=	arcade
@@ -35,7 +23,7 @@ NAME		=	arcade
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-			@$(CXX) -o $(NAME) $(OBJ) -ldl
+			@$(CXX) -o $(NAME) $(OBJ)
 
 clean:
 			@$(RM)	$(OBJ)

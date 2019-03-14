@@ -7,6 +7,9 @@
 
 #include "coreProgram.hpp"
 #include <iostream>
+#include <memory.h>
+#include "IDisplayModule.hpp"
+#include "DisplayModuleNcurses.hpp"
 
 /**
  * Print the usage when arcade is launched with more or less than 1 argument
@@ -47,11 +50,26 @@ int launch_arcade(char **argv)
  */
 int main(int argc, char **argv)
 {
+    char *string = strdup("Hello");
+
     if (argc != 2) {
         print_usage();
     }
+<<<<<<< Updated upstream
     else {
         launch_arcade(argv);
     }
+=======
+    (void)argv;
+    IDisplayModule *display = new DisplayModuleNcurses();
+    while (1) {
+        if (display->catchEvent() == ESCAPE)
+            break;
+        display->drawAsset(string, 10, 10);
+        display->drawWindow();
+    }
+    display->drawWindow();
+    delete display;
+>>>>>>> Stashed changes
     return 0;
 }
