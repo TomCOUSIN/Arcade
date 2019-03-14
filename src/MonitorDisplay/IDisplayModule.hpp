@@ -15,18 +15,6 @@
 
 namespace displayModule
 {
-    enum e_type {
-        UNKNOW = -1,
-        ONE,
-        TWO,
-        THREE
-    };
-
-    /* Get type of lib
-    0 -> nCurses, NDK++, aa-lib, libcaca
-    1 -> Allegro, Xlib, GTK+, SFML, SDL
-    2 -> OpenGL, Vulkan, Qt */
-
     enum e_event {
         ERROR = -1,
         NOTHING,
@@ -65,18 +53,36 @@ namespace displayModule
         ESCAPE
     };
 
+    class Asset
+    {
+        public:
+            explicit Asset();
+            ~Asset() = default;
+            void setPosition(int x, int y);
+            void setAsset(void *asset);
+            void *getAsset();
+            int getXPosition();
+            int getYPosition();
+
+        private:
+            void *_asset;
+            int _x;
+            int _y;
+    };
+
     class IDisplayModule
     {
         public:
-            virtual ~IDisplayModule() = default;
-            virtual e_type getType() const = 0;
-            virtual void *createAsset(const std::string &path) = 0;
-            virtual void drawAsset(void *sprite, int x, int y) = 0;
-            virtual void destroyAsset(void *sprite) = 0;
-            virtual void drawWindow() = 0;
-            virtual e_event catchEvent() = 0;
-            virtual void start_sound() = 0;
-            virtual void stop_sound() = 0;
+        virtual ~IDisplayModule() = default;
+        virtual Asset createAsset(const std::string &path) = 0;
+        virtual Asset createText(const std::string &text) = 0;
+        virtual void setAssetPosition(Asset &asset, int x, int y) = 0;
+        virtual void drawAsset(const Asset &asset) = 0;
+        virtual void refreshWindow() = 0;
+        virtual void destroyAsset(Asset &asset) = 0;
+        virtual e_event catchEvent() = 0;
+        virtual void start_sound() = 0;
+        virtual void stop_sound() = 0;
     };
 }
 
