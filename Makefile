@@ -21,17 +21,12 @@ DLLOADER	=	DLLoaderException.cpp
 
 EXCEPTION	=	ArcadeException.cpp
 
-ASSET		=	Asset.cpp
-
-MonitorDisplay	=	$(addprefix Asset/, $(ASSET))
-
-SRC			=	./src/main.cpp											\
+CORE_SRC	=	./src/main.cpp											\
 				$(addprefix ./src/DLLoader/, $(DLLOADER))				\
 				$(addprefix ./src/CoreProgram/, $(COREPROGRAM))			\
-				$(addprefix ./src/Exception/, $(EXCEPTION))				\
-				$(addprefix ./src/MonitorDisplay/, $(MONITORDISPLAY))	\
+				$(addprefix ./src/Exception/, $(EXCEPTION))
 
-OBJ			=	$(SRC:.cpp=.o)
+CORE_OBJ	=	$(CORE_SRC:.cpp=.o)
 
 CXXFLAGS	=	-I./src/DLLoader
 CXXFLAGS	+=	-I./src/Exception
@@ -45,8 +40,17 @@ NAME		=	arcade
 
 all:		$(NAME)
 
-$(NAME):	$(OBJ)
-			@$(CXX) -o $(NAME) $(OBJ) -ldl
+core:		$(CORE_OBJ)
+			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
+
+games:
+			@echo "Nothing to do"
+
+graphicals:
+			@echo "Nothing to do"
+
+$(NAME):	$(CORE_OBJ)
+			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
 
 clean:
 			@$(RM)	$(OBJ)
@@ -60,4 +64,4 @@ re:			fclean all
 			@echo "compiling " $<
 			@$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-.PHONY:		fclean clean all re
+.PHONY:		fclean clean all re core games graphicals

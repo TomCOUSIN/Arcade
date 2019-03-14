@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <memory>
 #include "IDisplayModule.hpp"
-#include "Asset.hpp"
 
 class launcher
 {
@@ -27,7 +26,6 @@ class launcher
         void getAvailableGames();
         std::vector<std::string> _availableGames;
         std::shared_ptr<displayModule::IDisplayModule> _displayModule;
-        std::unordered_map<std::string, displayModule::Asset> _asset;
         size_t _selectedGame;
 };
 

@@ -36,6 +36,7 @@ int launch_arcade(char **argv)
     if (!_coreProgram.loadLib(argv[1]) || !_coreProgram.getInstanceFromGraphicLibrary()
         || !_coreProgram.initLauncher() || !_coreProgram.launchLauncher())
         return 84;
+    
     return 0;
 }
 
