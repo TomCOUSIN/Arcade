@@ -57,16 +57,15 @@ namespace displayModule
     class IDisplayModule
     {
         public:
-        virtual ~IDisplayModule() = default;
-        virtual displayModule::Asset createAsset(const std::string &path) = 0;
-        virtual displayModule::Asset createText(const std::string &text) = 0;
-        virtual void setAssetPosition(displayModule::Asset &asset, int x, int y) = 0;
-        virtual void drawAsset(const displayModule::Asset &asset) = 0;
-        virtual void refreshWindow() = 0;
-        virtual void destroyAsset(displayModule::Asset &asset) = 0;
-        virtual e_event catchEvent() = 0;
-        virtual void start_sound() = 0;
-        virtual void stop_sound() = 0;
+            virtual ~IDisplayModule() = default;
+            virtual bool createAsset(const std::string &path, const std::string &assetName) = 0;
+            virtual bool createText(const std::string &text, const std::string &assetName) = 0;
+            virtual bool drawAsset(const std::string &assetName, int x, int y) = 0;
+            virtual void refreshWindow() = 0;
+            virtual void clearAsset() = 0;
+            virtual e_event catchEvent() = 0;
+            virtual void start_sound() = 0;
+            virtual void stop_sound() = 0;
     };
 }
 
