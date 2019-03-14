@@ -30,12 +30,13 @@ all:		$(NAME)
 
 $(NAME):	$(OBJ)
 			@$(CXX) -o $(NAME) $(OBJ) -lncurses
+			mv $(NAME) ../../../lib
 
 clean:
 			@$(RM)	$(OBJ)
 
 fclean:		clean
-			@$(RM)	$(NAME)
+			@$(RM)	$(addprefix ../../../lib/, $(NAME))
 
 re:			fclean all
 
