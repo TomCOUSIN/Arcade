@@ -51,7 +51,7 @@ void launcher::getAvailableGames()
     DIR *directory;
     struct dirent *directoryContent;
 
-    directory = opendir("./src/Games");
+    directory = opendir("./Games");
     if (!directory)
         throw launcherException("Couldn't open 'Games' directory");
     directoryContent = readdir(directory);
