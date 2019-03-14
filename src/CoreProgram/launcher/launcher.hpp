@@ -9,6 +9,7 @@
 #define OOP_ARCADE_2018_LAUNCHER_HPP
 
 #include <vector>
+#include <iostream>
 #include <unordered_map>
 #include <memory>
 #include "IDisplayModule.hpp"

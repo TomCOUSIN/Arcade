@@ -51,7 +51,7 @@ extern "C"
         return new DisplayModuleNcurses();
     }
 
-    void deleter(DisplayModuleNcurses *ptr)
+    void destructor(DisplayModuleNcurses *ptr)
     {
         delete  ptr;
     }
