@@ -31,7 +31,8 @@ DisplayModuleNcurses::~DisplayModuleNcurses() { endwin(); }
  * createAsset : function which create the asset in the unordered_map
  * @param path : path to the asset : toto/1d/map.txt
  * @param assetName : name of the asset
- * @return false if error and true if not
+ * @return false if error
+ * @return true if not
  */
 bool DisplayModuleNcurses::createAsset(const std::string &path, const std::string &assetName)
 {
@@ -58,7 +59,8 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
  * @param assetName : name of the asset
  * @param x : horizontal coordinates of the asset in the ncurses window
  * @param y : vertical coordinates of the asset in the ncurses window
- * @return false if it's can't draw the asset and true if it's can draw the asset
+ * @return false if it's can't draw the asset
+ * @return true if it's can draw the asset
  */
 bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 {
@@ -76,7 +78,7 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
  * createText : function which create a text in an unordered_map
  * @param text : text to draw!!
  * @param assetName : key to find the text in the unordered_map
- * return true because no error
+ * @return true because no error
  */
 bool DisplayModuleNcurses::createText(const std::string &text, const std::string &assetName)
 {
@@ -89,7 +91,7 @@ bool DisplayModuleNcurses::createText(const std::string &text, const std::string
  * @param textName : key of the text name
  * @param x : horizontal coordinates of the text in the ncurses window
  * @param y : vertical coordinates of the text in the ncurses window
- * @return
+ * @return true because no error
  */
 bool DisplayModuleNcurses::drawText(const std::string &textName, int x, int y)
 {
