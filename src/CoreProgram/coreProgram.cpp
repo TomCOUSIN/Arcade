@@ -72,8 +72,14 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
     return 0;
 }
 
+/**
+ * Loop wich play launcher
+ * @param void
+ * @return e_returnValue::LEAVE_GAME if success
+ * @return e_returnValue::ERROR if failure
+ */
 coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 {
     _launcher.launchLauncher();
-    return ERROR;
+    return QUIT;
 }

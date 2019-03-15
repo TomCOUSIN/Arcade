@@ -74,11 +74,11 @@ size_t coreProgram::launcher::launchLauncher()
         case displayModule::e_event::ARROW_RIGHT: return 2;
         default:break;
         }
-        _displayModule->drawAsset("Title", x, y);
+        _displayModule->drawText("Title", x, y);
         x += 10;
         y += 10;
         for (const auto &gameName : _availableGames) {
-            _displayModule->drawAsset(gameName, x, y);
+            _displayModule->drawText(gameName, x, y);
             x += 10;
         }
         _displayModule->refreshWindow();
