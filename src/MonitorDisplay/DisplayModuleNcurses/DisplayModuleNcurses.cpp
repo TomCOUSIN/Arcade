@@ -11,7 +11,7 @@
 #include <map>
 
 /**
- * Constructor
+ * Constructor : open the ncurses window
  */
 DisplayModuleNcurses::DisplayModuleNcurses()
 {
@@ -23,18 +23,16 @@ DisplayModuleNcurses::DisplayModuleNcurses()
 }
 
 /**
- * Destructor
+ * Destructor : close the ncurses window
  */
-
 DisplayModuleNcurses::~DisplayModuleNcurses() { endwin(); }
 
 /**
- *
- * @param path
- * @param assetName
- * @return
+ * createAsset : function which create the asset in the unordered_map
+ * @param path : path to the asset : toto/1d/map.txt
+ * @param assetName : name of the asset
+ * @return false if error and true if not
  */
-
 bool DisplayModuleNcurses::createAsset(const std::string &path, const std::string &assetName)
 {
     std::fstream file(path + "/1d/" + assetName, std::fstream::in);
@@ -55,6 +53,13 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
     return true;
 }
 
+/**
+ * drawAsset : function which draw the asset in the ncurses window
+ * @param assetName : name of the asset
+ * @param x : horizontal coordinates of the asset in the ncurses window
+ * @param y : vertical coordinates of the asset in the ncurses window
+ * @return false if it's can't draw the asset and true if it's can draw the asset
+ */
 bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 {
     auto it = umap_curses_asset.find(assetName);
@@ -68,8 +73,10 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 }
 
 /**
+ * createText : function which create a text in an unordered_map
  * @param text : text to draw!!
  * @param assetName : key to find the text in the unordered_map
+ * return true because no error
  */
 bool DisplayModuleNcurses::createText(const std::string &text, const std::string &assetName)
 {
@@ -77,17 +84,31 @@ bool DisplayModuleNcurses::createText(const std::string &text, const std::string
     return true;
 }
 
+/**
+ * drawText : function which draw the text in the ncurses window
+ * @param textName : key of the text name
+ * @param x : horizontal coordinates of the text in the ncurses window
+ * @param y : vertical coordinates of the text in the ncurses window
+ * @return
+ */
 bool DisplayModuleNcurses::drawText(const std::string &textName, int x, int y)
 {
     mvprintw(y, x, umap_curses_asset.find(textName)->second.data());
     return true;
 }
 
+/**
+ * refreshWindow : function which refresh the ncurses window
+ */
 void DisplayModuleNcurses::refreshWindow()
 {
     refresh();
 }
 
+/**
+ * catchEvent : function which catch the event of the keypad and return a enum e_event for the keypad
+ * @return the pattern of the correct enum for the keypad event
+ */
 displayModule::e_event DisplayModuleNcurses::catchEvent()
 {
     int save_getch = getch();
@@ -131,8 +152,6 @@ displayModule::e_event DisplayModuleNcurses::catchEvent()
     return NOTHING;
 }
 
-void DisplayModuleNcurses::start_sound()
-{}
+void DisplayModuleNcurses::start_sound(){}
 
-void DisplayModuleNcurses::stop_sound()
-{}
+void DisplayModuleNcurses::stop_sound(){}
