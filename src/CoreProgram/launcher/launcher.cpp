@@ -5,82 +5,86 @@
 ** Created by tomcousin,
 */
 
+#include <dirent.h>
+#include <zconf.h>
 #include "ArcadeException.hpp"
 #include "launcherException.hpp"
 #include "launcher.hpp"
-#include <dirent.h>
+#include "coreProgram.hpp"
 
-launcher::launcher(
-    const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
+bool coreProgram::launcher::initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
 {
-    try {
-        _displayModule = displayModule;
-        getAvailableGames();
-    }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
-    }
+    _displayModule = displayModule;
+    return getAvailableGames() && loadAsset();
 }
 
-bool launcher::changeLibrary(
-    const std::shared_ptr<displayModule::IDisplayModule> &displayModule
-)
+bool coreProgram::launcher::changeLibrary(const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
 {
     _displayModule = displayModule;
     return loadAsset();
 }
 
-bool launcher::loadAsset()
+bool coreProgram::launcher::loadAsset()
 {
-    try {
-        _displayModule->createText("Arcade", "Title");
-        for (const auto &game : _availableGames) {
-            _displayModule->createText(game, game);
-        }
-        _displayModule->createText("->", "Selector");
-    }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
+    if (!_displayModule->createText("Arcade", "Title"))
         return false;
+    for (const auto &game : _availableGames) {
+        if (!_displayModule->createText(game, game))
+            return false;
     }
     return true;
 }
 
-void launcher::getAvailableGames()
+bool coreProgram::launcher::getAvailableGames()
 {
     DIR *directory;
     struct dirent *directoryContent;
 
-    directory = opendir("./Games");
-    if (!directory)
-        throw launcherException("Couldn't open 'Games' directory");
-    directoryContent = readdir(directory);
-    while (directoryContent) {
-        if (directoryContent->d_name[0] != '.')
-            _availableGames.emplace_back(directoryContent->d_name);
+    try {
+        directory = opendir("./Games");
+        if (!directory)
+            throw launcherException("Couldn't open 'Games' directory");
         directoryContent = readdir(directory);
+        while (directoryContent) {
+            if (directoryContent->d_name[0] != '.')
+                _availableGames.emplace_back(directoryContent->d_name);
+            directoryContent = readdir(directory);
+        }
+        closedir(directory);
+        return true;
     }
-    closedir(directory);
+    catch(const launcherException &exception) {
+        std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;
+        return false;
+    }
+
 }
 
-size_t launcher::launchLauncher()
+size_t coreProgram::launcher::launchLauncher()
 {
     displayModule::e_event key_event = displayModule::e_event::NOTHING;
+    int x = 4;
+    int y = 2;
 
-    while (key_event != displayModule::e_event::ENTER) {
-        if (key_event == displayModule::e_event::ARROW_LEFT) {
-            _selectedGame = _selectedGame - 1;
+    while (true) {
+        switch(key_event)
+        {
+        case displayModule::e_event::KEY_Q: case displayModule::e_event::ESCAPE: return 0;
+        case displayModule::e_event::ARROW_LEFT: return 1;
+        case displayModule::e_event::ARROW_RIGHT: return 2;
+        default:break;
         }
-        else if (key_event == displayModule::e_event::ARROW_RIGHT) {
-            _selectedGame = _selectedGame + 1 > _availableGames.size() ? _availableGames.size() : _selectedGame + 1;
-        }
-        _displayModule->drawAsset("Title", 0, 0);
-        _displayModule->drawAsset("Selector", static_cast<int>(_selectedGame), 0);
+        _displayModule->drawAsset("Title", x, y);
+        x += 10;
+        y += 10;
         for (const auto &gameName : _availableGames) {
-            _displayModule->drawAsset(gameName, 0, 0);
+            _displayModule->drawAsset(gameName, x, y);
+            x += 10;
         }
         _displayModule->refreshWindow();
         key_event = _displayModule->catchEvent();
+        x = 4;
+        y = 2;
     }
-    return _selectedGame;
 }
+

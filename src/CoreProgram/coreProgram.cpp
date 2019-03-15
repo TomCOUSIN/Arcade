@@ -14,9 +14,9 @@
 /**
  * Construtor wich initialize dlloader and modules
  */
-coreProgram::coreProgram() : _displayModule(nullptr),
+coreProgram::coreProgram::coreProgram() : _displayModule(nullptr),
 _dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
-_launcher(nullptr), _selectedGame(0)
+_launcher(), _selectedGame(0)
 {}
 
 /**
@@ -25,7 +25,7 @@ _launcher(nullptr), _selectedGame(0)
  * @return true if success
  * @return false if failure
  */
-bool coreProgram::loadLib(const std::string &libPath)
+bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 {
     try {
         _dlloaderDisplayModule.loadLibrary(libPath);
@@ -43,50 +43,37 @@ bool coreProgram::loadLib(const std::string &libPath)
  * @return true if success
  * @return false if failure
  */
-bool coreProgram::getInstanceFromGraphicLibrary()
+bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
 {
     try {
         _displayModule = _dlloaderDisplayModule.getInstance();
-    }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
+    } catch (const ArcadeException &arcadeException) {
+        std::cerr << arcadeException.getComponent() << ": "
+            << arcadeException.what() << std::endl;
         return false;
     }
     return true;
 }
 
 /**
- * Init the linked launcher with the linked library
+ * Main Loop wich play launcher and games
  * @param void
- * @return true if success
- * @return false if failure
+ * @return 0 if success
+ * @return 84 if failure
  */
-bool coreProgram::initLauncher()
+size_t coreProgram::coreProgram::playCoreProgramLoop()
 {
-    try {
-        _launcher = launcher(_displayModule);
+    if (!_launcher.initLauncher(_displayModule))
+        return 84;
+    while (true) {
+        if (launcherLoop() == e_returnValue::QUIT)
+            break;
     }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
-        return false;
-    }
-    return true;
+    return 0;
 }
 
-/**
- * Launch the launcher and retrieve the selectedGame
- * @param void
- * @return true if success
- * @return false if failure
- */
-bool coreProgram::launchLauncher()
+coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 {
-    try {
-        _selectedGame = _launcher.launchLauncher();
-    }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
-        return false;
-    }
-    return true;
+    _launcher.launchLauncher();
+    return ERROR;
 }

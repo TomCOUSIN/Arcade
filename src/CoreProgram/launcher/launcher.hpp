@@ -9,25 +9,29 @@
 #define OOP_ARCADE_2018_LAUNCHER_HPP
 
 #include <vector>
+#include <memory>
 #include <iostream>
 #include <unordered_map>
-#include <memory>
 #include "IDisplayModule.hpp"
 
-class launcher
+namespace coreProgram
 {
-    public:
-        explicit launcher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
-        ~launcher() = default;
-        bool changeLibrary(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
-        bool loadAsset();
-        size_t launchLauncher();
 
-    private:
-        void getAvailableGames();
-        std::vector<std::string> _availableGames;
-        std::shared_ptr<displayModule::IDisplayModule> _displayModule;
-        size_t _selectedGame;
-};
+    class launcher {
+        public:
+            explicit launcher() = default;
+            ~launcher() = default;
+            bool changeLibrary(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
+            bool initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
+            size_t launchLauncher();
+
+        private:
+            bool getAvailableGames();
+            bool loadAsset();
+            std::vector<std::string> _availableGames;
+            std::shared_ptr<displayModule::IDisplayModule> _displayModule;
+    };
+
+}
 
 #endif //OOP_ARCADE_2018_LAUNCHER_HPP

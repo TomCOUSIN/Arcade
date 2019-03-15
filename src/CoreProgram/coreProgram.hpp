@@ -17,22 +17,32 @@
 #include "IDisplayModule.hpp"
 #include "launcher.hpp"
 
-class coreProgram
+namespace coreProgram
 {
-    public:
-        explicit coreProgram();
-        ~coreProgram() = default;
+    enum e_returnValue {
+        QUIT,
+        ERROR,
+        PREV_LIB,
+        NEXT_LIB,
+        LEAVE_GAME
+    };
 
-        bool loadLib(const std::string &libPath);
-        bool initLauncher();
-        bool launchLauncher();
-        bool getInstanceFromGraphicLibrary();
+    class coreProgram {
+        public:
+            explicit coreProgram();
+            ~coreProgram() = default;
+            bool loadLib(const std::string &libPath);
+            bool getInstanceFromGraphicLibrary();
+            size_t playCoreProgramLoop();
 
-    private:
-        std::shared_ptr<displayModule::IDisplayModule> _displayModule;
-        dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
-        launcher _launcher;
-        size_t _selectedGame;
-};
+        private:
+            e_returnValue launcherLoop();
+            e_returnValue gameLoop();
+            std::shared_ptr<displayModule::IDisplayModule> _displayModule;
+            dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
+            launcher _launcher;
+            size_t _selectedGame;
+    };
+}
 
 #endif //OOP_ARCADE_2018_COREPROGRAM_HPP
