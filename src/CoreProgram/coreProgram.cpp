@@ -88,14 +88,14 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
         switch (returnValue) {
             case 1:
                 _selectedLibrary -= 1;
-                if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
+                if (!_dlloaderDisplayModule.loadLibrary(std::string("./lib/") + _availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
                     _selectedLibrary += 1;
                     _launcher.changeLibrary(_displayModule);
                 }
                 break;
             case 2:
                 _selectedLibrary += 1;
-            if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
+                if (!_dlloaderDisplayModule.loadLibrary(std::string("./lib/") + _availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
                 _selectedLibrary -= 1;
                 _launcher.changeLibrary(_displayModule);
             }
