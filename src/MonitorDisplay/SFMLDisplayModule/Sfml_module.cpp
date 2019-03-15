@@ -65,7 +65,7 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
             return KEY_O;
         if (this->_event.key.code == sf::Keyboard::P)
             return KEY_P;
-        if (this->_event.key.code == sf::Keyboard::Q)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
             return KEY_Q;
         if (this->_event.key.code == sf::Keyboard::R)
             return KEY_R;
@@ -87,7 +87,7 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
             return KEY_Z;
         if (this->_event.key.code == sf::Keyboard::Space)
             return SPACE;
-        if (this->_event.key.code == sf::Keyboard::Enter)
+        if (this->_event.key.code == sf::Keyboard::BackSpace)
             return ENTER;
         if (this->_event.key.code == sf::Keyboard::Escape)
             return ESCAPE;
@@ -121,16 +121,15 @@ bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, 
 
 bool displayModule::Sfml_module::createText(const std::string &text, const std::string &textName)
 {
-    std::string true_name = text + "/2d/" + textName;
-    this->_font.loadFromFile(true_name);
-    umap_sfmltext_asset.insert(std::pair<std::string, sf::Font>(textName, this->_font));
+    umap_sfmltext_asset.insert(std::pair<std::string, std::string>(textName, text));
     return true;
 }
 
 bool displayModule::Sfml_module::drawText(const std::string &textName, int x, int y)
 {
-    this->_text.setFont(umap_sfmltext_asset.find(textName)->second);
-    this->_text.setString("Hello world");
+    this->_font.loadFromFile("./Games/asset/arial.ttf");
+    this->_text.setFont(this->_font);
+    this->_text.setString(umap_sfmltext_asset.find(textName)->second);
     this->_text.setPosition(x, y);
     this->_window.draw(this->_text);
     return true;

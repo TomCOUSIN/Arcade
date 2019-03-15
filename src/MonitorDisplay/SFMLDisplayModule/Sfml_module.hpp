@@ -46,7 +46,7 @@ namespace displayModule {
         protected:
         private:
         std::unordered_map<std::string, sf::Texture> umap_sfmlsprite_asset;
-        std::unordered_map<std::string, sf::Font> umap_sfmltext_asset;
+        std::unordered_map<std::string, std::string> umap_sfmltext_asset;
     };
 }
 
