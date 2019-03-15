@@ -72,24 +72,34 @@ $(function() {
 <div class="title">displayModule::IDisplayModule Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for displayModule::IDisplayModule:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classdisplay_module_1_1_i_display_module.png" usemap="#displayModule::IDisplayModule_map" alt=""/>
+  <map id="displayModule::IDisplayModule_map" name="displayModule::IDisplayModule_map">
+<area href="classdisplay_module_1_1_display_module_ncurses.html" alt="displayModule::DisplayModuleNcurses" shape="rect" coords="0,56,231,80"/>
+<area href="class_s_d_l_display_module.html" alt="SDLDisplayModule" shape="rect" coords="241,56,472,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a72663624e32f271494e72017196f23fb"><td class="memItemLeft" align="right" valign="top"><a id="a72663624e32f271494e72017196f23fb"></a>
-virtual e_type&#160;</td><td class="memItemRight" valign="bottom"><b>getType</b> () const =0</td></tr>
-<tr class="separator:a72663624e32f271494e72017196f23fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ef3da55909bb932f7f43c65ee4ad85"><td class="memItemLeft" align="right" valign="top"><a id="a01ef3da55909bb932f7f43c65ee4ad85"></a>
-virtual void *&#160;</td><td class="memItemRight" valign="bottom"><b>createAsset</b> (const std::string &amp;path)=0</td></tr>
-<tr class="separator:a01ef3da55909bb932f7f43c65ee4ad85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7e5ee5046012608dc4dce0dd35e46cd"><td class="memItemLeft" align="right" valign="top"><a id="af7e5ee5046012608dc4dce0dd35e46cd"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>drawAsset</b> (void *sprite, int x, int y)=0</td></tr>
-<tr class="separator:af7e5ee5046012608dc4dce0dd35e46cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a819145e284980bb3a7f19b3a757c3fbf"><td class="memItemLeft" align="right" valign="top"><a id="a819145e284980bb3a7f19b3a757c3fbf"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>destroyAsset</b> (void *sprite)=0</td></tr>
-<tr class="separator:a819145e284980bb3a7f19b3a757c3fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe2a3db86abb1eaa04e90ed996a15308"><td class="memItemLeft" align="right" valign="top"><a id="abe2a3db86abb1eaa04e90ed996a15308"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>drawWindow</b> ()=0</td></tr>
-<tr class="separator:abe2a3db86abb1eaa04e90ed996a15308"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8249ea8903fdf550b7a3d89222573d6c"><td class="memItemLeft" align="right" valign="top"><a id="a8249ea8903fdf550b7a3d89222573d6c"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>createAsset</b> (const std::string &amp;path, const std::string &amp;assetName)=0</td></tr>
+<tr class="separator:a8249ea8903fdf550b7a3d89222573d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09dbcd585179462d77aebe9d7a5dfc22"><td class="memItemLeft" align="right" valign="top"><a id="a09dbcd585179462d77aebe9d7a5dfc22"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>createText</b> (const std::string &amp;text, const std::string &amp;textName)=0</td></tr>
+<tr class="separator:a09dbcd585179462d77aebe9d7a5dfc22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f0144a9ab8a29416de323ecd0338f40"><td class="memItemLeft" align="right" valign="top"><a id="a6f0144a9ab8a29416de323ecd0338f40"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>drawAsset</b> (const std::string &amp;assetName, int x, int y)=0</td></tr>
+<tr class="separator:a6f0144a9ab8a29416de323ecd0338f40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb5611923ab6823a238f6442f55a9aeb"><td class="memItemLeft" align="right" valign="top"><a id="abb5611923ab6823a238f6442f55a9aeb"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>drawText</b> (const std::string &amp;textName, int x, int y)=0</td></tr>
+<tr class="separator:abb5611923ab6823a238f6442f55a9aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c06f706009723b2e22c1e8ad352a8a"><td class="memItemLeft" align="right" valign="top"><a id="a94c06f706009723b2e22c1e8ad352a8a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>refreshWindow</b> ()=0</td></tr>
+<tr class="separator:a94c06f706009723b2e22c1e8ad352a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5fffb2c079ef993937506782b62ec34"><td class="memItemLeft" align="right" valign="top"><a id="ab5fffb2c079ef993937506782b62ec34"></a>
 virtual e_event&#160;</td><td class="memItemRight" valign="bottom"><b>catchEvent</b> ()=0</td></tr>
 <tr class="separator:ab5fffb2c079ef993937506782b62ec34"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,7 +111,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>stop_sound</b
 <tr class="separator:a7deee03096c77a5fb36c9595e916cf1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>MonitorDisplay/<a class="el" href="_i_display_module_8hpp_source.html">IDisplayModule.hpp</a></li>
+<li>src/MonitorDisplay/<a class="el" href="_i_display_module_8hpp_source.html">IDisplayModule.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
