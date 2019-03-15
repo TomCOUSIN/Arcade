@@ -88,44 +88,44 @@ void DisplayModuleNcurses::refreshWindow()
     refresh();
 }
 
-e_event DisplayModuleNcurses::catchEvent()
+displayModule::e_event DisplayModuleNcurses::catchEvent()
 {
     int save_getch = getch();
 
     switch (save_getch) {
-        case 27 : return e_event::ESCAPE;
-        case KEY_RIGHT: return e_event::ARROW_RIGHT;
-        case KEY_LEFT: return e_event::ARROW_LEFT;
-        case KEY_DOWN: return e_event::ARROW_DOWN;
-        case KEY_UP: return e_event::ARROW_UP;
-        case KEY_ENTER: return e_event::ENTER;
-        case KEY_BACKSPACE: return e_event::SPACE;
-        case 'a': return e_event::KEY_A;
-        case 'b': return e_event::KEY_B;
-        case 'c': return e_event::KEY_C;
-        case 'd': return e_event::KEY_D;
-        case 'e': return e_event::KEY_E;
-        case 'f': return e_event::KEY_F;
-        case 'g': return e_event::KEY_G;
-        case 'h': return e_event::KEY_H;
-        case 'i': return e_event::KEY_I;
-        case 'j': return e_event::KEY_J;
-        case 'k': return e_event::KEY_K;
-        case 'l': return e_event::KEY_L;
-        case 'm': return e_event::KEY_M;
-        case 'n': return e_event::KEY_N;
-        case 'o': return e_event::KEY_O;
-        case 'p': return e_event::KEY_P;
-        case 'q': return e_event::KEY_Q;
-        case 'r': return e_event::KEY_R;
-        case 's': return e_event::KEY_S;
-        case 't': return e_event::KEY_T;
-        case 'u': return e_event::KEY_U;
-        case 'v': return e_event::KEY_V;
-        case 'w': return e_event::KEY_W;
-        case 'x': return e_event::KEY_X;
-        case 'y': return e_event::KEY_Y;
-        case 'z': return e_event::KEY_Z;
+        case 27 : return displayModule::e_event::ESCAPE;
+        case KEY_RIGHT: return displayModule::e_event::ARROW_RIGHT;
+        case KEY_LEFT: return displayModule::e_event::ARROW_LEFT;
+        case KEY_DOWN: return displayModule::e_event::ARROW_DOWN;
+        case KEY_UP: return displayModule::e_event::ARROW_UP;
+        case 10: return displayModule::e_event::ENTER;
+        case 'a': return displayModule::e_event::KEY_A;
+        case 'b': return displayModule::e_event::KEY_B;
+        case 'c': return displayModule::e_event::KEY_C;
+        case 'd': return displayModule::e_event::KEY_D;
+        case 'e': return displayModule::e_event::KEY_E;
+        case 'f': return displayModule::e_event::KEY_F;
+        case 'g': return displayModule::e_event::KEY_G;
+        case 'h': return displayModule::e_event::KEY_H;
+        case 'i': return displayModule::e_event::KEY_I;
+        case 'j': return displayModule::e_event::KEY_J;
+        case 'k': return displayModule::e_event::KEY_K;
+        case 'l': return displayModule::e_event::KEY_L;
+        case 'm': return displayModule::e_event::KEY_M;
+        case 'n': return displayModule::e_event::KEY_N;
+        case 'o': return displayModule::e_event::KEY_O;
+        case 'p': return displayModule::e_event::KEY_P;
+        case 'q': return displayModule::e_event::KEY_Q;
+        case 'r': return displayModule::e_event::KEY_R;
+        case 's': return displayModule::e_event::KEY_S;
+        case 't': return displayModule::e_event::KEY_T;
+        case 'u': return displayModule::e_event::KEY_U;
+        case 'v': return displayModule::e_event::KEY_V;
+        case 'w': return displayModule::e_event::KEY_W;
+        case 'x': return displayModule::e_event::KEY_X;
+        case 'y': return displayModule::e_event::KEY_Y;
+        case 'z': return displayModule::e_event::KEY_Z;
+        case ' ': return displayModule::e_event::SPACE;
         default:break;
     }
     return NOTHING;
