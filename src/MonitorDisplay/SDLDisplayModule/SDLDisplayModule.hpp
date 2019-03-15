@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <unordered_map>
-#include <SDL2/SDL.h>
+#include </usr/local/include/SDL2/SDL.h>
 #include "IDisplayModule.hpp"
 
 class SDLDisplayModule : public displayModule::IDisplayModule
@@ -37,7 +37,7 @@ extern "C"
     {
         return new SDLDisplayModule();
     }
-    void destructor(SDLDisplayModule *ptr)
+    void deleter(SDLDisplayModule *ptr)
     {
         delete ptr;
     }
