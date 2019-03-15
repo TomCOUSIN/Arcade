@@ -32,16 +32,17 @@ namespace coreProgram
             explicit coreProgram();
             ~coreProgram() = default;
             bool loadLib(const std::string &libPath);
-            bool getInstanceFromGraphicLibrary();
             size_t playCoreProgramLoop();
 
         private:
+            bool getInstanceFromGraphicLibrary();
+            void getAvailableLibrary();
             e_returnValue launcherLoop();
-            e_returnValue gameLoop();
-            std::shared_ptr<displayModule::IDisplayModule> _displayModule;
+            std::vector<std::shared_ptr<displayModule::IDisplayModule>> _displayModule;
             dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
+            std::vector<std::string> _availableLibrary;
             launcher _launcher;
-            size_t _selectedGame;
+            size_t _selectedLibrary;
     };
 }
 

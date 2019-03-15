@@ -9,14 +9,14 @@
  * @file coreProgram.cpp
  */
 
+#include <dirent.h>
 #include "coreProgram.hpp"
 
 /**
  * Construtor wich initialize dlloader and modules
  */
-coreProgram::coreProgram::coreProgram() : _displayModule(nullptr),
-_dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
-_launcher(), _selectedGame(0)
+coreProgram::coreProgram::coreProgram() : _dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
+_launcher(), _selectedLibrary(0)
 {}
 
 /**
@@ -29,6 +29,14 @@ bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 {
     try {
         _dlloaderDisplayModule.loadLibrary(libPath);
+        getInstanceFromGraphicLibrary();
+        getAvailableLibrary();
+        for (const auto &libName: _availableLibrary) {
+            if (std::string("./lib/" + libName) != libPath) {
+                _dlloaderDisplayModule.loadLibrary(std::string("./lib/" + libName));
+                getInstanceFromGraphicLibrary();
+            }
+        }
     }
     catch (const ArcadeException &arcadeException) {
         std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
@@ -46,7 +54,7 @@ bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
 {
     try {
-        _displayModule = _dlloaderDisplayModule.getInstance();
+        _displayModule.emplace_back(_dlloaderDisplayModule.getInstance());
     } catch (const ArcadeException &arcadeException) {
         std::cerr << arcadeException.getComponent() << ": "
             << arcadeException.what() << std::endl;
@@ -63,7 +71,7 @@ bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
  */
 size_t coreProgram::coreProgram::playCoreProgramLoop()
 {
-    if (!_launcher.initLauncher(_displayModule))
+    if (!_launcher.initLauncher(_displayModule[_selectedLibrary]))
         return 84;
     while (true) {
         if (launcherLoop() == e_returnValue::QUIT)
@@ -80,6 +88,42 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
  */
 coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 {
-    _launcher.launchLauncher();
-    return QUIT;
+    while (true) {
+        size_t returnValue = _launcher.launchLauncher();
+        switch (returnValue) {
+            case 1:
+                _selectedLibrary -= 1;
+                if (!_launcher.changeLibrary(_displayModule[_selectedLibrary])) {
+                    _selectedLibrary += 1;
+                    _launcher.changeLibrary(_displayModule[_selectedLibrary]);
+                }
+                break;
+            case 2:
+                _selectedLibrary += 1;
+                if (!_launcher.changeLibrary(_displayModule[_selectedLibrary])) {
+                    _selectedLibrary -= 1;
+                    _launcher.changeLibrary(_displayModule[_selectedLibrary]);
+                }
+                break;
+            case 0: return QUIT;
+            default: break;
+        }
+    }
+}
+
+void coreProgram::coreProgram::getAvailableLibrary()
+{
+    DIR *directory;
+    struct dirent *directoryContent;
+
+    directory = opendir("./lib");
+    if (!directory)
+        return;
+    directoryContent = readdir(directory);
+    while (directoryContent) {
+        if (directoryContent->d_name[0] != '.')
+            _availableLibrary.emplace_back(directoryContent->d_name);
+        directoryContent = readdir(directory);
+    }
+    closedir(directory);
 }

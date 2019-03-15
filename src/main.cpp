@@ -33,7 +33,7 @@ int launch_arcade(char **argv)
 {
     coreProgram::coreProgram _coreProgram = coreProgram::coreProgram();
 
-    if (!_coreProgram.loadLib(argv[1]) || !_coreProgram.getInstanceFromGraphicLibrary())
+    if (!_coreProgram.loadLib(argv[1]))
         return 84;
     return _coreProgram.playCoreProgramLoop();
 }
