@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-CXX	=	g++
+CXX	=	g++ -std=c++11
 
 SRC	=	Sfml_module.cpp
 

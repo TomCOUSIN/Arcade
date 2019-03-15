@@ -28,8 +28,8 @@ _launcher(), _selectedLibrary(0)
 bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 {
     try {
-        _dlloaderDisplayModule.loadLibrary(libPath);
-        getInstanceFromGraphicLibrary();
+        if (!_dlloaderDisplayModule.loadLibrary(libPath) || !getInstanceFromGraphicLibrary())
+            throw ArcadeException("Cannot load library", "coreProgram");
         _availableLibrary.emplace_back(libPath);
         getAvailableLibrary(libPath);
     }
