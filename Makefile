@@ -51,15 +51,18 @@ graphicals:
 			mkdir ./lib
 			make -C src/MonitorDisplay/SDLDisplayModule
 			make -C src/MonitorDisplay/DisplayModuleNcurses
+			make -C src/MonitorDisplay/SFMLDisplayModule
 
 clean:
 			make -C src/MonitorDisplay/DisplayModuleNcurses clean
 			make -C src/MonitorDisplay/SDLDisplayModule clean
+			make -C src/MonitorDisplay/SFMLDisplayModule clean
 			@$(RM)	$(CORE_OBJ)
 
 fclean:		clean
 			make -C src/MonitorDisplay/DisplayModuleNcurses fclean
 			make -C src/MonitorDisplay/SDLDisplayModule fclean
+			make -C src/MonitorDisplay/SFMLDisplayModule fclean
 			rm -rf ./lib
 			@$(RM)	$(NAME)
 
