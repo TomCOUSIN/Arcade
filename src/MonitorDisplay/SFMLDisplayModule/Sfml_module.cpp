@@ -23,6 +23,7 @@ void displayModule::Sfml_module::refreshWindow()
  }
 displayModule::e_event displayModule::Sfml_module::catchEvent()
 {
+    this->_window.pollEvent(this->_event);
     if (this->_event.type == sf::Event::KeyPressed) {
 
         if (this->_event.key.code == sf::Keyboard::Up)
@@ -91,6 +92,9 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
             return ENTER;
         if (this->_event.key.code == sf::Keyboard::Escape)
             return ESCAPE;
+    }
+    if (this->_event.type == sf::Event::Closed) {
+        return ESCAPE;
     }
     return NOTHING;                
 }
