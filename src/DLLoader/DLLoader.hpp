@@ -31,8 +31,8 @@ namespace dlloader
             DLLoader() = default;
             /*! Destructor */
             ~DLLoader() = default;
-            void loadLibrary(const std::string &path);
-            void closeLibrary();
+            bool loadLibrary(const std::string &path);
+            bool closeLibrary();
             std::shared_ptr<T> getInstance();
 
         private:
@@ -46,11 +46,18 @@ namespace dlloader
  * @return void
  */
 template <class T>
-void dlloader::DLLoader<T>::loadLibrary(const std::string &path)
+bool dlloader::DLLoader<T>::loadLibrary(const std::string &path)
 {
-    _handle = dlopen(path.data(), (RTLD_NOW | RTLD_LAZY));
-    if (!_handle)
-        throw DLLoaderException(dlerror());
+    try {
+        _handle = dlopen(path.data(), (RTLD_NOW | RTLD_LAZY));
+        if (!_handle)
+            throw DLLoaderException(dlerror());
+        return true;
+    }
+    catch (const DLLoaderException &exception) {
+        std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;
+        return false;
+    }
 }
 
 /**
@@ -59,10 +66,17 @@ void dlloader::DLLoader<T>::loadLibrary(const std::string &path)
  * @return void
  */
 template <class T>
-void dlloader::DLLoader<T>::closeLibrary()
+bool dlloader::DLLoader<T>::closeLibrary()
 {
-    if (dlclose(_handle) != 0)
-        throw DLLoaderException(dlerror());
+    try {
+        if (dlclose(_handle) != 0)
+            throw DLLoaderException(dlerror());
+        return true;
+    }
+    catch (const DLLoaderException &exception) {
+        std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;
+        return false;
+    }
 }
 
 /**
