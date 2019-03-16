@@ -13,8 +13,6 @@
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
 
-using namespace displayModule;
-
 namespace displayModule {
     class Sfml_module : public IDisplayModule {
         public:
@@ -52,12 +50,12 @@ namespace displayModule {
 
 extern "C"
 {
-    Sfml_module *allocator()
+    displayModule::Sfml_module *allocator()
     {
-        return new Sfml_module();
+        return new displayModule::Sfml_module();
     }
 
-    void deleter(Sfml_module *ptr)
+    void deleter(displayModule::Sfml_module *ptr)
     {
         delete  ptr;
     }

@@ -46,12 +46,12 @@ namespace displayModule
 
 extern "C"
 {
-    DisplayModuleNcurses *allocator()
+    displayModule::DisplayModuleNcurses *allocator()
     {
-        return new DisplayModuleNcurses();
+        return new displayModule::DisplayModuleNcurses();
     }
 
-    void deleter(DisplayModuleNcurses *ptr)
+    void deleter(displayModule::DisplayModuleNcurses *ptr)
     {
         delete  ptr;
     }
