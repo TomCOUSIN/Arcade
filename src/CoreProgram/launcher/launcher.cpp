@@ -7,7 +7,6 @@
 
 #include <dirent.h>
 #include <zconf.h>
-#include "ArcadeException.hpp"
 #include "launcherException.hpp"
 #include "launcher.hpp"
 #include "coreProgram.hpp"

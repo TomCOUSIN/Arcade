@@ -66,7 +66,7 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
                 return KEY_O;
             if (this->_event.key.code == sf::Keyboard::P)
                 return KEY_P;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+            if (this->_event.key.code == sf::Keyboard::Q)
                 return KEY_Q;
             if (this->_event.key.code == sf::Keyboard::R)
                 return KEY_R;

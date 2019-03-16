@@ -14,25 +14,22 @@ RM			=	rm -f
 LAUNCHER	=	launcher.cpp			\
 				launcherException.cpp
 
-COREPROGRAM	=	$(addprefix launcher/, $(LAUNCHER))	\
-				coreProgram.cpp
-
 DLLOADER	=	DLLoaderException.cpp
 
-EXCEPTION	=	ArcadeException.cpp
+COREPROGRAM	=	$(addprefix launcher/, $(LAUNCHER))	\
+				$(addprefix DLLoader/, $(DLLOADER))	\
+				coreProgram.cpp
 
 CORE_SRC	=	./src/main.cpp											\
-				$(addprefix ./src/DLLoader/, $(DLLOADER))				\
-				$(addprefix ./src/CoreProgram/, $(COREPROGRAM))			\
-				$(addprefix ./src/Exception/, $(EXCEPTION))
+				$(addprefix ./src/CoreProgram/, $(COREPROGRAM))
 
 CORE_OBJ	=	$(CORE_SRC:.cpp=.o)
 
-CXXFLAGS	=	-I./src/DLLoader
-CXXFLAGS	+=	-I./src/Exception
+CXXFLAGS	=	-I./src/Exception
 CXXFLAGS	+=	-I./src/CoreProgram
-CXXFLAGS	+=	-I./src/MonitorDisplay
-CXXFLAGS	+=	-I./src/MonitorDisplay/Asset
+CXXFLAGS	+=	-I./src/DisplayModule
+CXXFLAGS	+=	-I./src/DisplayModule/Asset
+CXXFLAGS	+=	-I./src/CoreProgram/DLLoader
 CXXFLAGS	+=	-I./src/CoreProgram/launcher
 CXXFLAGS	+=	-Wall -Wextra -Werror
 
@@ -44,26 +41,20 @@ core:		$(CORE_OBJ)
 			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
 
 games:
-			@echo "Nothing to do"
+			@echo "No Games to Compile"
 
 graphicals:
-			rm -rf ./lib
-			mkdir ./lib
-			make -C src/MonitorDisplay/SDLDisplayModule
-			make -C src/MonitorDisplay/DisplayModuleNcurses
-			make -C src/MonitorDisplay/SFMLDisplayModule
+			@rm -rf ./lib
+			@mkdir ./lib
+			@make -C src/DisplayModule
 
 clean:
-			make -C src/MonitorDisplay/DisplayModuleNcurses clean
-			make -C src/MonitorDisplay/SDLDisplayModule clean
-			make -C src/MonitorDisplay/SFMLDisplayModule clean
+			@make -C src/DisplayModule clean
 			@$(RM)	$(CORE_OBJ)
 
 fclean:		clean
-			make -C src/MonitorDisplay/DisplayModuleNcurses fclean
-			make -C src/MonitorDisplay/SDLDisplayModule fclean
-			make -C src/MonitorDisplay/SFMLDisplayModule fclean
-			rm -rf ./lib
+			@make -C src/DisplayModule fclean
+			@rm -rf ./lib
 			@$(RM)	$(NAME)
 
 re:			fclean all

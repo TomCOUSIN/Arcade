@@ -12,5 +12,15 @@
 #include "DLLoaderException.hpp"
 
 DLLoaderException::DLLoaderException(const std::string &message)
-: ArcadeException(message, "DLLoader")
+: _component("DLLoader"), _message(message)
 {}
+
+std::string const &DLLoaderException::getComponent() const
+{
+    return _component;
+}
+
+const char *DLLoaderException::what() const noexcept
+{
+    return _message.data();
+}

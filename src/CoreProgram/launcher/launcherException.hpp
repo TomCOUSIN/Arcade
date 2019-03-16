@@ -8,12 +8,18 @@
 #ifndef OOP_ARCADE_2018_LAUNCHEREXCEPTION_HPP
 #define OOP_ARCADE_2018_LAUNCHEREXCEPTION_HPP
 
-#include "ArcadeException.hpp"
+#include <iostream>
 
-class launcherException : public ArcadeException
+    class launcherException : public std::exception
 {
     public:
         explicit launcherException(const std::string &message);
+        std::string const &getComponent() const;
+        const char *what() const noexcept override;
+
+    private:
+        std::string _component;
+        std::string _message;
 };
 
 #endif //OOP_ARCADE_2018_LAUNCHEREXCEPTION_HPP

@@ -90,14 +90,20 @@ std::shared_ptr<T> dlloader::DLLoader<T>::getInstance()
     using allocClass = T *(*)();
     using deleteClass = void (*)(T *);
 
-    auto allocator = reinterpret_cast<allocClass>(dlsym(_handle, "allocator"));
-    auto destructor = reinterpret_cast<deleteClass >(dlsym(_handle, "deleter"));
+    try {
+        auto allocator = reinterpret_cast<allocClass>(dlsym(_handle,"allocator"));
+        auto destructor = reinterpret_cast<deleteClass >(dlsym(_handle,"deleter"));
 
-    if (allocator == nullptr || destructor == nullptr) {
-        closeLibrary();
-        throw DLLoaderException(dlerror());
+        if (allocator == nullptr || destructor == nullptr) {
+            closeLibrary();
+            throw DLLoaderException(dlerror());
+        }
+        return std::shared_ptr<T>(allocator(), [destructor](T *p) {destructor(p); });
     }
-    return std::shared_ptr<T>(allocator(), [destructor](T *p){ destructor(p);});
+    catch (const DLLoaderException &exception) {
+        std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;
+        return nullptr;
+    }
 }
 
 #endif //OOP_ARCADE_2018_DLLOADER_HPP

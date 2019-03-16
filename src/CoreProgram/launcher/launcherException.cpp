@@ -8,5 +8,15 @@
 #include "launcherException.hpp"
 
 launcherException::launcherException(const std::string &message)
-: ArcadeException(message, "Launcher")
+: _component("Launcher"), _message(message)
 {}
+
+std::string const &launcherException::getComponent() const
+{
+    return _component;
+}
+
+const char *launcherException::what() const noexcept
+{
+    return _message.data();
+}

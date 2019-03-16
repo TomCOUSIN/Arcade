@@ -12,13 +12,19 @@
  * @file DLLoaderException.hpp
  */
 
-#include "ArcadeException.hpp"
+#include <iostream>
 
-class DLLoaderException : public ArcadeException
+class DLLoaderException : public std::exception
 {
     public:
         /*! Constructeur */
         explicit DLLoaderException(const std::string &message);
+        std::string const &getComponent() const;
+        const char *what() const noexcept override;
+
+    private:
+        std::string _component;
+        std::string _message;
 };
 
 #endif //OOP_ARCADE_2018_DLLOADEREXCEPTION_HPP

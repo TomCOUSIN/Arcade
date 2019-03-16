@@ -27,16 +27,10 @@ _launcher(), _selectedLibrary(0)
  */
 bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 {
-    try {
-        if (!_dlloaderDisplayModule.loadLibrary(libPath) || !getInstanceFromGraphicLibrary())
-            throw ArcadeException("Cannot load library", "coreProgram");
-        _availableLibrary.emplace_back(libPath);
-        getAvailableLibrary(libPath);
-    }
-    catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": " << arcadeException.what() << std::endl;
+    if (!_dlloaderDisplayModule.loadLibrary(libPath) || !getInstanceFromGraphicLibrary())
         return false;
-    }
+    _availableLibrary.emplace_back(libPath);
+    getAvailableLibrary(libPath);
     return true;
 }
 
@@ -48,13 +42,9 @@ bool coreProgram::coreProgram::loadLib(const std::string &libPath)
  */
 bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
 {
-    try {
-        _displayModule = _dlloaderDisplayModule.getInstance();
-    } catch (const ArcadeException &arcadeException) {
-        std::cerr << arcadeException.getComponent() << ": "
-            << arcadeException.what() << std::endl;
+    _displayModule = _dlloaderDisplayModule.getInstance();
+    if (_displayModule == nullptr)
         return false;
-    }
     return true;
 }
 
@@ -87,15 +77,15 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
         size_t returnValue = _launcher.launchLauncher();
         switch (returnValue) {
             case 1:
-                _selectedLibrary -= 1;
-                if (!_dlloaderDisplayModule.loadLibrary(std::string("./lib/") + _availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
+                _selectedLibrary = _selectedLibrary == 0 ? 0 : _selectedLibrary - 1;
+                if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
                     _selectedLibrary += 1;
                     _launcher.changeLibrary(_displayModule);
                 }
                 break;
             case 2:
-                _selectedLibrary += 1;
-                if (!_dlloaderDisplayModule.loadLibrary(std::string("./lib/") + _availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
+                _selectedLibrary = _selectedLibrary == _availableLibrary.size() - 1 ? _availableLibrary.size() - 1 : _selectedLibrary + 1;
+                if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {
                 _selectedLibrary -= 1;
                 _launcher.changeLibrary(_displayModule);
             }
@@ -117,7 +107,7 @@ void coreProgram::coreProgram::getAvailableLibrary(const std::string &libPath)
     directoryContent = readdir(directory);
     while (directoryContent) {
         if (directoryContent->d_name[0] != '.' && ((std::string("./lib/") + std::string(directoryContent->d_name) != libPath)))
-            _availableLibrary.emplace_back(directoryContent->d_name);
+            _availableLibrary.emplace_back((std::string("./lib/") + std::string(directoryContent->d_name)));
         directoryContent = readdir(directory);
     }
     closedir(directory);
