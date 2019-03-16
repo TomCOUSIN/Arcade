@@ -29,8 +29,11 @@ bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 {
     if (!_dlloaderDisplayModule.loadLibrary(libPath) || !getInstanceFromGraphicLibrary())
         return false;
-    _availableLibrary.emplace_back(libPath);
-    getAvailableLibrary(libPath);
+    if (libPath[0] != '.')
+        _availableLibrary.emplace_back(std::string("./") + libPath);
+    else
+        _availableLibrary.emplace_back(libPath);
+    getAvailableLibrary();
     return true;
 }
 
@@ -43,9 +46,7 @@ bool coreProgram::coreProgram::loadLib(const std::string &libPath)
 bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
 {
     _displayModule = _dlloaderDisplayModule.getInstance();
-    if (_displayModule == nullptr)
-        return false;
-    return true;
+    return !(_displayModule == nullptr);
 }
 
 /**
@@ -96,7 +97,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
     }
 }
 
-void coreProgram::coreProgram::getAvailableLibrary(const std::string &libPath)
+void coreProgram::coreProgram::getAvailableLibrary()
 {
     DIR *directory;
     struct dirent *directoryContent;
@@ -106,7 +107,7 @@ void coreProgram::coreProgram::getAvailableLibrary(const std::string &libPath)
         return;
     directoryContent = readdir(directory);
     while (directoryContent) {
-        if (directoryContent->d_name[0] != '.' && ((std::string("./lib/") + std::string(directoryContent->d_name) != libPath)))
+        if (directoryContent->d_name[0] != '.' && ((std::string("./lib/") + std::string(directoryContent->d_name)) != _availableLibrary[0]))
             _availableLibrary.emplace_back((std::string("./lib/") + std::string(directoryContent->d_name)));
         directoryContent = readdir(directory);
     }

@@ -25,8 +25,7 @@ CORE_SRC	=	./src/main.cpp											\
 
 CORE_OBJ	=	$(CORE_SRC:.cpp=.o)
 
-CXXFLAGS	=	-I./src/Exception
-CXXFLAGS	+=	-I./src/CoreProgram
+CXXFLAGS	=	-I./src/CoreProgram
 CXXFLAGS	+=	-I./src/DisplayModule
 CXXFLAGS	+=	-I./src/DisplayModule/Asset
 CXXFLAGS	+=	-I./src/CoreProgram/DLLoader

@@ -94,7 +94,7 @@ std::shared_ptr<T> dlloader::DLLoader<T>::getInstance()
         auto allocator = reinterpret_cast<allocClass>(dlsym(_handle,"allocator"));
         auto destructor = reinterpret_cast<deleteClass >(dlsym(_handle,"deleter"));
 
-        if (allocator == nullptr || destructor == nullptr) {
+        if (!allocator || !destructor) {
             closeLibrary();
             throw DLLoaderException(dlerror());
         }

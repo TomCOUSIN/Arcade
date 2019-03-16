@@ -36,7 +36,7 @@ namespace coreProgram
 
         private:
             bool getInstanceFromGraphicLibrary();
-            void getAvailableLibrary(const std::string &libPath);
+            void getAvailableLibrary();
             e_returnValue launcherLoop();
             std::shared_ptr<displayModule::IDisplayModule>_displayModule;
             dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
