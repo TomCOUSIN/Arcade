@@ -6,17 +6,22 @@
 }
 */
 
+#include <SDL2/SDL_ttf.h>
 #include "SDLDisplayModule.hpp"
 
 displayModule::SDLDisplayModule::SDLDisplayModule()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    TTF_Init();
+    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
 displayModule::SDLDisplayModule::~SDLDisplayModule()
 {
     SDL_DestroyWindow(_window);
+    TTF_Quit();
+    SDL_Quit();
 }
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetName)
@@ -28,17 +33,23 @@ bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const
 
 bool displayModule::SDLDisplayModule::createText(const std::string &text, const std::string &assetName)
 {
-    (void)text;
-    (void)assetName;
-    return false;
+    TTF_Font* textFont = TTF_OpenFont("./.fonts/arial.ttf", 24);
+    SDL_Color textColor = { 255, 255, 255, 0 };
+    SDL_Surface *textSurface = TTF_RenderText_Solid(textFont, text.c_str(), textColor);
+    _text.insert(std::make_pair(assetName, textSurface));
+    TTF_CloseFont(textFont);
+    return true;
 }
 
 bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
-    (void)assetName;
-    (void)x;
-    (void)y;
-    return false;
+    TTF_Font* textFont = TTF_OpenFont("./.fonts/arial.ttf", 24);
+    SDL_Color textColor = { 255, 255, 255, 0 };
+    SDL_Surface *textSurface = TTF_RenderText_Solid(textFont, "toto", textColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    SDL_Rect textRect = { 20, 20, 100, 100 };
+    SDL_RenderCopy(_renderer, textTexture, nullptr, &textRect);
+    return true;
 }
 
 bool displayModule::SDLDisplayModule::drawText(const std::string &assetName, int x, int y)
@@ -51,6 +62,7 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &assetName, int
 
 void displayModule::SDLDisplayModule::refreshWindow()
 {
+    SDL_RenderPresent(_renderer);
     SDL_UpdateWindowSurface(_window);
 }
 

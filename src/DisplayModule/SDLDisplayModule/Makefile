@@ -19,7 +19,7 @@ CXXFLAGS	=	-I.
 CXXFLAGS	+=	-I..
 CXXFLAGS	+=	-Wall -Wextra
 
-LDFLAGS		=	-lSDL2
+LDFLAGS		=	-lSDL2 -lSDL_ttf
 
 NAME		=	lib_arcade_sdl2.so
 

@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <unordered_map>
-#include <SDL2/SDL.h>
+#include </usr/local/include/SDL2/SDL.h>
 #include "IDisplayModule.hpp"
 
 namespace displayModule {

@@ -57,8 +57,8 @@ namespace displayModule
     {
         public:
             virtual ~IDisplayModule() = default;
-            virtual bool createAsset(const std::string &path, const std::string &assetName) = 0;
-            virtual bool createText(const std::string &text, const std::string &textName) = 0;
+            virtual bool createAsset(const std::string &path, const std::string &assetKey) = 0;
+            virtual bool createText(const std::string &text, const std::string &textKey) = 0;
             virtual bool drawAsset(const std::string &assetName, int x, int y) = 0;
             virtual bool drawText(const std::string &textName, int x, int y) = 0;
             virtual void refreshWindow() = 0;
