@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <unordered_map>
-#include </usr/local/include/SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #include "IDisplayModule.hpp"
 
 namespace displayModule {
@@ -29,8 +29,9 @@ namespace displayModule {
         void stop_sound() final;
 
         private:
-        std::unordered_map<std::string, std::string> _sprite;
-        std::unordered_map<std::string, std::string> _text;
+        std::unordered_map<std::string, SDL_Surface *> _sprite;
+        std::unordered_map<std::string, SDL_Surface *> _text;
+        SDL_Renderer *_renderer;
         SDL_Window *_window;
     };
 }
