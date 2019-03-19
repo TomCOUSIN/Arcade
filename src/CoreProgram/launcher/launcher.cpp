@@ -25,7 +25,7 @@ bool coreProgram::launcher::changeLibrary(const std::shared_ptr<displayModule::I
 
 bool coreProgram::launcher::loadAsset()
 {
-    if (!_displayModule->createAsset("./Games/nibbler/assets", "title"))
+    if (!_displayModule->createAsset("./.launcher", "title"))
         return false;
     for (const auto &game : _availableGames) {
         if (!_displayModule->createText(game, game))
