@@ -7,6 +7,7 @@
 */
 
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
 #include "SDLDisplayModule.hpp"
 
 displayModule::SDLDisplayModule::SDLDisplayModule()
@@ -26,9 +27,9 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
-    SDL_Surface *asset = IMG_Load(path + "/2d/" + assetKey);
+    SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey).c_str());
     size_t pos = assetKey.find(".");
-    _asset.insert(std::make_pair(assetKey.substr(0, pos), asset));
+    _sprite.insert(std::make_pair(assetKey.substr(0, pos), asset));
     return true;
 }
 
@@ -47,7 +48,7 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     SDL_Rect position;
     position.x = x;
     position.y = y;
-    SDL_BlitSurface(_asset[assetName], NULL, _window, &position);
+    SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
     return true;
 }
 
