@@ -83,7 +83,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
                     _selectedLibrary += 1;
                     _launcher.changeLibrary(_displayModule);
                 }
-            break;
+                break;
             case 2:
                 _selectedLibrary = _selectedLibrary == _availableLibrary.size() - 1 ? _availableLibrary.size() - 1 : _selectedLibrary + 1;
                 if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) || !getInstanceFromGraphicLibrary() || !_launcher.changeLibrary(_displayModule)) {

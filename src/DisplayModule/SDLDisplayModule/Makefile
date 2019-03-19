@@ -19,7 +19,7 @@ CXXFLAGS	=	-I.
 CXXFLAGS	+=	-I..
 CXXFLAGS	+=	-Wall -Wextra
 
-LDFLAGS		=	-lSDL2 -lSDL_ttf
+LDFLAGS		=	-lSDL_ttf -lSDL_image `sdl-config --cflags --libs`
 
 NAME		=	lib_arcade_sdl2.so
 
