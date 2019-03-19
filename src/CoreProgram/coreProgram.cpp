@@ -89,7 +89,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
                 }
                 break;
             case 2:
-                if (_selectedLibrary < _availableLibrary.size()) {
+                if (_selectedLibrary < _availableLibrary.size() - 1) {
                     _selectedLibrary += 1;
                     if (!_dlloaderDisplayModule.loadLibrary(_availableLibrary[_selectedLibrary]) ||
                         !getInstanceFromGraphicLibrary() ||
