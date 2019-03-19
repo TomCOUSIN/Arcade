@@ -26,9 +26,10 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
-    (void)path;
-    (void)assetKey;
-    return false;
+    SDL_Surface *asset = IMG_Load(path + "/2d/" + assetKey);
+    size_t pos = assetKey.find(".");
+    _asset.insert(std::make_pair(assetKey.substr(0, pos), asset));
+    return true;
 }
 
 bool displayModule::SDLDisplayModule::createText(const std::string &text, const std::string &textKey)
@@ -43,10 +44,11 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
 
 bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
-    (void)assetName;
-    (void)x;
-    (void)y;
-    return false;
+    SDL_Rect position;
+    position.x = x;
+    position.y = y;
+    SDL_BlitSurface(_asset[assetName], NULL, _window, &position);
+    return true;
 }
 
 bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x, int y)
