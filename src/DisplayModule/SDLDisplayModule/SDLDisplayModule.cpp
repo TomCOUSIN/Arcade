@@ -14,7 +14,7 @@ displayModule::SDLDisplayModule::SDLDisplayModule()
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
-    _window = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    _window = SDL_SetVideoMode(1920, 1080, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("Arcade", NULL);
 }
 
@@ -46,8 +46,8 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
 bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
     SDL_Rect position;
-    position.x = x;
-    position.y = y;
+    position.x = x * 16;
+    position.y = y * 16;
     SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
     return true;
 }
@@ -55,8 +55,8 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
 bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x, int y)
 {
     SDL_Rect position;
-    position.x = x;
-    position.y = y;
+    position.x = x * 16;
+    position.y = y * 16;
     SDL_BlitSurface(_text[textKey], NULL, _window, &position);
     return true;
 }

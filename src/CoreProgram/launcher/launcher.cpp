@@ -62,8 +62,7 @@ bool coreProgram::launcher::getAvailableGames()
 size_t coreProgram::launcher::launchLauncher()
 {
     displayModule::e_event key_event = displayModule::e_event::NOTHING;
-    int x = 4;
-    int y = 2;
+    std::vector<int> position = {4, 2};
 
     while (true) {
         switch(key_event)
@@ -73,17 +72,17 @@ size_t coreProgram::launcher::launchLauncher()
         case displayModule::e_event::ARROW_RIGHT: return 2;
         default:break;
         }
-        _displayModule->drawText("Title", x, y);
-        x += 10;
-        y += 10;
+        _displayModule->drawText("Title", position[0], position[1]);
+        position[0] += 10;
+        position[1] += 10;
         for (const auto &gameName : _availableGames) {
-            _displayModule->drawText(gameName, x, y);
-            x += 10;
+            _displayModule->drawText(gameName, position[0], position[1]);
+            position[1] += 10;
         }
         _displayModule->refreshWindow();
         key_event = _displayModule->catchEvent();
-        x = 4;
-        y = 2;
+        position[0] = 4;
+        position[1] = 2;
     }
 }
 

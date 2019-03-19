@@ -7,7 +7,7 @@
 
 #include "Sfml_module.hpp"
 
-displayModule::Sfml_module::Sfml_module() : _window(sf::VideoMode(800, 600), "Arcade")
+displayModule::Sfml_module::Sfml_module() : _window(sf::VideoMode(1920, 1080), "Arcade")
 {
 }
 
@@ -120,7 +120,7 @@ bool displayModule::Sfml_module::createAsset(const std::string &path, const std:
 bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, int y)
 {
     this->_sprite.setTexture(umap_sfmlsprite_asset.find(assetName)->second);
-    this->_sprite.setPosition(x, y);
+    this->_sprite.setPosition(x * 16, y * 16);
     this->_window.draw(this->_sprite);
     return true;
 }
@@ -136,7 +136,7 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
     this->_font.loadFromFile("./.fonts/arial.ttf");
     this->_text.setFont(this->_font);
     this->_text.setString(umap_sfmltext_asset.find(textName)->second);
-    this->_text.setPosition(x, y);
+    this->_text.setPosition(x * 16, y * 16);
     this->_window.draw(this->_text);
     return true;
 }
