@@ -20,6 +20,7 @@ DisplayModuleNcurses::DisplayModuleNcurses()
     nodelay(stdscr, true);
     set_escdelay(0);
     keypad(stdscr, true);
+    curs_set(0);
 }
 
 /**
@@ -64,12 +65,26 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
  */
 bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 {
-    auto it = umap_curses_asset.find(assetName);
+    std::string asset = umap_curses_asset[assetName];
+    size_t index = 0;
+    int tmp = x;
+    char stock[2];
 
-    if (it == umap_curses_asset.end()) {
+    if (!asset[0])
         return false;
-    } else {
-        mvprintw(y, x, umap_curses_asset.find(assetName)->second.data());
+    else {
+        stock[1] = '\0';
+        while (asset.data()[index]) {
+            stock[0] = asset.data()[index];
+            mvprintw(y, x, stock);
+            x++;
+            index++;
+            if (asset.data()[index] == '\n') {
+                y++;
+                x = tmp;
+                index++;
+            }
+        }
         return true;
     }
 }

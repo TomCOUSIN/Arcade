@@ -43,7 +43,7 @@ namespace displayModule
     };
 
 }
-
+/*
 extern "C"
 {
     displayModule::DisplayModuleNcurses *allocator()
@@ -56,5 +56,5 @@ extern "C"
         delete  ptr;
     }
 }
-
+*/
 #endif //OOP_ARCADE_2018_MONITORDISPLAYNCURSES_HPP
