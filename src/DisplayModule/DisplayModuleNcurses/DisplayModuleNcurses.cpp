@@ -37,9 +37,8 @@ DisplayModuleNcurses::~DisplayModuleNcurses() { endwin(); }
  */
 bool DisplayModuleNcurses::createAsset(const std::string &path, const std::string &assetName)
 {
-    std::fstream file(path + "/1d/" + assetName, std::fstream::in);
+    std::fstream file(std::string(path + "/1d/" + assetName + ".txt"), std::fstream::in);
     std::string asset;
-    size_t pos = assetName.find('.');
 
     if (file.is_open()) {
         getline(file, asset, '\0');
@@ -48,10 +47,7 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
         return false;
     }
     file.close();
-    if (pos == std::string::npos)
-        umap_curses_asset.insert(make_pair(assetName, asset));
-    else
-        umap_curses_asset.insert(make_pair(assetName.substr(0, pos), asset));
+    umap_curses_asset.insert(make_pair(assetName, asset));
     return true;
 }
 

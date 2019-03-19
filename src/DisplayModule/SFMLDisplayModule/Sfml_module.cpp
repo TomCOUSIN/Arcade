@@ -111,7 +111,7 @@ void displayModule::Sfml_module::stop_sound()
 
 bool displayModule::Sfml_module::createAsset(const std::string &path, const std::string &assetName)
 {
-    std::string true_name = path + "/2d/" + assetName;
+    std::string true_name = path + "/2d/" + assetName + ".png";
     this->_texture.loadFromFile(true_name);
     umap_sfmlsprite_asset.insert(std::pair<std::string, sf::Texture>(assetName, this->_texture));
     return true;

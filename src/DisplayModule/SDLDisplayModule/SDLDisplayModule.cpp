@@ -27,9 +27,8 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
-    SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey).c_str());
-    size_t pos = assetKey.find(".");
-    _sprite.insert(std::make_pair(assetKey.substr(0, pos), asset));
+    SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey + ".png").c_str());
+    _sprite.insert(std::make_pair(assetKey, asset));
     return true;
 }
 
