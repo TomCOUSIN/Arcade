@@ -35,7 +35,7 @@ bool coreProgram::launcher::loadAsset()
         }
         if (_availableGames.empty())
             throw launcherException("No games available");
-        if (!_displayModule->createText("==>", "selector"))
+        if (!_displayModule->createText("==>", "selector") || !_displayModule->createText("   ", "hideSelector"))
                 return false;
     }
     catch (const launcherException &exception) {
@@ -98,6 +98,8 @@ size_t coreProgram::launcher::launchLauncher()
         for (const auto &gameName : _availableGames) {
             if (gameIndex == _selectedGame)
                 _displayModule->drawText("selector", position[0] - 5, position[1]);
+            else
+                _displayModule->drawText("hideSelector", position[0] - 5, position[1]);
             _displayModule->drawText(gameName, position[0], position[1]);
             position[1] += 5;
             ++gameIndex;
