@@ -14,7 +14,7 @@ displayModule::SDLDisplayModule::SDLDisplayModule()
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
-    _window = SDL_SetVideoMode(1920, 1080, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    _window = SDL_SetVideoMode(1920, 1080, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetCaption("Arcade", NULL);
 }
 
@@ -62,7 +62,6 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
 
 void displayModule::SDLDisplayModule::refreshWindow()
 {
-    SDL_UpdateRect(_window, 0, 0, 1920, 1080);
     SDL_Flip(_window);
 }
 
