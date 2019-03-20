@@ -77,6 +77,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
     while (true) {
         size_t returnValue = _launcher.launchLauncher();
         switch (returnValue) {
+            case 0: return QUIT;
             case 1:
                 if (_selectedLibrary > 0) {
                     _selectedLibrary -= 1;
@@ -99,7 +100,6 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
                     }
                 }
                 break;
-            case 0: return QUIT;
             default: break;
         }
     }

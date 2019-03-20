@@ -24,12 +24,15 @@ namespace coreProgram
             bool changeLibrary(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
             bool initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
             size_t launchLauncher();
+            std::string getSelectedGame();
 
         private:
+            void changeSelectedGame(bool lower);
             bool getAvailableGames();
             bool loadAsset();
             std::vector<std::string> _availableGames;
             std::shared_ptr<displayModule::IDisplayModule> _displayModule;
+            size_t _selectedGame;
     };
 
 }

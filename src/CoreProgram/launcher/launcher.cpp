@@ -14,6 +14,7 @@
 bool coreProgram::launcher::initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
 {
     _displayModule = displayModule;
+    _selectedGame = 0;
     return getAvailableGames() && loadAsset();
 }
 
@@ -25,11 +26,21 @@ bool coreProgram::launcher::changeLibrary(const std::shared_ptr<displayModule::I
 
 bool coreProgram::launcher::loadAsset()
 {
-    if (!_displayModule->createAsset("./.launcher", "title"))
-        return false;
-    for (const auto &game : _availableGames) {
-        if (!_displayModule->createText(game, game))
+    try {
+        if (!_displayModule->createAsset("./.launcher", "title"))
             return false;
+        for (const auto &game : _availableGames) {
+            if (!_displayModule->createText(game, game))
+                return false;
+        }
+        if (_availableGames.empty())
+            throw launcherException("No games available");
+        if (!_displayModule->createText("==>", "selector"))
+                return false;
+    }
+    catch (const launcherException &exception) {
+        std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;
+        return false;
     }
     return true;
 }
@@ -63,26 +74,56 @@ size_t coreProgram::launcher::launchLauncher()
 {
     displayModule::e_event key_event = displayModule::e_event::NOTHING;
     std::vector<int> position = {4, 2};
+    size_t gameIndex = 0;
 
     while (true) {
         switch(key_event)
         {
-        case displayModule::e_event::KEY_Q: case displayModule::e_event::ESCAPE: return 0;
+        case displayModule::e_event::KEY_Q: return 0;
+        case displayModule::e_event::ESCAPE: return 0;
         case displayModule::e_event::ARROW_LEFT: return 1;
         case displayModule::e_event::ARROW_RIGHT: return 2;
+        case displayModule::e_event::ENTER: return 3;
+        case displayModule::e_event::ARROW_UP:
+            changeSelectedGame(true);
+            break;
+        case displayModule::e_event::ARROW_DOWN:
+            changeSelectedGame(false);
+            break;
         default:break;
         }
         _displayModule->drawAsset("title", position[0], position[1]);
         position[0] += 10;
         position[1] += 10;
         for (const auto &gameName : _availableGames) {
+            if (gameIndex == _selectedGame)
+                _displayModule->drawText("selector", position[0] - 5, position[1]);
             _displayModule->drawText(gameName, position[0], position[1]);
-            position[1] += 10;
+            position[1] += 5;
+            ++gameIndex;
         }
         _displayModule->refreshWindow();
         key_event = _displayModule->catchEvent();
         position[0] = 4;
         position[1] = 2;
+        gameIndex = 0;
+    }
+}
+
+std::string coreProgram::launcher::getSelectedGame()
+{
+    return _availableGames[_selectedGame];
+}
+
+void coreProgram::launcher::changeSelectedGame(bool lower)
+{
+    if (lower) {
+        if (_selectedGame > 0)
+            _selectedGame -= 1;
+    }
+    else {
+        if (_selectedGame < _availableGames.size() - 1)
+            _selectedGame += 1;
     }
 }
 
