@@ -48,6 +48,7 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     position.x = x * 16;
     position.y = y * 16;
     SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
+    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
@@ -57,6 +58,7 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     position.x = x * 16;
     position.y = y * 16;
     SDL_BlitSurface(_text[textKey], NULL, _window, &position);
+    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
