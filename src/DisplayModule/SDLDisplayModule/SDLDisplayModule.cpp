@@ -75,6 +75,10 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
                 return ARROW_LEFT;
             case SDLK_RIGHT:
                 return ARROW_RIGHT;
+            case SDLK_UP:
+                return ARROW_UP;
+            case SDLK_DOWN:
+                return ARROW_DOWN;
             case SDLK_a:
                 return KEY_A;
             case SDLK_b:
