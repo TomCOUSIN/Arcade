@@ -62,6 +62,7 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
 
 void displayModule::SDLDisplayModule::refreshWindow()
 {
+    SDL_UpdateRect(_window, 0, 0, 1920, 1080);
     SDL_Flip(_window);
 }
 
