@@ -54,7 +54,7 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
-    SDL_RenderCopy(_renderer, _sprite[assetName], NULL, &position);
+    SDL_RenderCopy(_renderer, _sprite[assetName], NULL, NULL);
     return true;
 }
 
@@ -63,6 +63,9 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
+    position.h = 0;
+    position.w = 0;
+    SDL_QueryTexture(_text[textKey], &position.x, &position.y, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
     return true;
 }
