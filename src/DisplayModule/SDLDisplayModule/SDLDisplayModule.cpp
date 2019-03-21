@@ -17,6 +17,7 @@ displayModule::SDLDisplayModule::SDLDisplayModule()
     TTF_Init();
     _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_window, -1, 0);
+    SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
     _windowSurface = SDL_GetWindowSurface(_window);
 }
 
@@ -72,7 +73,6 @@ void displayModule::SDLDisplayModule::refreshWindow()
 {
     SDL_RenderPresent(_renderer);
     SDL_RenderClear(_renderer);
-    SDL_UpdateWindowSurface(_window);
 }
 
 displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
