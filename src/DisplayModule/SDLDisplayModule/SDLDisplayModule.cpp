@@ -65,7 +65,7 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     position.y = y * 16;
     position.h = 0;
     position.w = 0;
-    SDL_QueryTexture(_text[textKey], &position.x, &position.y, &position.w, &position.h);
+    SDL_QueryTexture(_text[textKey], NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
     return true;
 }
