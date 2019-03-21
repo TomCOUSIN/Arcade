@@ -32,8 +32,7 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
-    SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey + ".png").c_str());
-    SDL_Texture *assetTexture = SDL_CreateTextureFromSurface(_renderer, asset);
+    SDL_Texture *asset = IMG_LoadTexture(_renderer, std::string(path + "/2d/" + assetKey + ".png").c_str());
     _sprite.insert(std::make_pair(assetKey, assetTexture));
     return true;
 }
@@ -54,7 +53,8 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
-    SDL_RenderCopy(_renderer, _sprite[assetName], NULL, NULL);
+    SDL_QueryTexture(_sprite[assetName], NULL, NULL, &position.w, &position.h);
+    SDL_RenderCopy(_renderer, _sprite[assetName], NULL, &position);
     return true;
 }
 
@@ -63,8 +63,6 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
-    position.h = 0;
-    position.w = 0;
     SDL_QueryTexture(_text[textKey], NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
     return true;
