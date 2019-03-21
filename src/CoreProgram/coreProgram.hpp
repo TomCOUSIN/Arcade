@@ -24,7 +24,9 @@ namespace coreProgram
         ERROR,
         PREV_LIB,
         NEXT_LIB,
-        LEAVE_GAME
+        START_GAME,
+        LEAVE_GAME,
+        NOTHING
     };
 
     class coreProgram {
@@ -38,6 +40,7 @@ namespace coreProgram
             bool getInstanceFromGraphicLibrary();
             void getAvailableLibrary();
             e_returnValue launcherLoop();
+            e_returnValue gameLoop();
             std::shared_ptr<displayModule::IDisplayModule>_displayModule;
             dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
             std::vector<std::string> _availableLibrary;

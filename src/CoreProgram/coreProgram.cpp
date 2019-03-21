@@ -57,11 +57,28 @@ bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
  */
 size_t coreProgram::coreProgram::playCoreProgramLoop()
 {
+    e_returnValue launcherReturnValue = NOTHING;
+    e_returnValue gameReturnValue;
+    bool isInLauncher = true;
+
     if (!_launcher.initLauncher(_displayModule))
         return 84;
     while (true) {
-        if (launcherLoop() == e_returnValue::QUIT)
-            break;
+        if (isInLauncher) {
+            launcherReturnValue = launcherLoop();
+            if (launcherReturnValue == e_returnValue::QUIT)
+                return 0;
+            isInLauncher = false;
+        }
+        else {
+            gameReturnValue = gameLoop();
+            if (gameReturnValue == ERROR)
+                return 84;
+            else if (gameReturnValue == QUIT)
+                return 0;
+            else
+                isInLauncher = true;
+        }
     }
     return 0;
 }
@@ -100,9 +117,15 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
                     }
                 }
                 break;
+            case 3: return START_GAME;
             default: break;
         }
     }
+}
+
+coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
+{
+    return ERROR;
 }
 
 void coreProgram::coreProgram::getAvailableLibrary()
