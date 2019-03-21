@@ -7,7 +7,6 @@
 #ifndef OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
 #define OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
 
-#endif //OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
 
 #include <../IGameModule.hpp>
 #include <vector>
@@ -59,3 +58,18 @@ namespace gameModule
             std::shared_ptr<displayModule::IDisplayModule> display;
     };
 }
+
+extern "C"
+{
+    gameModule::GameModuleNibbler *allocator()
+    {
+        return new gameModule::GameModuleNibbler();
+    }
+
+    void deleter(gameModule::GameModuleNibbler *ptr)
+    {
+        delete ptr;
+    }
+}
+
+#endif //OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
