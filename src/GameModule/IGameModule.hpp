@@ -8,8 +8,8 @@
 #define OOP_ARCADE_2018_IGAMEMODULE_HPP
 
 #include <iostream>
-#include <bits/shared_ptr.h>
-#include "IDisplayModule.hpp"
+#include <memory>
+#include "../DisplayModule/IDisplayModule.hpp"
 
 namespace gameModule
 {
