@@ -74,7 +74,7 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
 
     try {
         if (!asset[0])
-            throw DisplayModuldeNcursesException("Can't find the key to draw asset.");
+            throw DisplayModuldeNcursesException("Can't find the key to draw assets.");
         else {
             stock[1] = '\0';
             while (asset.data()[index]) {

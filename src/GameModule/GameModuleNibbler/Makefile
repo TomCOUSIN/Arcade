@@ -18,11 +18,12 @@ OBJ			=	$(SRC:.cpp=.o)
 
 CXXFLAGS	=	-I.
 CXXFLAGS	+=	-I..
+CXXFLAGS	+=	-I../../DisplayModule
 CXXFLAGS	+=	-Wall -Wextra
 
 LDFLAGS		=	-lncurses
 
-NAME		=	game_nibbler.so
+NAME		=	lib_arcade_nibbler.so
 
 all:		$(NAME)
 

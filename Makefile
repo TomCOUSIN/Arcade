@@ -27,7 +27,7 @@ CORE_OBJ	=	$(CORE_SRC:.cpp=.o)
 
 CXXFLAGS	=	-I./src/CoreProgram
 CXXFLAGS	+=	-I./src/DisplayModule
-CXXFLAGS	+=	-I./src/DisplayModule/Asset
+CXXFLAGS	+=	-I./src/GameModule
 CXXFLAGS	+=	-I./src/CoreProgram/DLLoader
 CXXFLAGS	+=	-I./src/CoreProgram/launcher
 CXXFLAGS	+=	-Wall -Wextra -Werror

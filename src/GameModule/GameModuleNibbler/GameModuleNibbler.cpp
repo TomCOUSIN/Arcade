@@ -11,8 +11,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <memory>
+#include "IDisplayModule.hpp"
 #include "GameModuleNibblerException.hpp"
-#include <../../DisplayModule/DisplayModuleNcurses/DisplayModuleNcurses.hpp>
 #include <chrono>
 #include <thread>
 
@@ -108,40 +108,36 @@ displayModule::e_event GameModuleNibbler::catch_event()
 {
     displayModule::e_event key = display->catchEvent();
 
-    if (key == ESCAPE)
-        return ESCAPE;
-    if (key == ARROW_RIGHT)
+    if (key == displayModule::ESCAPE || key == displayModule::ARROW_RIGHT || key == displayModule::ARROW_LEFT)
         return key;
-    if (key == ARROW_LEFT)
-        return key;
-    if (key == KEY_Z) {
+    if (key == displayModule::KEY_Z) {
         move_nibbler(pos_y - 1, pos_x);
         save_key = key;
         return key;
     }
-    if (key == KEY_D) {
+    if (key == displayModule::KEY_D) {
         move_nibbler(pos_y, pos_x + 1);
         save_key = key;
         return key;
     }
-    if (key == KEY_S) {
+    if (key == displayModule::KEY_S) {
         move_nibbler(pos_y + 1, pos_x);
         save_key = key;
         return key;
     }
-    if (key == KEY_Q) {
+    if (key == displayModule::KEY_Q) {
         move_nibbler(pos_y, pos_x - 1);
         save_key = key;
         return key;
     } else {
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
-        if (save_key == KEY_Z)
+        if (save_key == displayModule::KEY_Z)
             move_nibbler(pos_y - 1, pos_x);
-        if (save_key == KEY_D)
+        if (save_key == displayModule::KEY_D)
             move_nibbler(pos_y, pos_x + 1);
-        if (save_key == KEY_S)
+        if (save_key == displayModule::KEY_S)
             move_nibbler(pos_y + 1, pos_x);
-        if (save_key == KEY_Q)
+        if (save_key == displayModule::KEY_Q)
             move_nibbler(pos_y, pos_x - 1);
     }
     return key;
@@ -153,12 +149,12 @@ void GameModuleNibbler::asset()
     display->drawText("apple" + 0, pos_apple_x, pos_apple_y);
     for (size_t i = 0; i < nibbler.size(); i++) {
         if (i == 0) {
-            display->createText("O", "nibbler" + i);
+            display->createText("O", "nibbler" + std::to_string(i));
         }
         else {
-            display->createText("*", "nibbler" + i);
+            display->createText("*", "nibbler" + std::to_string(i));
         }
-        display->drawText("nibbler" + i, nibbler[i]._x, nibbler[i]._y);
+        display->drawText("nibbler" + std::to_string(i), nibbler[i]._x, nibbler[i]._y);
     }
 }
 
@@ -169,7 +165,7 @@ displayModule::e_event GameModuleNibbler::game()
     while (!_isQuit) {
         display->drawAsset("map_nibbler", 0, 0);
         asset();
-        if (key_return == ESCAPE || key_return == ARROW_LEFT || key_return == ARROW_RIGHT) {
+        if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT || key_return == displayModule::ARROW_RIGHT) {
             return key_return;
         }
         display->refreshWindow();
@@ -180,7 +176,7 @@ displayModule::e_event GameModuleNibbler::game()
 
 bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
 {
-    std::fstream file("games/nibbler/asset/1d/map_nibbler.txt", std::fstream::in);
+    std::fstream file("games/nibbler/assets/1d/map_nibbler.txt", std::fstream::in);
     std::string line;
 
     try {
@@ -207,5 +203,5 @@ bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModu
 
 bool GameModuleNibbler::setAsset()
 {
-    return display->createAsset("games/nibbler/asset/", "map_nibbler");
+    return display->createAsset("games/nibbler/assets/", "map_nibbler");
 }

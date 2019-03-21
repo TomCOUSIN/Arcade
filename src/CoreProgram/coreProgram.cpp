@@ -15,8 +15,10 @@
 /**
  * Construtor wich initialize dlloader and modules
  */
-coreProgram::coreProgram::coreProgram() : _dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
-_launcher(), _selectedLibrary(0)
+coreProgram::coreProgram::coreProgram()
+: _dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
+_dlloaderGameModule(dlloader::DLLoader<gameModule::IGameModule>()), _launcher(),
+_selectedLibrary(0)
 {}
 
 /**
@@ -47,6 +49,12 @@ bool coreProgram::coreProgram::getInstanceFromGraphicLibrary()
 {
     _displayModule = _dlloaderDisplayModule.getInstance();
     return !(_displayModule == nullptr);
+}
+
+bool coreProgram::coreProgram::getInstanceFromGameLibrary()
+{
+    _gameModule = _dlloaderGameModule.getInstance();
+    return !(_gameModule == nullptr);
 }
 
 /**
@@ -125,7 +133,17 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 
 coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
-    return ERROR;
+    _dlloaderGameModule.loadLibrary(std::string("./games/") + _launcher.getSelectedGame() + std::string("/lib_arcade_") + _launcher.getSelectedGame() + std::string(".so"));
+    getInstanceFromGameLibrary();
+    _gameModule->initGame(_displayModule);
+    while (true) {
+        switch (_gameModule->game())
+        {
+        case displayModule::e_event::ESCAPE: return QUIT;
+        default: break;
+        }
+        return LEAVE_GAME;
+    }
 }
 
 void coreProgram::coreProgram::getAvailableLibrary()

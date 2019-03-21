@@ -51,9 +51,9 @@ bool coreProgram::launcher::getAvailableGames()
     struct dirent *directoryContent;
 
     try {
-        directory = opendir("./Games");
+        directory = opendir("./games");
         if (!directory)
-            throw launcherException("Couldn't open 'Games' directory");
+            throw launcherException("Couldn't open 'games' directory");
         directoryContent = readdir(directory);
         while (directoryContent) {
             if (directoryContent->d_name[0] != '.')

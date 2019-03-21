@@ -15,6 +15,7 @@
 #include <memory>
 #include "DLLoader.hpp"
 #include "IDisplayModule.hpp"
+#include "IGameModule.hpp"
 #include "launcher.hpp"
 
 namespace coreProgram
@@ -38,11 +39,14 @@ namespace coreProgram
 
         private:
             bool getInstanceFromGraphicLibrary();
+            bool getInstanceFromGameLibrary();
             void getAvailableLibrary();
             e_returnValue launcherLoop();
             e_returnValue gameLoop();
             std::shared_ptr<displayModule::IDisplayModule>_displayModule;
+            std::shared_ptr<gameModule::IGameModule> _gameModule;
             dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
+            dlloader::DLLoader<gameModule::IGameModule> _dlloaderGameModule;
             std::vector<std::string> _availableLibrary;
             launcher _launcher;
             size_t _selectedLibrary;
