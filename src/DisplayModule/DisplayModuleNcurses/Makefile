@@ -11,7 +11,8 @@ CXX			=	g++	-std=c++11
 
 RM			=	rm -f
 
-SRC			=	./DisplayModuleNcurses.cpp
+SRC			=	./DisplayModuleNcurses.cpp				\
+				./DisplayModuleNcursesException.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
 

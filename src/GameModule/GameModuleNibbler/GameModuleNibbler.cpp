@@ -11,6 +11,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <memory>
+#include "GameModuleNibblerException.hpp"
 #include <../../DisplayModule/DisplayModuleNcurses/DisplayModuleNcurses.hpp>
 #include <chrono>
 #include <thread>
@@ -182,15 +183,20 @@ bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> 
     std::fstream file("games/nibbler/asset/1d/map_nibbler.txt", std::fstream::in);
     std::string line;
 
-    if (file.is_open()) {
-        while (getline(file, line, '\n'))
-        _map.push_back(line);
-    } else {
-        // TODO MESSAGE ERROR
+    try {
+        if (file.is_open()) {
+            while (getline(file, line, '\n'))
+                _map.push_back(line);
+        } else {
+            throw (GameModuleNibblerException("Can't open the file."));
+        }
+        file.close();
+        return setLib(asset);
+    }
+    catch (GameModuleNibblerException &exception) {
+        std::cerr << exception.what() << std::endl;
         return false;
     }
-    file.close();
-    return setLib(asset);
 }
 
 bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModule> asset)

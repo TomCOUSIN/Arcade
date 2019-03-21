@@ -11,7 +11,8 @@ CXX			=	g++	-std=c++11
 
 RM			=	rm -f
 
-SRC			=	./GameModuleNibbler.cpp
+SRC			=	./GameModuleNibbler.cpp				\
+				./GameModuleNibblerException.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
 

@@ -6,6 +6,7 @@
 */
 
 #include "DisplayModuleNcurses.hpp"
+#include "DisplayModuleNcursesException.hpp"
 #include <fstream>
 #include <memory>
 #include <map>
@@ -40,14 +41,19 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
     std::fstream file(std::string(path + "/1d/" + assetName + ".txt"), std::fstream::in);
     std::string asset;
 
-    if (file.is_open()) {
-        getline(file, asset, '\0');
-    } else {
-        // TODO MESSAGE ERROR
+    try {
+        if (file.is_open()) {
+            getline(file, asset, '\0');
+        } else {
+            throw DisplayModuldeNcursesException("Can't open the file pass in parameter.");
+        }
+        file.close();
+        umap_curses_asset.insert(make_pair(assetName, asset));
+    }
+    catch (const DisplayModuldeNcursesException &exception) {
+        std::cerr << exception.what() << std::endl;
         return false;
     }
-    file.close();
-    umap_curses_asset.insert(make_pair(assetName, asset));
     return true;
 }
 
@@ -66,23 +72,29 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
     int tmp = x;
     char stock[2];
 
-    if (!asset[0])
-        return false;
-    else {
-        stock[1] = '\0';
-        while (asset.data()[index]) {
-            stock[0] = asset.data()[index];
-            mvprintw(y, x, stock);
-            x++;
-            index++;
-            if (asset.data()[index] == '\n') {
-                y++;
-                x = tmp;
+    try {
+        if (!asset[0])
+            throw DisplayModuldeNcursesException("Can't find the key to draw asset.");
+        else {
+            stock[1] = '\0';
+            while (asset.data()[index]) {
+                stock[0] = asset.data()[index];
+                mvprintw(y, x, stock);
+                x++;
                 index++;
+                if (asset.data()[index] == '\n') {
+                    y++;
+                    x = tmp;
+                    index++;
+                }
             }
         }
-        return true;
     }
+    catch (const DisplayModuldeNcursesException &exception) {
+        std::cerr << exception.what() << std::endl;
+        return false;
+    }
+    return true;
 }
 
 /**
