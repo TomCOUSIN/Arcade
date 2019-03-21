@@ -33,7 +33,7 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
     SDL_Texture *asset = IMG_LoadTexture(_renderer, std::string(path + "/2d/" + assetKey + ".png").c_str());
-    _sprite.insert(std::make_pair(assetKey, assetTexture));
+    _sprite.insert(std::make_pair(assetKey, asset));
     return true;
 }
 
@@ -71,6 +71,8 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
 void displayModule::SDLDisplayModule::refreshWindow()
 {
     SDL_RenderPresent(_renderer);
+    SDL_RenderClear(_renderer);
+    SDL_UpdateWindowSurface(_window);
 }
 
 displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
