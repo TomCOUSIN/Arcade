@@ -145,16 +145,19 @@ displayModule::e_event GameModuleNibbler::catch_event()
 
 void GameModuleNibbler::asset()
 {
-    display->createText("x", "apple" + 0);
-    display->drawText("apple" + 0, pos_apple_x, pos_apple_y);
+    //display->createText("x", "apple" + 0);
+    display->drawAsset("apple", pos_apple_x, pos_apple_y);
     for (size_t i = 0; i < nibbler.size(); i++) {
         if (i == 0) {
-            display->createText("O", "nibbler" + std::to_string(i));
+            //display->drawAsset("O", "nibbler" + std::to_string(i));
+            display->drawAsset("head_nibbler", nibbler[i]._x, nibbler[i]._y);
         }
         else {
-            display->createText("*", "nibbler" + std::to_string(i));
+            //display->createText("*", "nibbler" + std::to_string(i));
+            display->drawAsset("body_nibbler", nibbler[i]._x, nibbler[i]._y);
+
         }
-        display->drawText("nibbler" + std::to_string(i), nibbler[i]._x, nibbler[i]._y);
+        //display->drawText("nibbler" + std::to_string(i), nibbler[i]._x, nibbler[i]._y);
     }
 }
 
@@ -203,5 +206,14 @@ bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModu
 
 bool GameModuleNibbler::setAsset()
 {
-    return display->createAsset("games/nibbler/assets/", "map_nibbler");
+    if (display->createAsset("games/nibbler/assets/", "map_nibbler") == false)
+        return false;
+    if (display->createAsset("games/nibbler/assets/", "head_nibbler") == false)
+        return false;
+    if (display->createAsset("games/nibbler/assets/", "body_nibbler") == false)
+        return false;
+    if (display->createAsset("games/nibbler/assets/", "apple") == false)
+        return false;
+
+    return true;
 }
