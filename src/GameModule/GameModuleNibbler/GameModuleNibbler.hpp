@@ -34,6 +34,10 @@ namespace gameModule
         void random_apple();
         int moveNibblerCaseApple(int tmp_x, int tmp_y, int x, int y);
         bool setAsset();
+        bool init_map_hard();
+        bool init_map_easy();
+        displayModule::e_event menu() final;
+
 
         class PositionNibbler
         {
@@ -56,6 +60,7 @@ namespace gameModule
             bool _isQuit = false;
             displayModule::e_event save_key = displayModule::e_event ::KEY_Q;
             std::shared_ptr<displayModule::IDisplayModule> display;
+            int chooseMap = 0;
     };
 }
 

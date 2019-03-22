@@ -87,6 +87,12 @@ void GameModuleNibbler::move_nibbler(int y, int x)
 
     if (moveNibblerCaseApple(tmp_x, tmp_y, x, y) == -1)
         return;
+    for (auto &i : nibbler) {
+        if (x == i._x && y == i._y) {
+            _isQuit = true;
+            return;
+        }
+    }
     if (_map[y][x] == '#')
         _isQuit = true;
     else if (_map[y][x] == ' ') {
@@ -108,37 +114,42 @@ displayModule::e_event GameModuleNibbler::catch_event()
 {
     displayModule::e_event key = display->catchEvent();
 
-    if (key == displayModule::ESCAPE || key == displayModule::ARROW_RIGHT || key == displayModule::ARROW_LEFT)
+    if (key == displayModule::ESCAPE || key == displayModule::ARROW_RIGHT
+    || key == displayModule::ARROW_LEFT) {
         return key;
+    }
     if (key == displayModule::KEY_Z) {
-        move_nibbler(pos_y - 1, pos_x);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_D) {
-        move_nibbler(pos_y, pos_x + 1);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_S) {
-        move_nibbler(pos_y + 1, pos_x);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_Q) {
-        move_nibbler(pos_y, pos_x - 1);
         save_key = key;
         return key;
     } else {
-        std::this_thread::sleep_for(std::chrono::milliseconds(150));
-        if (save_key == displayModule::KEY_Z)
+        if (save_key == displayModule::KEY_Z) {
             move_nibbler(pos_y - 1, pos_x);
-        if (save_key == displayModule::KEY_D)
+            return displayModule::NOTHING;
+        }
+        if (save_key == displayModule::KEY_D) {
             move_nibbler(pos_y, pos_x + 1);
-        if (save_key == displayModule::KEY_S)
+            return displayModule::NOTHING;
+        }
+        if (save_key == displayModule::KEY_S) {
             move_nibbler(pos_y + 1, pos_x);
-        if (save_key == displayModule::KEY_Q)
+            return displayModule::NOTHING;
+        }
+        if (save_key == displayModule::KEY_Q) {
             move_nibbler(pos_y, pos_x - 1);
+            return displayModule::NOTHING;
+        }
     }
     return key;
 }
@@ -160,22 +171,52 @@ displayModule::e_event GameModuleNibbler::game()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
-    while (!_isQuit) {
-        display->drawAsset("map_nibbler", 0, 0);
+    while (true)
+   {
+        display->drawAsset("title_nibbler", 0, 0);
+        display->drawAsset("htp_nibbler", 50, 15);
+       if (key_return == displayModule::KEY_H) {
+           if (!init_map_hard()) {
+                return displayModule::ERROR;
+           }
+           chooseMap = 2;
+           break;
+       } else if (key_return == displayModule::KEY_E) {
+             if (!init_map_easy()) {
+                 return displayModule::ERROR;
+             }
+             chooseMap = 1;
+             break;
+       } else if (key_return == displayModule::ESCAPE)
+           return key_return;
+       key_return = display->catchEvent();
+       display->refreshWindow();
+   }
+   display->clearScreen();
+   display->refreshWindow();
+   while (!_isQuit) {
+       if (chooseMap == 1)
+            display->drawAsset("map_nibbler_easy", 0, 0);
+       else if (chooseMap == 2)
+            display->drawAsset("map_nibbler_hard", 0, 0);
         asset();
         key_return = catch_event();
-        if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT || key_return == displayModule::ARROW_RIGHT) {
+        if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
+        || key_return == displayModule::ARROW_RIGHT) {
             return key_return;
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
         display->refreshWindow();
     }
     display->refreshWindow();
+    //TODO put score in file
     return displayModule::e_event::NOTHING;
 }
 
-bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
+
+bool GameModuleNibbler::init_map_easy()
 {
-    std::fstream file("games/nibbler/assets/1d/map_nibbler.txt", std::fstream::in);
+    std::fstream file("games/nibbler/assets/1d/map_nibbler_easy.txt", std::fstream::in);
     std::string line;
 
     try {
@@ -186,12 +227,39 @@ bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> 
             throw (GameModuleNibblerException("Can't open the file."));
         }
         file.close();
-        return setLib(asset);
+
     }
     catch (GameModuleNibblerException &exception) {
         std::cerr << exception.what() << std::endl;
         return false;
     }
+    return true;
+}
+
+bool GameModuleNibbler::init_map_hard()
+{
+    std::fstream file("games/nibbler/assets/1d/map_nibbler_hard.txt", std::fstream::in);
+    std::string line;
+
+    try {
+        if (file.is_open()) {
+            while (getline(file, line, '\n'))
+                _map.push_back(line);
+        } else {
+            throw (GameModuleNibblerException("Can't open the file."));
+        }
+        file.close();
+    }
+    catch (GameModuleNibblerException &exception) {
+        std::cerr << exception.what() << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
+{
+    return setLib(asset);
 }
 
 bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModule> asset)
@@ -202,7 +270,13 @@ bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModu
 
 bool GameModuleNibbler::setAsset()
 {
-    if (!display->createAsset("games/nibbler/assets/", "map_nibbler"))
+    if (!display->createAsset("games/nibbler/assets/", "map_nibbler_easy"))
+        return false;
+    if (!display->createAsset("games/nibbler/assets/", "title_nibbler"))
+        return false;
+    if (!display->createAsset("games/nibbler/assets/", "htp_nibbler"))
+        return false;
+    if (!display->createAsset("games/nibbler/assets/", "map_nibbler_hard"))
         return false;
     if (!display->createAsset("games/nibbler/assets/", "head_nibbler"))
         return false;
@@ -210,4 +284,10 @@ bool GameModuleNibbler::setAsset()
         return false;
     return display->createAsset("games/nibbler/assets/", "apple");
 }
+
+displayModule::e_event GameModuleNibbler::menu()
+{
+
+}
+
 
