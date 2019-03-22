@@ -73,16 +73,16 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
     char stock[2];
 
     try {
-        if (!asset[0])
+        if (asset.empty())
             throw DisplayModuldeNcursesException("Can't find the key to draw assets.");
         else {
             stock[1] = '\0';
-            while (asset.data()[index]) {
-                stock[0] = asset.data()[index];
+            while (asset[index]) {
+                stock[0] = asset[index];
                 mvprintw(y, x, stock);
                 x++;
                 index++;
-                if (asset.data()[index] == '\n') {
+                if (asset[index] == '\n') {
                     y++;
                     x = tmp;
                     index++;
@@ -180,3 +180,8 @@ displayModule::e_event DisplayModuleNcurses::catchEvent()
 void DisplayModuleNcurses::start_sound(){}
 
 void DisplayModuleNcurses::stop_sound(){}
+
+void DisplayModuleNcurses::clearScreen()
+{
+    clear();
+}

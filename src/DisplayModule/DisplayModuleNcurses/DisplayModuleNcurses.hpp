@@ -30,6 +30,7 @@ namespace displayModule
         bool drawAsset(const std::string &assetName, int x, int y) final;
         bool drawText(const std::string &textName, int x, int y) final;
         void refreshWindow() final;
+        void clearScreen() final;
 
         //Events
         e_event catchEvent() final;

@@ -24,6 +24,7 @@ namespace displayModule {
         bool drawAsset(const std::string &assetKey, int x, int y) final;
         bool drawText(const std::string &textKey, int x, int y) final;
         void refreshWindow() final;
+        void clearScreen() final;
         displayModule::e_event catchEvent() final;
         void start_sound() final;
         void stop_sound() final;

@@ -163,11 +163,12 @@ void GameModuleNibbler::asset()
 
 displayModule::e_event GameModuleNibbler::game()
 {
-    displayModule::e_event key_return = catch_event();
+    displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
     while (!_isQuit) {
         display->drawAsset("map_nibbler", 0, 0);
         asset();
+        key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT || key_return == displayModule::ARROW_RIGHT) {
             return key_return;
         }

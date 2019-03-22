@@ -62,6 +62,7 @@ namespace displayModule
             virtual bool drawAsset(const std::string &assetName, int x, int y) = 0;
             virtual bool drawText(const std::string &textName, int x, int y) = 0;
             virtual void refreshWindow() = 0;
+            virtual void clearScreen() = 0;
             virtual e_event catchEvent() = 0;
             virtual void start_sound() = 0;
             virtual void stop_sound() = 0;

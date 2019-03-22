@@ -28,6 +28,7 @@ namespace displayModule {
             bool createAsset(const std::string &path, const std::string &assetName) final;
             bool createText(const std::string &text, const std::string &textName) final;
             bool drawText(const std::string &textName, int x, int y) final;
+            void clearScreen() final;
             //Events
             e_event catchEvent() final;
 

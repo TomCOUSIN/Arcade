@@ -77,6 +77,10 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
             if (launcherReturnValue == e_returnValue::QUIT)
                 return 0;
             isInLauncher = false;
+            _displayModule->clearScreen();
+            _dlloaderGameModule.loadLibrary(std::string("./games/") + _launcher.getSelectedGame() + std::string("/lib_arcade_") + _launcher.getSelectedGame() + std::string(".so"));
+            getInstanceFromGameLibrary();
+            _gameModule->initGame(_displayModule);
         }
         else {
             gameReturnValue = gameLoop();
@@ -84,8 +88,11 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
                 return 84;
             else if (gameReturnValue == QUIT)
                 return 0;
-            else
+            else {
                 isInLauncher = true;
+                _displayModule->clearScreen();
+                _launcher.changeLibrary(_displayModule);
+            }
         }
     }
     return 0;
@@ -133,16 +140,12 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 
 coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
-    _dlloaderGameModule.loadLibrary(std::string("./games/") + _launcher.getSelectedGame() + std::string("/lib_arcade_") + _launcher.getSelectedGame() + std::string(".so"));
-    getInstanceFromGameLibrary();
-    _gameModule->initGame(_displayModule);
     while (true) {
         switch (_gameModule->game())
         {
-        case displayModule::e_event::ESCAPE: return QUIT;
-        default: break;
+            case displayModule::e_event::ESCAPE: return QUIT;
+            default: return LEAVE_GAME;
         }
-        return LEAVE_GAME;
     }
 }
 

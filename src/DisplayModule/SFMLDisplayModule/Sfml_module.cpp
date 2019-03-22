@@ -140,3 +140,8 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
     this->_window.draw(this->_text);
     return true;
 }
+
+void displayModule::Sfml_module::clearScreen()
+{
+    this->_window.clear();
+}

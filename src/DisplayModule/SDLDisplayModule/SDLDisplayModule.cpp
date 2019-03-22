@@ -161,3 +161,8 @@ void displayModule::SDLDisplayModule::start_sound()
 
 void displayModule::SDLDisplayModule::stop_sound()
 {}
+
+void displayModule::SDLDisplayModule::clearScreen()
+{
+    SDL_RenderClear(_renderer);
+}
