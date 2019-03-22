@@ -41,6 +41,7 @@ namespace coreProgram
             bool getInstanceFromGraphicLibrary();
             bool getInstanceFromGameLibrary();
             void getAvailableLibrary();
+            bool changeGraphicLibrary(bool next);
             e_returnValue launcherLoop();
             e_returnValue gameLoop();
             std::shared_ptr<displayModule::IDisplayModule>_displayModule;

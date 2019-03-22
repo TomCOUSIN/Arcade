@@ -13,6 +13,7 @@
 
 bool coreProgram::launcher::initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
 {
+    _availableGames.clear();
     _displayModule = displayModule;
     _selectedGame = 0;
     return getAvailableGames() && loadAsset();
@@ -33,8 +34,6 @@ bool coreProgram::launcher::loadAsset()
             if (!_displayModule->createText(game, game))
                 return false;
         }
-        if (_availableGames.empty())
-            throw launcherException("No games available");
         if (!_displayModule->createText("==>", "selector") || !_displayModule->createText("   ", "hideSelector"))
                 return false;
     }
@@ -61,6 +60,8 @@ bool coreProgram::launcher::getAvailableGames()
             directoryContent = readdir(directory);
         }
         closedir(directory);
+        if (_availableGames.empty())
+           throw launcherException("No games available");
         return true;
     }
     catch(const launcherException &exception) {
