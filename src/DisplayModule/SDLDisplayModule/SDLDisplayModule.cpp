@@ -143,7 +143,7 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
                 return KEY_Z;
             case SDLK_ESCAPE:
                 return ESCAPE;
-            case SDLK_BACKSPACE:
+            case SDLK_RETURN:
                 return ENTER;
             default:
                 return NOTHING;

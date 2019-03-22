@@ -88,7 +88,7 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
                 return KEY_Z;
             if (this->_event.key.code == sf::Keyboard::Space)
                 return SPACE;
-            if (this->_event.key.code == sf::Keyboard::BackSpace)
+            if (this->_event.key.code == sf::Keyboard::Return)
                 return ENTER;
             if (this->_event.key.code == sf::Keyboard::Escape)
                 return ESCAPE;
