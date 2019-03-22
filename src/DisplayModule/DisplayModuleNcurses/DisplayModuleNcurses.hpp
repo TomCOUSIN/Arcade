@@ -36,8 +36,8 @@ namespace displayModule
         e_event catchEvent() final;
 
         //Sounds
-        void start_sound() final;
-        void stop_sound() final;
+        void start_sound(const std::string &path, const std::string &soundKey) final;
+        void stop_sound(const std::string &soundKey) final;
 
         private:
             std::unordered_map<std::string, std::string> umap_curses_asset;

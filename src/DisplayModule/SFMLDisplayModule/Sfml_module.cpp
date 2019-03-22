@@ -101,14 +101,6 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
     return NOTHING;
 }
 
-void displayModule::Sfml_module::start_sound()
-{
-}
-
-void displayModule::Sfml_module::stop_sound()
-{
-}
-
 bool displayModule::Sfml_module::createAsset(const std::string &path, const std::string &assetName)
 {
     std::string true_name = path + "/2d/" + assetName + ".png";
@@ -145,3 +137,10 @@ void displayModule::Sfml_module::clearScreen()
 {
     this->_window.clear();
 }
+
+void displayModule::Sfml_module::start_sound(const std::string &path,
+    const std::string &soundKey)
+{ (void)path; (void)soundKey; }
+
+void displayModule::Sfml_module::stop_sound(const std::string &soundKey)
+{ (void)soundKey; }

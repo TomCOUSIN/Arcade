@@ -26,8 +26,8 @@ namespace displayModule {
         void refreshWindow() final;
         void clearScreen() final;
         displayModule::e_event catchEvent() final;
-        void start_sound() final;
-        void stop_sound() final;
+        void start_sound(const std::string &path, const std::string &soundKey) final;
+        void stop_sound(const std::string &soundKey) final;
 
         private:
         std::unordered_map<std::string, SDL_Texture *> _sprite;

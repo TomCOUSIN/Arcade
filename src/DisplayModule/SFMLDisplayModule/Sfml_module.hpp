@@ -33,8 +33,8 @@ namespace displayModule {
             e_event catchEvent() final;
 
             //Sounds
-            void start_sound() final;
-            void stop_sound() final;
+            void start_sound(const std::string &path, const std::string &soundKey) final;
+            void stop_sound(const std::string &soundKey) final;
 
             sf::RenderWindow _window;
             sf::Event _event;

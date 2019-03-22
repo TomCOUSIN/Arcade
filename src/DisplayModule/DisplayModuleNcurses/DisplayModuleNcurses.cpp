@@ -177,11 +177,14 @@ displayModule::e_event DisplayModuleNcurses::catchEvent()
     return NOTHING;
 }
 
-void DisplayModuleNcurses::start_sound(){}
-
-void DisplayModuleNcurses::stop_sound(){}
-
 void DisplayModuleNcurses::clearScreen()
 {
     clear();
 }
+
+void DisplayModuleNcurses::start_sound(const std::string &path,
+    const std::string &soundKey)
+{ (void)path; (void)soundKey; }
+
+void DisplayModuleNcurses::stop_sound(const std::string &soundKey)
+{ (void)soundKey; }
