@@ -97,7 +97,7 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
  */
 coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 {
-    if (!_launcher.initLauncher(_displayModule))
+    if (!_launcher.initLauncher(_displayModule, _availableLibrary))
         return ERROR;
     while (true) {
         size_t returnValue = _launcher.launchLauncher();

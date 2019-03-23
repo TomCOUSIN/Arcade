@@ -22,7 +22,7 @@ namespace coreProgram
             explicit launcher() = default;
             ~launcher() = default;
             bool changeLibrary(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
-            bool initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule);
+            bool initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule, const std::vector<std::string> &graphicLibrariesNames);
             size_t launchLauncher();
             std::string getSelectedGame();
 
@@ -31,6 +31,7 @@ namespace coreProgram
             bool getAvailableGames();
             bool loadAsset();
             std::vector<std::string> _availableGames;
+            std::vector<std::string> _availableLibrary;
             std::shared_ptr<displayModule::IDisplayModule> _displayModule;
             size_t _selectedGame;
     };

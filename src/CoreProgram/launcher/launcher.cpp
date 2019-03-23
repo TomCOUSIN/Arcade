@@ -7,13 +7,16 @@
 
 #include <dirent.h>
 #include <zconf.h>
+#include <vector>
 #include "launcherException.hpp"
 #include "launcher.hpp"
 #include "coreProgram.hpp"
 
-bool coreProgram::launcher::initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule)
+bool coreProgram::launcher::initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule, const std::vector<std::string> &graphicLibrariesNames)
 {
     _availableGames.clear();
+    _availableLibrary.clear();
+    _availableLibrary = graphicLibrariesNames;
     _displayModule = displayModule;
     _selectedGame = 0;
     return getAvailableGames() && loadAsset();
@@ -32,6 +35,10 @@ bool coreProgram::launcher::loadAsset()
             return false;
         for (const auto &game : _availableGames) {
             if (!_displayModule->createText(game, game))
+                return false;
+        }
+        for (const auto &graphicLibrary : _availableLibrary) {
+            if (!_displayModule->createText(graphicLibrary, graphicLibrary))
                 return false;
         }
         if (!_displayModule->createText("==>", "selector") || !_displayModule->createText("   ", "hideSelector"))
@@ -78,6 +85,7 @@ size_t coreProgram::launcher::launchLauncher()
     size_t gameIndex = 0;
 
     while (true) {
+        key_event = _displayModule->catchEvent();
         switch(key_event)
         {
         case displayModule::e_event::KEY_Q: return 0;
@@ -105,8 +113,14 @@ size_t coreProgram::launcher::launchLauncher()
             position[1] += 5;
             ++gameIndex;
         }
+        position[0] = 25;
+        position[1] = 12;
+        for (const auto &graphicLibraryName : _availableLibrary) {
+            _displayModule->drawText(graphicLibraryName, position[0], position[1]);
+            position[1] += 5;
+            ++gameIndex;
+        }
         _displayModule->refreshWindow();
-        key_event = _displayModule->catchEvent();
         position[0] = 4;
         position[1] = 2;
         gameIndex = 0;
