@@ -129,7 +129,7 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
     this->_font.loadFromFile("./.fonts/arial.ttf");
     this->_text.setFont(this->_font);
     this->_text.setString(umap_sfmltext_asset.find(textName)->second);
-    this->_text.setPosition(x * 32, y * 32);
+    this->_text.setPosition(x * 16, y * 16);
     this->_window.draw(this->_text);
     return true;
 }

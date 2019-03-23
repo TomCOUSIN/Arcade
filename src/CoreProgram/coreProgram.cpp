@@ -148,7 +148,7 @@ bool coreProgram::coreProgram::changeGraphicLibrary(bool next)
 {
     if (next && _selectedLibrary < _availableLibrary.size() - 1) {
         _selectedLibrary += 1;
-    } else if (_selectedLibrary > 0) {
+    } else if (!next && _selectedLibrary > 0) {
         _selectedLibrary -= 1;
     } else {
         return false;

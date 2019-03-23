@@ -62,8 +62,8 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
 bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x, int y)
 {
     SDL_Rect position;
-    position.x = x * 32;
-    position.y = y * 32;
+    position.x = x * 16;
+    position.y = y * 16;
     SDL_QueryTexture(_text[textKey], NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
     return true;

@@ -28,11 +28,19 @@ namespace coreProgram
 
         private:
             void changeSelectedGame(bool lower);
+            void changeSelectedLibrary(bool lower);
             bool getAvailableGames();
+            void displayInfo();
+            void displayAvailableGames();
+            void displayAvailableGraphicLibraries();
             bool loadAsset();
+            bool loadInformationAsset();
+            bool loadAvailableGameAsset();
+            bool loadAvailableLibraryAsset();
             std::vector<std::string> _availableGames;
             std::vector<std::string> _availableLibrary;
             std::shared_ptr<displayModule::IDisplayModule> _displayModule;
+            size_t _selectedLibrary;
             size_t _selectedGame;
     };
 
