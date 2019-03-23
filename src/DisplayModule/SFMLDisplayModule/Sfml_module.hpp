@@ -39,7 +39,6 @@ namespace displayModule {
             sf::RenderWindow _window;
             sf::Event _event;
             sf::Texture _texture;
-            sf::Sprite _sprite;
             sf::Font _font;
             sf::Text _text;
         protected:

@@ -111,9 +111,10 @@ bool displayModule::Sfml_module::createAsset(const std::string &path, const std:
 
 bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, int y)
 {
-    this->_sprite.setTexture(umap_sfmlsprite_asset.find(assetName)->second);
-    this->_sprite.setPosition(x * 32, y * 32);
-    this->_window.draw(this->_sprite);
+    sf::Sprite sprite;
+    sprite.setTexture(umap_sfmlsprite_asset.find(assetName)->second);
+    sprite.setPosition(x * 32, y * 32);
+    this->_window.draw(sprite);
     return true;
 }
 
