@@ -179,7 +179,13 @@ displayModule::e_event GameModuleNibbler::game()
     while (true)
     {
         display->drawAsset("title_nibbler", 0, 0);
-        display->drawAsset("htp_nibbler", 50, 15);
+        display->drawText("htp_nibbler", 20, 13);
+        display->drawText("1rules_nibbler", 24, 16);
+        display->drawText("2rules_nibbler", 24, 17);
+        display->drawText("3rules_nibbler", 24, 18);
+        display->drawText("choose_map_nibbler", 20, 22);
+        display->drawText("map_easy_nibbler", 24, 26);
+        display->drawText("map_hard_nibbler", 24, 27);
        if (key_return == displayModule::KEY_H) {
            if (!init_map_hard()) {
                 return displayModule::ERROR;
@@ -279,7 +285,19 @@ bool GameModuleNibbler::setAsset()
         return false;
     if (!display->createAsset("games/nibbler/assets/", "title_nibbler"))
         return false;
-    if (!display->createAsset("games/nibbler/assets/", "htp_nibbler"))
+    if (!display->createText("How To Play:", "htp_nibbler"))
+        return false;
+    if (!display->createText("-The aim of the nibbler is to get the most apple in the map.", "1rules_nibbler"))
+        return false;
+    if (!display->createText("-If the nibbler touch one wall or one sections of his tails, the game is over.", "2rules_nibbler"))
+        return false;
+    if (!display->createText("-If the tail of the nibbler fill all the map. The game is over and you win.", "3rules_nibbler"))
+        return false;
+    if (!display->createText("Choose the map of the nibbler :", "choose_map_nibbler"))
+        return false;
+    if (!display->createText("-Press H to load and play with the hard map.", "map_hard_nibbler"))
+        return false;
+    if (!display->createText("-Press E to load and play with the easy map.", "map_easy_nibbler"))
         return false;
     if (!display->createAsset("games/nibbler/assets/", "map_nibbler_hard"))
         return false;
