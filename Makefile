@@ -40,7 +40,7 @@ core:		$(CORE_OBJ)
 			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
 
 games:
-			@echo "No Games to Compile"
+			@make -C src/GameModule
 
 graphicals:
 			@rm -rf ./lib
@@ -49,10 +49,12 @@ graphicals:
 
 clean:
 			@make -C src/DisplayModule clean
+			@make -C src/GameModule clean
 			@$(RM)	$(CORE_OBJ)
 
 fclean:		clean
 			@make -C src/DisplayModule fclean
+			@make -C src/GameModule fclean
 			@rm -rf ./lib
 			@$(RM)	$(NAME)
 
