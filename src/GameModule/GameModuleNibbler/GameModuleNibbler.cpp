@@ -119,21 +119,26 @@ displayModule::e_event GameModuleNibbler::catch_event()
         return key;
     }
     if (key == displayModule::KEY_Z) {
+        move_nibbler(pos_y - 1, pos_x);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_D) {
+        move_nibbler(pos_y, pos_x + 1);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_S) {
+        move_nibbler(pos_y + 1, pos_x);
         save_key = key;
         return key;
     }
     if (key == displayModule::KEY_Q) {
+        move_nibbler(pos_y, pos_x - 1);
         save_key = key;
         return key;
-    } else {
+    }
+    else {
         if (save_key == displayModule::KEY_Z) {
             move_nibbler(pos_y - 1, pos_x);
             return displayModule::NOTHING;
@@ -172,7 +177,7 @@ displayModule::e_event GameModuleNibbler::game()
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
     while (true)
-   {
+    {
         display->drawAsset("title_nibbler", 0, 0);
         display->drawAsset("htp_nibbler", 50, 15);
        if (key_return == displayModule::KEY_H) {
@@ -192,20 +197,20 @@ displayModule::e_event GameModuleNibbler::game()
        key_return = display->catchEvent();
        display->refreshWindow();
    }
-   display->clearScreen();
-   display->refreshWindow();
-   while (!_isQuit) {
-       if (chooseMap == 1)
+    display->clearScreen();
+    display->refreshWindow();
+    while (!_isQuit) {
+        if (chooseMap == 1)
             display->drawAsset("map_nibbler_easy", 0, 0);
-       else if (chooseMap == 2)
+        else
             display->drawAsset("map_nibbler_hard", 0, 0);
-        asset();
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
         || key_return == displayModule::ARROW_RIGHT) {
             return key_return;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        asset();
         display->refreshWindow();
     }
     display->refreshWindow();
