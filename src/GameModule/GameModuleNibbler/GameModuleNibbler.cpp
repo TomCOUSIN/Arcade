@@ -202,6 +202,7 @@ bool GameModuleNibbler::init_map_easy()
     std::string line;
 
     try {
+        _map.clear();
         if (file.is_open()) {
             while (getline(file, line, '\n'))
                 _map.push_back(line);
@@ -224,6 +225,7 @@ bool GameModuleNibbler::init_map_hard()
     std::string line;
 
     try {
+        _map.clear();
         if (file.is_open()) {
             while (getline(file, line, '\n'))
                 _map.push_back(line);
