@@ -127,6 +127,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
             case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ENTER: isInMenu = false; break;
             case displayModule::e_event::ESCAPE: return QUIT;
+            case displayModule::e_event::ERROR: return ERROR;
             default: return LEAVE_GAME;
             }
         }
@@ -137,6 +138,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
             case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ESCAPE: return QUIT;
+            case displayModule::e_event::ERROR: return ERROR;
             default: isInMenu = true; break;
             }
         }
