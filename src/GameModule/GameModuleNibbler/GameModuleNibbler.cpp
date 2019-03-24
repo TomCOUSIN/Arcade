@@ -241,10 +241,6 @@ bool GameModuleNibbler::init_map_hard()
 
 bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
 {
-    if (!init_map_hard())
-        return false;
-    if (!init_map_easy())
-        return false;
     return setLib(asset);
 }
 
@@ -309,11 +305,15 @@ displayModule::e_event GameModuleNibbler::menu()
         display->drawText("map_hard_nibbler", 24, 28);
         key_return = display->catchEvent();
         if (key_return == displayModule::KEY_H) {
+            if (!init_map_hard())
+                return displayModule::e_event::ERROR;
             chooseMap = 2;
             _isQuit = false;
             save_key = displayModule::e_event::KEY_Q;
             return displayModule::e_event::ENTER;
         } else if (key_return == displayModule::KEY_E) {
+            if (!init_map_easy())
+                return displayModule::e_event::ERROR;
             chooseMap = 1;
             _isQuit = false;
             save_key = displayModule::e_event::KEY_Q;
