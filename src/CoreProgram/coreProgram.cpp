@@ -114,15 +114,31 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
     std::string gameLibraryName("./games/" + _launcher.getSelectedGame() + "/lib_arcade_" + _launcher.getSelectedGame() + ".so");
+    bool isInMenu = true;
+
     if (!_dlloaderGameModule.loadLibrary(gameLibraryName) || !getInstanceFromGameLibrary() || !_gameModule->initGame(_displayModule))
         return ERROR;
     while (true) {
-        switch (_gameModule->game())
-        {
-        case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
-        case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
-        case displayModule::e_event::ESCAPE: return QUIT;
-        default: return LEAVE_GAME;
+        if (isInMenu) {
+            _displayModule->clearScreen();
+            switch (_gameModule->menu())
+            {
+            case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ENTER: isInMenu = false; break;
+            case displayModule::e_event::ESCAPE: return QUIT;
+            default: return LEAVE_GAME;
+            }
+        }
+        else {
+            _displayModule->clearScreen();
+            switch (_gameModule->game())
+            {
+            case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ESCAPE: return QUIT;
+            default: return LEAVE_GAME;
+            }
         }
     }
 }
