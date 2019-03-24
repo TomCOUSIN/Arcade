@@ -176,7 +176,6 @@ displayModule::e_event GameModuleNibbler::game()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
-    display->refreshWindow();
     while (!_isQuit) {
         if (chooseMap == 1)
             display->drawAsset("map_nibbler_easy", 0, 0);
@@ -242,6 +241,10 @@ bool GameModuleNibbler::init_map_hard()
 
 bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
 {
+    if (!init_map_hard())
+        return false;
+    if (!init_map_easy())
+        return false;
     return setLib(asset);
 }
 
@@ -284,6 +287,16 @@ displayModule::e_event GameModuleNibbler::menu()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
+    //TODO opti le reset du jeu
+    nibbler.clear();
+    pos_apple_y = 1;
+    pos_apple_x = 6;
+    nibbler.emplace_back(PositionNibbler(8, 9));
+    nibbler.emplace_back(PositionNibbler(9, 9));
+    nibbler.emplace_back(PositionNibbler(10, 9));
+    nibbler.emplace_back(PositionNibbler(11, 9));
+    pos_x = 8;
+    pos_y = 9;
     while (true)
     {
         display->drawAsset("title_nibbler", 0, 0);
@@ -294,25 +307,20 @@ displayModule::e_event GameModuleNibbler::menu()
         display->drawText("choose_map_nibbler", 20, 22);
         display->drawText("map_easy_nibbler", 24, 26);
         display->drawText("map_hard_nibbler", 24, 28);
+        key_return = display->catchEvent();
         if (key_return == displayModule::KEY_H) {
-            if (!init_map_hard()) {
-                return displayModule::ERROR;
-            }
-            else {
-                chooseMap = 2;
-                return displayModule::e_event::ENTER;
-            }
+            chooseMap = 2;
+            _isQuit = false;
+            save_key = displayModule::e_event::KEY_Q;
+            return displayModule::e_event::ENTER;
         } else if (key_return == displayModule::KEY_E) {
-            if (!init_map_easy()) {
-                return displayModule::ERROR;
-            } else {
-                chooseMap = 1;
-                return displayModule::e_event::ENTER;
-            }
+            chooseMap = 1;
+            _isQuit = false;
+            save_key = displayModule::e_event::KEY_Q;
+            return displayModule::e_event::ENTER;
         } else if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
             || key_return == displayModule::ARROW_RIGHT)
             return key_return;
-        key_return = display->catchEvent();
         display->refreshWindow();
     }
 }
