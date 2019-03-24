@@ -105,12 +105,17 @@ bool displayModule::Sfml_module::createAsset(const std::string &path, const std:
 {
     std::string true_name = path + "/2d/" + assetName + ".png";
     this->_texture.loadFromFile(true_name);
-    umap_sfmlsprite_asset.insert(std::pair<std::string, sf::Texture>(assetName, this->_texture));
+    if (umap_sfmlsprite_asset.find(assetName) != umap_sfmlsprite_asset.end())
+        umap_sfmlsprite_asset[assetName] = _texture;
+    else
+        umap_sfmlsprite_asset.insert(std::pair<std::string, sf::Texture>(assetName, this->_texture));
     return true;
 }
 
 bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, int y)
 {
+    if (umap_sfmlsprite_asset.find(assetName) == umap_sfmlsprite_asset.end())
+        return false;
     sf::Sprite sprite;
     sprite.setTexture(umap_sfmlsprite_asset.find(assetName)->second);
     sprite.setPosition(x * 32, y * 32);
@@ -120,12 +125,17 @@ bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, 
 
 bool displayModule::Sfml_module::createText(const std::string &text, const std::string &textName)
 {
-    umap_sfmltext_asset.insert(std::pair<std::string, std::string>(textName, text));
+    if (umap_sfmltext_asset.find(textName) != umap_sfmltext_asset.end())
+        umap_sfmltext_asset[textName] = text;
+    else
+        umap_sfmltext_asset.insert(std::pair<std::string, std::string>(textName, text));
     return true;
 }
 
 bool displayModule::Sfml_module::drawText(const std::string &textName, int x, int y)
 {
+    if (umap_sfmltext_asset.find(textName) == umap_sfmltext_asset.end())
+        return false;
     this->_font.loadFromFile("./.fonts/arial.ttf");
     this->_text.setFont(this->_font);
     this->_text.setString(umap_sfmltext_asset.find(textName)->second);

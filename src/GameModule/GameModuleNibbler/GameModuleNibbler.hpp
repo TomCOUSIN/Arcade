@@ -37,6 +37,7 @@ namespace gameModule
         bool init_map_hard();
         bool init_map_easy();
         displayModule::e_event menu() final;
+        displayModule::e_event setPlayerHighscore() final;
 
 
         class PositionNibbler
@@ -50,6 +51,9 @@ namespace gameModule
         };
 
         private:
+            char catchPlayercharacterName(const displayModule::e_event &event);
+            void writePlayerNameInFile();
+            void resetGame();
             std::vector<std::string> _map;
             std::vector<GameModuleNibbler::PositionNibbler> nibbler;
             int pos_x;
@@ -61,6 +65,7 @@ namespace gameModule
             displayModule::e_event save_key = displayModule::e_event ::KEY_Q;
             std::shared_ptr<displayModule::IDisplayModule> display;
             int chooseMap = 0;
+            std::string _playerName;
     };
 }
 

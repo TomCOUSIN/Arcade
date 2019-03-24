@@ -34,7 +34,10 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
     SDL_Texture *asset = IMG_LoadTexture(_renderer, std::string(path + "/2d/" + assetKey + ".png").c_str());
-    _sprite.insert(std::make_pair(assetKey, asset));
+    if (_sprite.find(assetKey) != _sprite.end())
+        _sprite[assetKey] = asset;
+    else
+        _sprite.insert(std::make_pair(assetKey, asset));
     return true;
 }
 
@@ -44,7 +47,10 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
     SDL_Color color = {255, 255, 255, 0};
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(_renderer, textSurface);
-    _text.insert(std::make_pair(textKey, texture));
+    if (_text.find(textKey) != _text.end())
+        _text[textKey] = texture;
+    else
+        _text.insert(std::make_pair(textKey, texture));
     TTF_CloseFont(font);
     return true;
 }
@@ -54,6 +60,8 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     SDL_Rect position;
     position.x = x * 32;
     position.y = y * 32;
+    if (_sprite.find(assetName) == _sprite.end())
+        return false;
     SDL_QueryTexture(_sprite[assetName], NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _sprite[assetName], NULL, &position);
     return true;
@@ -64,6 +72,8 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
+    if (_text.find(textKey) == _text.end())
+        return false;
     SDL_QueryTexture(_text[textKey], NULL, NULL, &position.w, &position.h);
     SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
     return true;

@@ -115,6 +115,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
     std::string gameLibraryName("./games/" + _launcher.getSelectedGame() + "/lib_arcade_" + _launcher.getSelectedGame() + ".so");
     bool isInMenu = true;
+    bool isInGame = false;
 
     if (!_dlloaderGameModule.loadLibrary(gameLibraryName) || !getInstanceFromGameLibrary() || !_gameModule->initGame(_displayModule))
         return ERROR;
@@ -125,15 +126,26 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
             {
             case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
-            case displayModule::e_event::ENTER: isInMenu = false; break;
+            case displayModule::e_event::ENTER: isInMenu = false; isInGame = true; break;
             case displayModule::e_event::ESCAPE: return QUIT;
             case displayModule::e_event::ERROR: return ERROR;
             default: return LEAVE_GAME;
             }
         }
-        else {
+        else if (isInGame) {
             _displayModule->clearScreen();
             switch (_gameModule->game())
+            {
+            case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ESCAPE: return QUIT;
+            case displayModule::e_event::ERROR: return ERROR;
+            default: isInGame = false; break;
+            }
+        }
+        else {
+            _displayModule->clearScreen();
+            switch (_gameModule->setPlayerHighscore())
             {
             case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;

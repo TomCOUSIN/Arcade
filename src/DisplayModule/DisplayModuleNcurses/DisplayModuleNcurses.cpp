@@ -48,7 +48,10 @@ bool DisplayModuleNcurses::createAsset(const std::string &path, const std::strin
             throw DisplayModuldeNcursesException("Can't open the file pass in parameter.");
         }
         file.close();
-        umap_curses_asset.insert(make_pair(assetName, asset));
+        if (umap_curses_asset.find(assetName) != umap_curses_asset.end())
+            umap_curses_asset[assetName] = asset;
+        else
+            umap_curses_asset.insert(make_pair(assetName, asset));
     }
     catch (const DisplayModuldeNcursesException &exception) {
         std::cerr << exception.what() << std::endl;
@@ -72,6 +75,8 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
     int tmp = x;
     char stock[2];
 
+    if (umap_curses_asset.find(assetName) == umap_curses_asset.end())
+        return false;
     try {
         if (asset.empty())
             throw DisplayModuldeNcursesException("Can't find the key to draw assets.");
@@ -105,7 +110,10 @@ bool DisplayModuleNcurses::drawAsset(const std::string &assetName, int x, int y)
  */
 bool DisplayModuleNcurses::createText(const std::string &text, const std::string &assetName)
 {
-    umap_curses_asset.insert(make_pair(assetName, text));
+    if (umap_curses_asset.find(assetName) != umap_curses_asset.end())
+        umap_curses_asset[assetName] = text;
+    else
+        umap_curses_asset.insert(make_pair(assetName, text));
     return true;
 }
 
@@ -118,6 +126,8 @@ bool DisplayModuleNcurses::createText(const std::string &text, const std::string
  */
 bool DisplayModuleNcurses::drawText(const std::string &textName, int x, int y)
 {
+    if (umap_curses_asset.find(textName) == umap_curses_asset.end())
+        return false;
     mvprintw(y, x, umap_curses_asset.find(textName)->second.data());
     return true;
 }

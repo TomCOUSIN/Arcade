@@ -9,6 +9,8 @@
 #include <fstream>
 #include <map>
 #include <ctime>
+#include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <memory>
 #include "IDisplayModule.hpp"
@@ -20,7 +22,7 @@ GameModuleNibbler::PositionNibbler::PositionNibbler(int x, int y)
 : _x(x), _y(y)
 {}
 
-GameModuleNibbler::GameModuleNibbler()
+GameModuleNibbler::GameModuleNibbler() : _playerName("___")
 {
     pos_apple_y = 1;
     pos_apple_x = 6;
@@ -256,6 +258,10 @@ bool GameModuleNibbler::setAsset()
 {
     if (!display->createAsset("games/nibbler/assets/", "map_nibbler_easy"))
         return false;
+    if (!display->createText("Score: ", "playerScore"))
+        return false;
+    if (!display->createText("Enter your player name: ", "playerNameRequest"))
+        return false;
     if (!display->createAsset("games/nibbler/assets/", "title_nibbler"))
         return false;
     if (!display->createText("How To Play:", "htp_nibbler"))
@@ -285,16 +291,7 @@ displayModule::e_event GameModuleNibbler::menu()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
-    //TODO opti le reset du jeu
-    nibbler.clear();
-    pos_apple_y = 1;
-    pos_apple_x = 6;
-    nibbler.emplace_back(PositionNibbler(8, 9));
-    nibbler.emplace_back(PositionNibbler(9, 9));
-    nibbler.emplace_back(PositionNibbler(10, 9));
-    nibbler.emplace_back(PositionNibbler(11, 9));
-    pos_x = 8;
-    pos_y = 9;
+    resetGame();
     while (true)
     {
         display->drawAsset("title_nibbler", 0, 0);
@@ -323,6 +320,79 @@ displayModule::e_event GameModuleNibbler::menu()
         } else if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
             || key_return == displayModule::ARROW_RIGHT)
             return key_return;
+        display->refreshWindow();
+    }
+}
+
+void GameModuleNibbler::resetGame()
+{
+    nibbler.clear();
+    pos_apple_y = 1;
+    pos_apple_x = 6;
+    nibbler.emplace_back(PositionNibbler(8, 9));
+    nibbler.emplace_back(PositionNibbler(9, 9));
+    nibbler.emplace_back(PositionNibbler(10, 9));
+    nibbler.emplace_back(PositionNibbler(11, 9));
+    pos_x = 8;
+    pos_y = 9;
+    score = 0;
+    _playerName.clear();
+}
+
+char GameModuleNibbler::catchPlayercharacterName(const displayModule::e_event &event)
+{
+    std::vector<char> characterVector = {
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+        'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+        'y', 'z'};
+    std::vector<displayModule::e_event> displayModuleEventVector = {
+        displayModule::e_event::KEY_A, displayModule::e_event::KEY_B, displayModule::e_event::KEY_C, displayModule::e_event::KEY_D,
+        displayModule::e_event::KEY_E, displayModule::e_event::KEY_F, displayModule::e_event::KEY_G, displayModule::e_event::KEY_H,
+        displayModule::e_event::KEY_I, displayModule::e_event::KEY_J, displayModule::e_event::KEY_K, displayModule::e_event::KEY_L,
+        displayModule::e_event::KEY_M, displayModule::e_event::KEY_N, displayModule::e_event::KEY_O, displayModule::e_event::KEY_P,
+        displayModule::e_event::KEY_Q, displayModule::e_event::KEY_R, displayModule::e_event::KEY_S, displayModule::e_event::KEY_T,
+        displayModule::e_event::KEY_U, displayModule::e_event::KEY_V, displayModule::e_event::KEY_W, displayModule::e_event::KEY_X,
+        displayModule::e_event::KEY_Y, displayModule::e_event::KEY_Z};
+
+    for (size_t index = 0; index < characterVector.size(); ++index) {
+        if (event == displayModuleEventVector[index])
+            return characterVector[index];
+    }
+    return 0;
+}
+
+void GameModuleNibbler::writePlayerNameInFile()
+{
+    std::ofstream scorefile;
+    scorefile.open("./games/nibbler/.score", std::ios::app);
+    scorefile << _playerName << " " << std::to_string(score) << "\n";
+    scorefile.close();
+}
+
+displayModule::e_event GameModuleNibbler::setPlayerHighscore()
+{
+    displayModule::e_event event;
+
+    if (!display->createText(std::to_string(score), "score"))
+        return displayModule::e_event::ERROR;
+    while (true) {
+        if (!display->createText(_playerName, "playerName"))
+            return displayModule::e_event::ERROR;
+        display->drawAsset("title_nibbler", 2, 2);
+        display->drawText("playerScore", 10, 15);
+        display->drawText("score", 20, 15);
+        display->drawText("playerNameRequest", 10, 20);
+        display->drawText("playerName", 35, 20);
+        event = display->catchEvent();
+        switch (event)
+        {
+        case displayModule::e_event::ARROW_LEFT: return event;
+        case displayModule::e_event::ARROW_RIGHT: return event;
+        case displayModule::e_event::ESCAPE: return event;
+        case displayModule::e_event::ENTER: writePlayerNameInFile(); return event;
+        default: _playerName = catchPlayercharacterName(event) != 0 ? _playerName += catchPlayercharacterName(event) : _playerName; break;
+        }
         display->refreshWindow();
     }
 }

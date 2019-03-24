@@ -19,6 +19,7 @@ namespace gameModule
             virtual ~IGameModule() = default;
             virtual displayModule::e_event game() = 0;
             virtual displayModule::e_event menu() = 0;
+            virtual displayModule::e_event setPlayerHighscore() = 0;
             virtual bool initGame(std::shared_ptr<displayModule::IDisplayModule> asset) = 0;
             virtual bool setLib(std::shared_ptr<displayModule::IDisplayModule> asset) = 0;
     };
