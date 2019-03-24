@@ -40,21 +40,21 @@ core:		$(CORE_OBJ)
 			@$(CXX) -o $(NAME) $(CORE_OBJ) -ldl
 
 games:
-			@make -C src/GameModule
+			@make --no-print-directory -C src/GameModule
 
 graphicals:
 			@rm -rf ./lib
 			@mkdir ./lib
-			@make -C src/DisplayModule
+			@make --no-print-directory -C src/DisplayModule
 
 clean:
-			@make -C src/DisplayModule clean
-			@make -C src/GameModule clean
+			@make --no-print-directory -C src/DisplayModule clean
+			@make --no-print-directory -C src/GameModule clean
 			@$(RM)	$(CORE_OBJ)
 
 fclean:		clean
-			@make -C src/DisplayModule fclean
-			@make -C src/GameModule fclean
+			@make --no-print-directory -C src/DisplayModule fclean
+			@make --no-print-directory -C src/GameModule fclean
 			@rm -rf ./lib
 			@$(RM)	$(NAME)
 

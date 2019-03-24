@@ -10,13 +10,13 @@ SHELL	=	bash
 all:	nibbler
 
 nibbler:
-		@make -C GameModuleNibbler
+		@make --no-print-directory -C GameModuleNibbler
 
 clean:
-		@make -C GameModuleNibbler clean
+		@make --no-print-directory -C GameModuleNibbler clean
 
 fclean:	clean
-		@make -C GameModuleNibbler fclean
+		@make --no-print-directory -C GameModuleNibbler fclean
 
 re:		fclean all
 
