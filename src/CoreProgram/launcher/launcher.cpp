@@ -130,9 +130,9 @@ size_t coreProgram::launcher::launchLauncher()
     }
 }
 
-std::string coreProgram::launcher::getSelectedGame()
+size_t coreProgram::launcher::getSelectedGame()
 {
-    return _availableGames[_selectedGame];
+    return _selectedGame;
 }
 
 void coreProgram::launcher::changeSelectedGame(bool lower)

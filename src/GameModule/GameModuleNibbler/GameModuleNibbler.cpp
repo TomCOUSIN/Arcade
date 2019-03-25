@@ -318,7 +318,8 @@ displayModule::e_event GameModuleNibbler::menu()
             save_key = displayModule::e_event::KEY_Q;
             return displayModule::e_event::ENTER;
         } else if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
-            || key_return == displayModule::ARROW_RIGHT)
+            || key_return == displayModule::ARROW_RIGHT || key_return == displayModule::ARROW_UP
+            || key_return == displayModule::ARROW_DOWN)
             return key_return;
         display->refreshWindow();
     }
@@ -364,8 +365,7 @@ char GameModuleNibbler::catchPlayercharacterName(const displayModule::e_event &e
 
 void GameModuleNibbler::writePlayerNameInFile()
 {
-    std::ofstream scorefile;
-    scorefile.open("./games/nibbler/.score", std::ios::app);
+    std::ofstream scorefile("./games/nibbler/.score", std::ios::app);
     scorefile << _playerName << " " << std::to_string(score) << "\n";
     scorefile.close();
 }

@@ -41,7 +41,9 @@ namespace coreProgram
             bool getInstanceFromGraphicLibrary();
             bool getInstanceFromGameLibrary();
             void getAvailableLibrary();
+            void getAvailableGames();
             bool changeGraphicLibrary(bool next);
+            bool changeGameLibrary(bool next);
             e_returnValue launcherLoop();
             e_returnValue gameLoop();
             std::shared_ptr<displayModule::IDisplayModule>_displayModule;
@@ -49,8 +51,10 @@ namespace coreProgram
             dlloader::DLLoader<displayModule::IDisplayModule> _dlloaderDisplayModule;
             dlloader::DLLoader<gameModule::IGameModule> _dlloaderGameModule;
             std::vector<std::string> _availableLibrary;
+            std::vector<std::string> _availableGames;
             launcher _launcher;
             size_t _selectedLibrary;
+            size_t _selectedGame;
     };
 }
 

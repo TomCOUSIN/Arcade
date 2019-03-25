@@ -19,7 +19,9 @@ coreProgram::coreProgram::coreProgram()
 : _dlloaderDisplayModule(dlloader::DLLoader<displayModule::IDisplayModule>()),
 _dlloaderGameModule(dlloader::DLLoader<gameModule::IGameModule>()), _launcher(),
 _selectedLibrary(0)
-{}
+{
+    getAvailableGames();
+}
 
 /**
  * Load the graphic library
@@ -75,6 +77,7 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
         else if (launcherReturnValue == e_returnValue::ERROR)
             return 84;
         else {
+            _selectedGame = _launcher.getSelectedGame();
             _displayModule->clearScreen();
         }
         gameReturnValue = gameLoop();
@@ -113,7 +116,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 
 coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
-    std::string gameLibraryName("./games/" + _launcher.getSelectedGame() + "/lib_arcade_" + _launcher.getSelectedGame() + ".so");
+    std::string gameLibraryName = "./games/" + _availableGames[_selectedGame] + "/lib_arcade_" + _availableGames[_selectedGame] + ".so";
     bool isInMenu = true;
     bool isInGame = false;
 
@@ -126,6 +129,8 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
             {
             case displayModule::e_event::ARROW_LEFT: changeGraphicLibrary(false); _gameModule->setLib(_displayModule); break;
             case displayModule::e_event::ARROW_RIGHT: changeGraphicLibrary(true); _gameModule->setLib(_displayModule); break;
+            case displayModule::e_event::ARROW_UP: changeGameLibrary(false); break;
+            case displayModule::e_event::ARROW_DOWN: changeGameLibrary(true); break;
             case displayModule::e_event::ENTER: isInMenu = false; isInGame = true; break;
             case displayModule::e_event::ESCAPE: return QUIT;
             case displayModule::e_event::ERROR: return ERROR;
@@ -174,6 +179,23 @@ void coreProgram::coreProgram::getAvailableLibrary()
     closedir(directory);
 }
 
+void coreProgram::coreProgram::getAvailableGames()
+{
+    DIR *directory;
+    struct dirent *directoryContent;
+
+    directory = opendir("./games");
+    if (!directory)
+        return;
+    directoryContent = readdir(directory);
+    while (directoryContent) {
+        if (directoryContent->d_name[0] != '.')
+            _availableGames.emplace_back(directoryContent->d_name);
+        directoryContent = readdir(directory);
+    }
+    closedir(directory);
+}
+
 bool coreProgram::coreProgram::changeGraphicLibrary(bool next)
 {
     if (next && _selectedLibrary < _availableLibrary.size() - 1) {
@@ -191,3 +213,23 @@ bool coreProgram::coreProgram::changeGraphicLibrary(bool next)
     }
     return true;
 }
+
+bool coreProgram::coreProgram::changeGameLibrary(bool next)
+{
+    if (next && _selectedGame < _availableGames.size() - 1) {
+        _selectedGame += 1;
+    } else if (!next && _selectedGame > 0) {
+        _selectedGame -= 1;
+    } else {
+        return false;
+    }
+    std::string gameLibraryName = "./games/" + _availableGames[_selectedGame] + "/lib_arcade_" + _availableGames[_selectedGame] + ".so";
+    if (!_dlloaderGameModule.loadLibrary(gameLibraryName)
+        || !getInstanceFromGameLibrary()
+        || !_gameModule->initGame(_displayModule)) {
+        _selectedGame = next ? _selectedGame - 1 : _selectedGame + 1;
+        return false;
+    }
+    return true;
+}
+
