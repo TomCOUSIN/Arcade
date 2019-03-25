@@ -32,6 +32,8 @@ GameModuleNibbler::GameModuleNibbler() : _playerName("___")
     nibbler.emplace_back(PositionNibbler(11, 9));
     pos_x = 8;
     pos_y = 9;
+    _isInGame = false;
+    _isInMenu = true;
 }
 
 GameModuleNibbler::~GameModuleNibbler() {}
@@ -176,6 +178,52 @@ void GameModuleNibbler::asset()
 
 displayModule::e_event GameModuleNibbler::game()
 {
+    displayModule::e_event event;
+
+    while (true) {
+        if (_isInMenu) {
+            display->clearScreen();
+            event = menuLoop();
+            switch (event)
+            {
+            case displayModule::e_event::ARROW_LEFT: return event;
+            case displayModule::e_event::ARROW_RIGHT: return event;
+            case displayModule::e_event::ARROW_UP: return event;
+            case displayModule::e_event::ARROW_DOWN: return event;
+            case displayModule::e_event::ESCAPE: return event;
+            case displayModule::e_event::ERROR: return event;
+            default: _isInMenu = false; _isInGame = true; break;
+            }
+        }
+        else if (_isInGame) {
+            display->clearScreen();
+            event = gameLoop();
+            switch (event)
+            {
+            case displayModule::e_event::ARROW_LEFT: return event;
+            case displayModule::e_event::ARROW_RIGHT: return event;
+            case displayModule::e_event::ESCAPE: return event;
+            case displayModule::e_event::ERROR: return event;
+            default: _isInGame = false; break;
+            }
+        }
+        else {
+            display->clearScreen();
+            event = setPlayerHighscoreLoop();
+            switch (event)
+            {
+            case displayModule::e_event::ARROW_LEFT: return event;
+            case displayModule::e_event::ARROW_RIGHT: return event;
+            case displayModule::e_event::ESCAPE: return event;
+            case displayModule::e_event::ERROR: return event;
+            default: _isInMenu = true; break;
+            }
+        }
+    }
+}
+
+displayModule::e_event GameModuleNibbler::gameLoop()
+{
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
     while (!_isQuit) {
@@ -243,12 +291,12 @@ bool GameModuleNibbler::init_map_hard()
     return true;
 }
 
-bool GameModuleNibbler::initGame(std::shared_ptr<displayModule::IDisplayModule> asset)
+bool GameModuleNibbler::initGame(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     return setLib(asset);
 }
 
-bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModule> asset)
+bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     display = asset;
     return setAsset();
@@ -287,7 +335,7 @@ bool GameModuleNibbler::setAsset()
     return display->createAsset("games/nibbler/assets/", "apple");
 }
 
-displayModule::e_event GameModuleNibbler::menu()
+displayModule::e_event GameModuleNibbler::menuLoop()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
@@ -337,6 +385,8 @@ void GameModuleNibbler::resetGame()
     pos_x = 8;
     pos_y = 9;
     score = 0;
+    _isInMenu = true;
+    _isInGame = false;
     _playerName.clear();
 }
 
@@ -370,7 +420,7 @@ void GameModuleNibbler::writePlayerNameInFile()
     scorefile.close();
 }
 
-displayModule::e_event GameModuleNibbler::setPlayerHighscore()
+displayModule::e_event GameModuleNibbler::setPlayerHighscoreLoop()
 {
     displayModule::e_event event;
 

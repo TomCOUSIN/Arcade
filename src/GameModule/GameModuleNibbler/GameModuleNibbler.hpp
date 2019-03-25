@@ -26,8 +26,8 @@ namespace gameModule
         ~GameModuleNibbler() final;
 
         displayModule::e_event game() final;
-        bool initGame(std::shared_ptr<displayModule::IDisplayModule> asset) final;
-        bool setLib(std::shared_ptr<displayModule::IDisplayModule> asset) final;
+        bool initGame(const std::shared_ptr<displayModule::IDisplayModule> &asset) final;
+        bool setLib(const std::shared_ptr<displayModule::IDisplayModule> &asset) final;
         void move_nibbler(int y, int x);
         void asset();
         displayModule::e_event catch_event();
@@ -36,10 +36,6 @@ namespace gameModule
         bool setAsset();
         bool init_map_hard();
         bool init_map_easy();
-        displayModule::e_event menu() final;
-        displayModule::e_event setPlayerHighscore() final;
-
-
         class PositionNibbler
         {
             public:
@@ -50,8 +46,12 @@ namespace gameModule
                 int _y;
         };
 
+
         private:
-            char catchPlayercharacterName(const displayModule::e_event &event);
+        displayModule::e_event gameLoop();
+        displayModule::e_event menuLoop();
+        displayModule::e_event setPlayerHighscoreLoop();
+        char catchPlayercharacterName(const displayModule::e_event &event);
             void writePlayerNameInFile();
             void resetGame();
             std::vector<std::string> _map;
@@ -66,6 +66,8 @@ namespace gameModule
             std::shared_ptr<displayModule::IDisplayModule> display;
             int chooseMap = 0;
             std::string _playerName;
+            bool _isInMenu;
+            bool _isInGame;
     };
 }
 
