@@ -46,28 +46,27 @@ namespace gameModule
                 int _y;
         };
 
-
         private:
         displayModule::e_event gameLoop();
         displayModule::e_event menuLoop();
         displayModule::e_event setPlayerHighscoreLoop();
         char catchPlayercharacterName(const displayModule::e_event &event);
-            void writePlayerNameInFile();
-            void resetGame();
-            std::vector<std::string> _map;
-            std::vector<GameModuleNibbler::PositionNibbler> nibbler;
-            int pos_x;
-            int pos_y;
-            int pos_apple_x;
-            int pos_apple_y;
-            size_t score;
-            bool _isQuit = false;
-            displayModule::e_event save_key = displayModule::e_event ::KEY_Q;
-            std::shared_ptr<displayModule::IDisplayModule> display;
-            int chooseMap = 0;
-            std::string _playerName;
-            bool _isInMenu;
-            bool _isInGame;
+        void writePlayerNameInFile();
+        void resetGame();
+        std::vector<std::string> _map;
+        std::vector<GameModuleNibbler::PositionNibbler> nibbler;
+        int pos_x;
+        int pos_y;
+        int pos_apple_x;
+        int pos_apple_y;
+        size_t score;
+        bool _isQuit = false;
+        displayModule::e_event save_key = displayModule::e_event ::KEY_Q;
+        std::shared_ptr<displayModule::IDisplayModule> display;
+        int chooseMap = 0;
+        std::string _playerName;
+        bool _isInMenu;
+        bool _isInGame;
     };
 }
 

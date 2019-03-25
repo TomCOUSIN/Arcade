@@ -130,6 +130,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
         case displayModule::e_event::ARROW_DOWN: changeGameLibrary(true); break;
         case displayModule::e_event::ESCAPE: return QUIT;
         case displayModule::e_event::ERROR: return ERROR;
+        case displayModule::e_event::KEY_L: return LEAVE_GAME;
         default: return LEAVE_GAME;
         }
     }

@@ -16,7 +16,9 @@
 #include "IDisplayModule.hpp"
 #include "GameModuleNibblerException.hpp"
 #include <chrono>
+#include <vector>
 #include <thread>
+#include <sstream>
 
 GameModuleNibbler::PositionNibbler::PositionNibbler(int x, int y)
 : _x(x), _y(y)
@@ -119,7 +121,7 @@ displayModule::e_event GameModuleNibbler::catch_event()
     displayModule::e_event key = display->catchEvent();
 
     if (key == displayModule::ESCAPE || key == displayModule::ARROW_RIGHT
-    || key == displayModule::ARROW_LEFT) {
+    || key == displayModule::ARROW_LEFT || key == displayModule::KEY_R) {
         return key;
     }
     if (key == displayModule::KEY_Z) {
@@ -192,6 +194,7 @@ displayModule::e_event GameModuleNibbler::game()
             case displayModule::e_event::ARROW_DOWN: return event;
             case displayModule::e_event::ESCAPE: return event;
             case displayModule::e_event::ERROR: return event;
+            case displayModule::e_event::KEY_L: return event;
             default: _isInMenu = false; _isInGame = true; break;
             }
         }
@@ -204,6 +207,7 @@ displayModule::e_event GameModuleNibbler::game()
             case displayModule::e_event::ARROW_RIGHT: return event;
             case displayModule::e_event::ESCAPE: return event;
             case displayModule::e_event::ERROR: return event;
+            case displayModule::e_event::KEY_R: _isInMenu = true; _isInGame = false; break;
             default: _isInGame = false; break;
             }
         }
@@ -234,7 +238,7 @@ displayModule::e_event GameModuleNibbler::gameLoop()
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
-        || key_return == displayModule::ARROW_RIGHT) {
+        || key_return == displayModule::ARROW_RIGHT || key_return == displayModule::KEY_R) {
             return key_return;
         }
         asset();
@@ -369,7 +373,7 @@ displayModule::e_event GameModuleNibbler::menuLoop()
             return displayModule::e_event::ENTER;
         } else if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
             || key_return == displayModule::ARROW_RIGHT || key_return == displayModule::ARROW_UP
-            || key_return == displayModule::ARROW_DOWN)
+            || key_return == displayModule::ARROW_DOWN || key_return == displayModule::KEY_L)
             return key_return;
         display->refreshWindow();
     }
@@ -415,10 +419,22 @@ char GameModuleNibbler::catchPlayercharacterName(const displayModule::e_event &e
     return 0;
 }
 
+std::vector<std::string> Split(const std::string& s, char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 void GameModuleNibbler::writePlayerNameInFile()
 {
     std::ofstream scorefile("./games/nibbler/.score", std::ios::app);
-    scorefile << _playerName << " " << std::to_string(score) << "\n";
+    scorefile << _playerName << " " << score << "\n";
     scorefile.close();
 }
 
