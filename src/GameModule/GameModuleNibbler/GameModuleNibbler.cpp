@@ -231,17 +231,19 @@ displayModule::e_event GameModuleNibbler::gameLoop()
             display->drawAsset("map_nibbler_easy", 0, 0);
         else
             display->drawAsset("map_nibbler_hard", 0, 0);
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
         || key_return == displayModule::ARROW_RIGHT) {
             return key_return;
         }
         asset();
+        std::string _score = std::string("Score: ") + std::to_string(score);
+        display->createText(_score, "score");
+        display->drawText("score", 0, 40);
         display->refreshWindow();
     }
     display->refreshWindow();
-    //TODO put score in file
     return displayModule::e_event::NOTHING;
 }
 
