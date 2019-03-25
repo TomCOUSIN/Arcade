@@ -155,6 +155,8 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
                 return ESCAPE;
             case SDLK_RETURN:
                 return ENTER;
+            case SDLK_SPACE:
+                return SPACE;
             default:
                 return NOTHING;
             }
