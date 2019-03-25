@@ -446,5 +446,3 @@ displayModule::e_event GameModuleNibbler::setPlayerHighscoreLoop()
         display->refreshWindow();
     }
 }
-
-

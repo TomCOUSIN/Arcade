@@ -12,6 +12,7 @@
 #include <string>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 namespace displayModule {
     class Sfml_module : public IDisplayModule {

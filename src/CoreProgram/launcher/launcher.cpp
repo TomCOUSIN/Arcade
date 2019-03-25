@@ -5,6 +5,7 @@
 ** Created by tomcousin,
 */
 
+#include <fstream>
 #include <dirent.h>
 #include <zconf.h>
 #include <vector>
@@ -37,6 +38,7 @@ bool coreProgram::launcher::loadAsset()
         loadInformationAsset();
         loadAvailableGameAsset();
         loadAvailableLibraryAsset();
+        loadHighScoreAsset();
         if (!_displayModule->createText("==>", "gameSelector") || !_displayModule->createText("==>", "librarySelector") || !_displayModule->createText("   ", "hideSelector"))
             return false;
     }
@@ -58,6 +60,15 @@ bool coreProgram::launcher::loadInformationAsset()
     if (!_displayModule->createText("Press '/\\' to change to the previous game.", "previousGameInfo"))
         return false;
     return _displayModule->createText("Press '\\/' to change to the next game.", "nextGameInfo");
+}
+
+bool coreProgram::launcher::loadHighScoreAsset()
+{
+    if (!_displayModule->createText("Highscore", "highscoreTitle"))
+        return false;
+    if (!_displayModule->createAsset("./.launcher", "tableTemplate"))
+        return false;
+    return false;
 }
 
 bool coreProgram::launcher::loadAvailableGameAsset()
@@ -126,6 +137,7 @@ size_t coreProgram::launcher::launchLauncher()
         displayAvailableGames();
         displayAvailableGraphicLibraries();
         displayInfo();
+        displayHighScore();
         _displayModule->refreshWindow();
     }
 }
@@ -204,3 +216,29 @@ void coreProgram::launcher::displayInfo()
     _displayModule->drawText("leaveInfo", 70, 20);
 }
 
+void coreProgram::launcher::displayHighScore()
+{
+    std::vector<int> position = {70, 25};
+    size_t highScoreCounter = 0;
+    std::fstream fileStream;
+    std::string fileContent;
+
+    _displayModule->drawAsset("tableTemplate", position[0], position[1]);
+    position[1] += 1;
+    _displayModule->drawText("highscoreTitle", position[0] + 12, position[1]);
+    position[1] += 1;
+    for (const std::string &i: _availableGames) {
+        _displayModule->drawAsset("tableTemplate", position[0], position[1]);
+        fileStream.open("./games/" + i + "/.score");
+        _displayModule->drawText(i, position[0] + 2, position[1] + 1);
+        position[1] += 2;
+        while (getline(fileStream, fileContent, '\n') && highScoreCounter < 3) {
+            _displayModule->drawAsset("tableTemplate", position[0], position[1]);
+            _displayModule->createText(fileContent, "highscore");
+            _displayModule->drawText("highscore", position[0] + 5, position[1] + 1);
+            position[1] += 2;
+            ++highScoreCounter;
+        }
+        highScoreCounter = 0;
+    }
+}

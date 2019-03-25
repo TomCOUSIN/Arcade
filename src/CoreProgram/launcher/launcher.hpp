@@ -33,7 +33,9 @@ namespace coreProgram
             void displayInfo();
             void displayAvailableGames();
             void displayAvailableGraphicLibraries();
+            void displayHighScore();
             bool loadAsset();
+            bool loadHighScoreAsset();
             bool loadInformationAsset();
             bool loadAvailableGameAsset();
             bool loadAvailableLibraryAsset();
