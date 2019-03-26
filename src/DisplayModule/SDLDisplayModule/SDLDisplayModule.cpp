@@ -56,7 +56,6 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     if (_sprite.find(assetName) == _sprite.end())
         return false;
     SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
-    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
@@ -68,13 +67,13 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     if (_text.find(textKey) == _sprite.end())
         return false;
     SDL_BlitSurface(_text[textKey], NULL, _window, &position);
-    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
 void displayModule::SDLDisplayModule::refreshWindow()
 {
     SDL_Flip(_window);
+    SDL_FillRect(_window, nullptr, 0);
 }
 
 displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
