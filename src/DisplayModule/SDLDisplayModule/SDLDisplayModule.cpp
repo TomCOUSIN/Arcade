@@ -160,8 +160,13 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
     return displayModule::e_event::NOTHING;
 }
 
-void displayModule::SDLDisplayModule::start_sound()
-{}
+void displayModule::SDLDisplayModule::clearScreen()
+{
+    SDL_Flip(_window);
+}
 
-void displayModule::SDLDisplayModule::stop_sound()
-{}
+void displayModule::SDLDisplayModule::start_sound(const std::string &path, const std::string &soundKey)
+{ (void)path; (void)soundKey; }
+
+void displayModule::SDLDisplayModule::stop_sound(const std::string &soundKey)
+{ (void)soundKey; }
