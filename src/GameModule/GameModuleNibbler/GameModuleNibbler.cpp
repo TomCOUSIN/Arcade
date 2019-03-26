@@ -20,10 +20,18 @@
 #include <thread>
 #include <sstream>
 
+/**
+ * Constructor of the position of the nibbler asset.
+ * @param x: horizontal coordinates of the nibbler asset in the ncurses window.
+ * @param y: vertical coordinates of the nibbler asset in the ncurses window.
+ */
 GameModuleNibbler::PositionNibbler::PositionNibbler(int x, int y)
 : _x(x), _y(y)
 {}
 
+/**
+ * Constructor of the nibbler game.
+ */
 GameModuleNibbler::GameModuleNibbler() : _playerName("___")
 {
     pos_apple_y = 1;
@@ -38,9 +46,14 @@ GameModuleNibbler::GameModuleNibbler() : _playerName("___")
     _isInMenu = true;
 }
 
+/**
+ * Destructor of the nibbler game.
+ */
 GameModuleNibbler::~GameModuleNibbler() {}
 
-
+/**
+ * Function which calculate the random of the apple in the map.
+ */
 void GameModuleNibbler::random_apple()
 {
     std::srand(std::time(0));
@@ -60,6 +73,14 @@ void GameModuleNibbler::random_apple()
     }
 }
 
+/**
+ * Fucntion which move the nibbler when he find an apple.
+ * @param tmp_x: copy of the horizontal position of one part of the nibbler.
+ * @param tmp_y: copy of the vertical position of one of the nibbler.
+ * @param x: horizontal position when we want to move the nibbler.
+ * @param y: vertical position when we want to move the nibbler.
+ * @return -1 when the nibbler catch an apple.
+ */
 int GameModuleNibbler::moveNibblerCaseApple(int tmp_x, int tmp_y, int x, int y)
 {
     int tmp2_x = 0;
@@ -84,6 +105,11 @@ int GameModuleNibbler::moveNibblerCaseApple(int tmp_x, int tmp_y, int x, int y)
     return 0;
 }
 
+/**
+ * Function which move the nibbler when he doesn't find an obstacle.
+ * @param y: vertical position when we want to move the nibbler.
+ * @param x: horizontal position when we want to move the nibbler.
+ */
 void GameModuleNibbler::move_nibbler(int y, int x)
 {
     int tmp_x = x;
@@ -116,6 +142,10 @@ void GameModuleNibbler::move_nibbler(int y, int x)
     }
 }
 
+/**
+ * Function which catch events of the keyboard.
+ * @return an event when one of the keyboard touch is press.
+ */
 displayModule::e_event GameModuleNibbler::catch_event()
 {
     displayModule::e_event key = display->catchEvent();
@@ -165,6 +195,9 @@ displayModule::e_event GameModuleNibbler::catch_event()
     return key;
 }
 
+/**
+ * Function which draw the nibbler asset and apple asset.
+ */
 void GameModuleNibbler::asset()
 {
     display->drawAsset("apple", pos_apple_x, pos_apple_y);
@@ -178,6 +211,10 @@ void GameModuleNibbler::asset()
     }
 }
 
+/**
+ * Function which contain all the event of the nibbler game.
+ * @return an event of the keyboard.
+ */
 displayModule::e_event GameModuleNibbler::game()
 {
     displayModule::e_event event;
@@ -226,6 +263,10 @@ displayModule::e_event GameModuleNibbler::game()
     }
 }
 
+/**
+ * Function which contain all nibbler game.
+ * @return an keyboard event.
+ */
 displayModule::e_event GameModuleNibbler::gameLoop()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
@@ -251,7 +292,11 @@ displayModule::e_event GameModuleNibbler::gameLoop()
     return displayModule::e_event::NOTHING;
 }
 
-
+/**
+ * Function which init the easy map of the nibbler.
+ * @return true when the stockage of the map in an array works.
+ * @return false when find an exception.
+ */
 bool GameModuleNibbler::init_map_easy()
 {
     std::fstream file("games/nibbler/assets/1d/map_nibbler_easy.txt", std::fstream::in);
@@ -275,6 +320,11 @@ bool GameModuleNibbler::init_map_easy()
     return true;
 }
 
+/**
+ * Function which init the hard map of the nibbler.
+ * @return true when the stockage of the map in an array works.
+ * @return false when find an exception.
+ */
 bool GameModuleNibbler::init_map_hard()
 {
     std::fstream file("games/nibbler/assets/1d/map_nibbler_hard.txt", std::fstream::in);
@@ -297,17 +347,34 @@ bool GameModuleNibbler::init_map_hard()
     return true;
 }
 
+/**
+ * Function which call the function setLib
+ * @param asset: asset of the lib call.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModuleNibbler::initGame(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     return setLib(asset);
 }
 
+/**
+ * Function which set the lib.
+ * @param asset: asset of the lib call.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModuleNibbler::setLib(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     display = asset;
     return setAsset();
 }
 
+/**
+ * Function which set asset.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModuleNibbler::setAsset()
 {
     if (!display->createAsset("games/nibbler/assets/", "map_nibbler_easy"))
@@ -341,6 +408,10 @@ bool GameModuleNibbler::setAsset()
     return display->createAsset("games/nibbler/assets/", "apple");
 }
 
+/**
+ * Function which conatin all of the menu loop.
+ * @return a keyboard event.
+ */
 displayModule::e_event GameModuleNibbler::menuLoop()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
@@ -379,6 +450,9 @@ displayModule::e_event GameModuleNibbler::menuLoop()
     }
 }
 
+/**
+ * Function which reset the nibbler game.
+ */
 void GameModuleNibbler::resetGame()
 {
     nibbler.clear();
@@ -396,6 +470,11 @@ void GameModuleNibbler::resetGame()
     _playerName.clear();
 }
 
+/**
+ * Function which catch the player name.
+ * @param event: event of rhe keyboard.
+ * @return a char of the letter press.
+ */
 char GameModuleNibbler::catchPlayercharacterName(const displayModule::e_event &event)
 {
     std::vector<char> characterVector = {
@@ -419,18 +498,9 @@ char GameModuleNibbler::catchPlayercharacterName(const displayModule::e_event &e
     return 0;
 }
 
-std::vector<std::string> Split(const std::string& s, char delimiter)
-{
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter))
-    {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
+/**
+ * Function which write the name of the player in a file.
+ */
 void GameModuleNibbler::writePlayerNameInFile()
 {
     std::ofstream scorefile("./games/nibbler/.score", std::ios::app);
@@ -438,6 +508,10 @@ void GameModuleNibbler::writePlayerNameInFile()
     scorefile.close();
 }
 
+/**
+ * Function which setr the player highScore
+ * @return a keyboard event.
+ */
 displayModule::e_event GameModuleNibbler::setPlayerHighscoreLoop()
 {
     displayModule::e_event event;
