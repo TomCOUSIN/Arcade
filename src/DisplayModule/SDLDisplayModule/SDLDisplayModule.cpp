@@ -51,8 +51,8 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
 bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
     SDL_Rect position;
-    position.x = x * 16;
-    position.y = y * 16;
+    position.x = x * 32;
+    position.y = y * 32;
     if (_sprite.find(assetName) == _sprite.end())
         return false;
     SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
@@ -149,6 +149,8 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
                 return ENTER;
             case SDLK_SPACE:
                 return SPACE;
+            case SDLK_ENTER:
+                return ENTER;
             default:
                 return NOTHING;
             }
