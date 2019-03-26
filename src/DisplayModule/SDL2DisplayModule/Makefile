@@ -11,7 +11,7 @@ CXX			=	g++	-std=c++11
 
 RM			=	rm -f
 
-SRC			=	./SDLDisplayModule.cpp
+SRC			=	./SDL2DisplayModule.cpp
 
 OBJ			=	$(SRC:.cpp=.o)
 
@@ -19,9 +19,9 @@ CXXFLAGS	=	-I.
 CXXFLAGS	+=	-I..
 CXXFLAGS	+=	-Wall -Wextra
 
-LDFLAGS		=	-lSDL_ttf -lSDL_image `sdl-config --cflags --libs`
+LDFLAGS		=	-lSDL2_ttf -lSDL2_image `sdl2-config --cflags --libs`
 
-NAME		=	lib_arcade_sdl.so
+NAME		=	lib_arcade_sdl2.so
 
 all:		$(NAME)
 
