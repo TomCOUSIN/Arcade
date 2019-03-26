@@ -1,0 +1,49 @@
+\hypertarget{main_8cpp}{}\section{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+Include dependency graph for main.\+cpp\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_a715a00876b3ea1fb199f95022a554e3b}{print\+\_\+usage}} (void)
+\item 
+int \mbox{\hyperlink{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{main_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Arcade main function 
+\begin{DoxyParams}{Parameters}
+{\em int} & argc \\
+\hline
+{\em char} & $\ast$$\ast$argv \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if Success 
+
+84 if Failure 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a715a00876b3ea1fb199f95022a554e3b}\label{main_8cpp_a715a00876b3ea1fb199f95022a554e3b}} 
+\index{main.cpp@{main.cpp}!print\_usage@{print\_usage}}
+\index{print\_usage@{print\_usage}!main.cpp@{main.cpp}}
+\subsubsection{\texorpdfstring{print\_usage()}{print\_usage()}}
+{\footnotesize\ttfamily int print\+\_\+usage (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Print the usage when arcade is launched with more or less than 1 argument 
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if Success 
+
+84 if Failure 
+\end{DoxyReturn}

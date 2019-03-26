@@ -162,7 +162,7 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
 
 void displayModule::SDLDisplayModule::clearScreen()
 {
-    SDL_Flip(_window);
+    SDL_FillRect(_window, NULL, 0x000000);
 }
 
 void displayModule::SDLDisplayModule::start_sound(const std::string &path, const std::string &soundKey)
