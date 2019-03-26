@@ -66,7 +66,7 @@ bool coreProgram::launcher::loadHighScoreAsset()
 {
     if (!_displayModule->createText("Highscore", "highscoreTitle"))
         return false;
-    if (!_displayModule->createText("[\t\t\t\t\t\t\t\t\t\t]", "tableTemplate"))
+    if (!_displayModule->createText("[                                ]", "tableTemplate"))
         return false;
     return false;
 }

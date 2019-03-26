@@ -533,7 +533,7 @@ displayModule::e_event GameModuleNibbler::setPlayerHighscoreLoop()
         case displayModule::e_event::ARROW_RIGHT: return event;
         case displayModule::e_event::ESCAPE: return event;
         case displayModule::e_event::ENTER: writePlayerNameInFile(); return event;
-        default: _playerName = catchPlayercharacterName(event) != 0 ? _playerName += catchPlayercharacterName(event) : _playerName; break;
+        default: _playerName = (catchPlayercharacterName(event) != 0 && _playerName.size() < 7) ? _playerName += catchPlayercharacterName(event) : _playerName; break;
         }
         display->refreshWindow();
     }
