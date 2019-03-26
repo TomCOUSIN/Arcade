@@ -187,14 +187,26 @@ displayModule::e_event DisplayModuleNcurses::catchEvent()
     return NOTHING;
 }
 
+/**
+ * Function which clear the window.
+ */
 void DisplayModuleNcurses::clearScreen()
 {
     clear();
 }
 
+/**
+ * Fucntion which start the sound.
+ * @param path:  void
+ * @param soundKey:  void
+ */
 void DisplayModuleNcurses::start_sound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
 
+/**
+ * Function which stop the sound.
+ * @param soundKey: void
+ */
 void DisplayModuleNcurses::stop_sound(const std::string &soundKey)
 { (void)soundKey; }

@@ -15,10 +15,10 @@
 
 namespace displayModule {
 
-    class SDLDisplayModule : public displayModule::IDisplayModule {
+    class SDL2DisplayModule : public displayModule::IDisplayModule {
         public:
-        explicit SDLDisplayModule();
-        ~SDLDisplayModule() final;
+        explicit SDL2DisplayModule();
+        ~SDL2DisplayModule() final;
         bool createAsset(const std::string &path, const std::string &assetKey) final;
         bool createText(const std::string &text, const std::string &textKey) final;
         bool drawAsset(const std::string &assetKey, int x, int y) final;
@@ -40,11 +40,11 @@ namespace displayModule {
 
 extern "C"
 {
-    displayModule::SDLDisplayModule *allocator()
+    displayModule::SDL2DisplayModule *allocator()
     {
-        return new displayModule::SDLDisplayModule();
+        return new displayModule::SDL2DisplayModule();
     }
-    void deleter(displayModule::SDLDisplayModule *ptr)
+    void deleter(displayModule::SDL2DisplayModule *ptr)
     {
         delete ptr;
     }

@@ -7,7 +7,7 @@
 
 SHELL		=	bash
 
-CXX			=	g++	-std=c++11
+CXX			=	g++	-std=c++11 -g
 
 RM			=	rm -f
 

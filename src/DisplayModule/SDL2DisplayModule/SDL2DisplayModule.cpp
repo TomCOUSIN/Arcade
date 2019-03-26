@@ -10,7 +10,7 @@
 #include <SDL2/SDL_image.h>
 #include "SDL2DisplayModule.hpp"
 
-displayModule::SDLDisplayModule::SDLDisplayModule()
+displayModule::SDL2DisplayModule::SDL2DisplayModule()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
@@ -21,7 +21,7 @@ displayModule::SDLDisplayModule::SDLDisplayModule()
     _windowSurface = SDL_GetWindowSurface(_window);
 }
 
-displayModule::SDLDisplayModule::~SDLDisplayModule()
+displayModule::SDL2DisplayModule::~SDL2DisplayModule()
 {
     TTF_Quit();
     IMG_Quit();
@@ -31,7 +31,7 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
     SDL_Quit();
 }
 
-bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
+bool displayModule::SDL2DisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
     SDL_Texture *asset = IMG_LoadTexture(_renderer, std::string(path + "/2d/" + assetKey + ".png").c_str());
     if (_sprite.find(assetKey) != _sprite.end())
@@ -41,7 +41,7 @@ bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const
     return true;
 }
 
-bool displayModule::SDLDisplayModule::createText(const std::string &text, const std::string &textKey)
+bool displayModule::SDL2DisplayModule::createText(const std::string &text, const std::string &textKey)
 {
     TTF_Font *font = TTF_OpenFont("./.fonts/arial.ttf", 20);
     SDL_Color color = {255, 255, 255, 0};
@@ -55,7 +55,7 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
     return true;
 }
 
-bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
+bool displayModule::SDL2DisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
     SDL_Rect position;
     position.x = x * 32;
@@ -67,7 +67,7 @@ bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, in
     return true;
 }
 
-bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x, int y)
+bool displayModule::SDL2DisplayModule::drawText(const std::string &textKey, int x, int y)
 {
     SDL_Rect position;
     position.x = x * 16;
@@ -79,13 +79,13 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     return true;
 }
 
-void displayModule::SDLDisplayModule::refreshWindow()
+void displayModule::SDL2DisplayModule::refreshWindow()
 {
     SDL_RenderPresent(_renderer);
     SDL_RenderClear(_renderer);
 }
 
-displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
+displayModule::e_event displayModule::SDL2DisplayModule::catchEvent()
 {
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
@@ -168,14 +168,14 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
     return displayModule::e_event::NOTHING;
 }
 
-void displayModule::SDLDisplayModule::clearScreen()
+void displayModule::SDL2DisplayModule::clearScreen()
 {
     SDL_RenderClear(_renderer);
 }
 
-void displayModule::SDLDisplayModule::start_sound(const std::string &path,
+void displayModule::SDL2DisplayModule::start_sound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
 
-void displayModule::SDLDisplayModule::stop_sound(const std::string &soundKey)
+void displayModule::SDL2DisplayModule::stop_sound(const std::string &soundKey)
 { (void)soundKey; }
