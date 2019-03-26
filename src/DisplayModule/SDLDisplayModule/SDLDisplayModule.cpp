@@ -6,34 +6,28 @@
 }
 */
 
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
 #include "SDLDisplayModule.hpp"
 
 displayModule::SDLDisplayModule::SDLDisplayModule()
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_PNG);
+    SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
-    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, SDL_WINDOW_SHOWN);
-    _renderer = SDL_CreateRenderer(_window, -1, 0);
-    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
-    _windowSurface = SDL_GetWindowSurface(_window);
+    _window = SDL_SetVideoMode(1920, 1080, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+    SDL_WM_SetCaption("Arcade", NULL);
 }
 
 displayModule::SDLDisplayModule::~SDLDisplayModule()
 {
     TTF_Quit();
-    IMG_Quit();
-    SDL_FreeSurface(_windowSurface);
-    SDL_DestroyRenderer(_renderer);
-    SDL_DestroyWindow(_window);
+    SDL_FreeSurface(_window);
     SDL_Quit();
 }
 
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
-    SDL_Texture *asset = IMG_LoadTexture(_renderer, std::string(path + "/2d/" + assetKey + ".png").c_str());
+    SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey + ".png").c_str());
     if (_sprite.find(assetKey) != _sprite.end())
         _sprite[assetKey] = asset;
     else
@@ -45,12 +39,11 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
 {
     TTF_Font *font = TTF_OpenFont("./.fonts/arial.ttf", 20);
     SDL_Color color = {255, 255, 255, 0};
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
     if (_text.find(textKey) != _text.end())
-        _text[textKey] = texture;
+        _text[textKey] = textSurface;
     else
-        _text.insert(std::make_pair(textKey, texture));
+        _text.insert(std::make_pair(textKey, textSurface));
     TTF_CloseFont(font);
     return true;
 }
@@ -58,12 +51,12 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
 bool displayModule::SDLDisplayModule::drawAsset(const std::string &assetName, int x, int y)
 {
     SDL_Rect position;
-    position.x = x * 32;
-    position.y = y * 32;
+    position.x = x * 16;
+    position.y = y * 16;
     if (_sprite.find(assetName) == _sprite.end())
         return false;
-    SDL_QueryTexture(_sprite[assetName], NULL, NULL, &position.w, &position.h);
-    SDL_RenderCopy(_renderer, _sprite[assetName], NULL, &position);
+    SDL_BlitSurface(_sprite[assetName], NULL, _window, &position);
+    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
@@ -72,17 +65,16 @@ bool displayModule::SDLDisplayModule::drawText(const std::string &textKey, int x
     SDL_Rect position;
     position.x = x * 16;
     position.y = y * 16;
-    if (_text.find(textKey) == _text.end())
+    if (_text.find(textKey) == _sprite.end())
         return false;
-    SDL_QueryTexture(_text[textKey], NULL, NULL, &position.w, &position.h);
-    SDL_RenderCopy(_renderer, _text[textKey], NULL, &position);
+    SDL_BlitSurface(_text[textKey], NULL, _window, &position);
+    SDL_UpdateRect(_window, 0, 0, 0, 0);
     return true;
 }
 
 void displayModule::SDLDisplayModule::refreshWindow()
 {
-    SDL_RenderPresent(_renderer);
-    SDL_RenderClear(_renderer);
+    SDL_Flip(_window);
 }
 
 displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
@@ -153,7 +145,7 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
                 return KEY_Z;
             case SDLK_ESCAPE:
                 return ESCAPE;
-            case SDLK_RETURN:
+            case SDLK_BACKSPACE:
                 return ENTER;
             case SDLK_SPACE:
                 return SPACE;
@@ -168,14 +160,8 @@ displayModule::e_event displayModule::SDLDisplayModule::catchEvent()
     return displayModule::e_event::NOTHING;
 }
 
-void displayModule::SDLDisplayModule::clearScreen()
-{
-    SDL_RenderClear(_renderer);
-}
+void displayModule::SDLDisplayModule::start_sound()
+{}
 
-void displayModule::SDLDisplayModule::start_sound(const std::string &path,
-    const std::string &soundKey)
-{ (void)path; (void)soundKey; }
-
-void displayModule::SDLDisplayModule::stop_sound(const std::string &soundKey)
-{ (void)soundKey; }
+void displayModule::SDLDisplayModule::stop_sound()
+{}

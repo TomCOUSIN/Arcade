@@ -40,8 +40,6 @@ namespace displayModule {
             sf::RenderWindow _window;
             sf::Event _event;
             sf::Texture _texture;
-            sf::Font _font;
-            sf::Text _text;
         protected:
         private:
         std::unordered_map<std::string, sf::Texture> umap_sfmlsprite_asset;

@@ -136,11 +136,13 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
 {
     if (umap_sfmltext_asset.find(textName) == umap_sfmltext_asset.end())
         return false;
-    this->_font.loadFromFile("./.fonts/arial.ttf");
-    this->_text.setFont(this->_font);
-    this->_text.setString(umap_sfmltext_asset.find(textName)->second);
-    this->_text.setPosition(x * 16, y * 16);
-    this->_window.draw(this->_text);
+    sf::Text text;
+    sf::Font font;
+    font.loadFromFile("./.fonts/Comfortaa-Regular.ttf");
+    text.setFont(font);
+    text.setString(umap_sfmltext_asset.find(textName)->second);
+    text.setPosition(x * 16, y * 16);
+    this->_window.draw(text);
     return true;
 }
 

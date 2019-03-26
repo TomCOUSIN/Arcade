@@ -66,7 +66,7 @@ bool coreProgram::launcher::loadHighScoreAsset()
 {
     if (!_displayModule->createText("Highscore", "highscoreTitle"))
         return false;
-    if (!_displayModule->createAsset("./.launcher", "tableTemplate"))
+    if (!_displayModule->createText("[\t\t\t\t\t\t\t\t\t\t]", "tableTemplate"))
         return false;
     return false;
 }
@@ -223,22 +223,22 @@ void coreProgram::launcher::displayHighScore()
     std::fstream fileStream;
     std::string fileContent;
 
-    _displayModule->drawAsset("tableTemplate", position[0], position[1]);
-    position[1] += 1;
-    _displayModule->drawText("highscoreTitle", position[0] + 12, position[1]);
-    position[1] += 1;
+    _displayModule->drawText("tableTemplate", position[0], position[1]);
+    _displayModule->drawText("highscoreTitle", position[0] + 2, position[1]);
+    position[1] += 2;
     for (const std::string &i: _availableGames) {
-        _displayModule->drawAsset("tableTemplate", position[0], position[1]);
+        _displayModule->drawText("tableTemplate", position[0], position[1]);
         fileStream.open("./games/" + i + "/.score");
-        _displayModule->drawText(i, position[0] + 2, position[1] + 1);
+        _displayModule->drawText(i, position[0] + 2, position[1]);
         position[1] += 2;
         while (getline(fileStream, fileContent, '\n') && highScoreCounter < 3) {
-            _displayModule->drawAsset("tableTemplate", position[0], position[1]);
+            _displayModule->drawText("tableTemplate", position[0], position[1]);
             _displayModule->createText(fileContent, "highscore");
-            _displayModule->drawText("highscore", position[0] + 5, position[1] + 1);
+            _displayModule->drawText("highscore", position[0] + 5, position[1]);
             position[1] += 2;
             ++highScoreCounter;
         }
         highScoreCounter = 0;
+        fileStream.close();
     }
 }

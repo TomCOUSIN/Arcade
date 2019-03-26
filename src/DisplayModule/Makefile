@@ -7,7 +7,7 @@
 
 SHELL	=	bash
 
-all:	sfml sdl ncurses
+all:	sfml sdl sdl2 ncurses
 
 sfml:
 		@make --no-print-directory -C SFMLDisplayModule
@@ -18,14 +18,19 @@ sdl:
 ncurses:
 		@make --no-print-directory -C DisplayModuleNcurses
 
+sdl2:
+		@make --no-print-directory -C SDL2DisplayModule
+
 clean:
 		@make --no-print-directory -C SFMLDisplayModule clean
 		@make --no-print-directory -C SDLDisplayModule clean
+		@make --no-print-directory -C SDL2DisplayModule clean
 		@make --no-print-directory -C DisplayModuleNcurses clean
 
 fclean:	clean
 		@make --no-print-directory -C SFMLDisplayModule fclean
 		@make --no-print-directory -C SDLDisplayModule fclean
+		@make --no-print-directory -C SDL2DisplayModule fclean
 		@make --no-print-directory -C DisplayModuleNcurses fclean
 
 re:		fclean all
