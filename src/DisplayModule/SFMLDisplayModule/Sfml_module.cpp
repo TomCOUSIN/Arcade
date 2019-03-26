@@ -138,7 +138,7 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
         return false;
     sf::Text text;
     sf::Font font;
-    font.loadFromFile("./.fonts/Comfortaa-Regular.ttf");
+    font.loadFromFile("./.fonts/arial.ttf");
     text.setFont(font);
     text.setString(umap_sfmltext_asset.find(textName)->second);
     text.setPosition(x * 16, y * 16);
