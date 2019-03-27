@@ -116,7 +116,7 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 
 coreProgram::e_returnValue coreProgram::coreProgram::gameLoop()
 {
-    std::string gameLibraryName = "./games/" + _availableGames[_selectedGame] + "/lib_arcade_" + _availableGames[_selectedGame] + ".so";
+    std::string gameLibraryName = "./games/lib_arcade_" + _availableGames[_selectedGame] + ".so";
 
     if (!_dlloaderGameModule.loadLibrary(gameLibraryName) || !getInstanceFromGameLibrary() || !_gameModule->initGame(_displayModule))
         return ERROR;
@@ -155,19 +155,26 @@ void coreProgram::coreProgram::getAvailableLibrary()
 
 void coreProgram::coreProgram::getAvailableGames()
 {
-    DIR *directory;
+    DIR *gamesDirectory;
+    DIR *gameDirectory;
+    std::string gamePath;
     struct dirent *directoryContent;
 
-    directory = opendir("./games");
-    if (!directory)
+    gamesDirectory = opendir("./games");
+    if (!gamesDirectory)
         return;
-    directoryContent = readdir(directory);
+    directoryContent = readdir(gamesDirectory);
     while (directoryContent) {
         if (directoryContent->d_name[0] != '.')
-            _availableGames.emplace_back(directoryContent->d_name);
-        directoryContent = readdir(directory);
+            gamePath = std::string("./games/") + directoryContent->d_name;
+            gameDirectory = opendir(gamePath.data());
+            if (gameDirectory) {
+                _availableGames.emplace_back(directoryContent->d_name);
+                closedir(gameDirectory);
+            }
+        directoryContent = readdir(gamesDirectory);
     }
-    closedir(directory);
+    closedir(gamesDirectory);
 }
 
 bool coreProgram::coreProgram::changeGraphicLibrary(bool next)
@@ -197,7 +204,7 @@ bool coreProgram::coreProgram::changeGameLibrary(bool next)
     } else {
         return false;
     }
-    std::string gameLibraryName = "./games/" + _availableGames[_selectedGame] + "/lib_arcade_" + _availableGames[_selectedGame] + ".so";
+    std::string gameLibraryName = "./games/lib_arcade_" + _availableGames[_selectedGame] + ".so";
     if (!_dlloaderGameModule.loadLibrary(gameLibraryName)
         || !getInstanceFromGameLibrary()
         || !_gameModule->initGame(_displayModule)) {

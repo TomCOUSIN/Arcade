@@ -29,12 +29,12 @@ all:		$(NAME)
 
 $(NAME):	$(OBJ)
 			@$(CXX) -fPIC $(SRC) $(LDFLAGS) -shared -o $(NAME) $(CXXFLAGS)
-			@mv $(NAME) ../../../games/pacman/
+			@mv $(NAME) ../../../games/
 clean:
 			$(RM) $(OBJ)
 
 fclean:		clean
-			$(RM) $(addprefix ../../../games/pacman/, $(NAME))
+			$(RM) $(addprefix ../../../games/, $(NAME))
 
 re:			fclean all
 

@@ -91,20 +91,27 @@ bool coreProgram::launcher::loadAvailableLibraryAsset()
 
 bool coreProgram::launcher::getAvailableGames()
 {
-    DIR *directory;
+    DIR *gamesDirectory;
+    DIR *gameDirectory;
+    std::string gamePath;
     struct dirent *directoryContent;
 
     try {
-        directory = opendir("./games");
-        if (!directory)
+        gamesDirectory = opendir("./games");
+        if (!gamesDirectory)
             throw launcherException("Couldn't open 'games' directory");
-        directoryContent = readdir(directory);
+        directoryContent = readdir(gamesDirectory);
         while (directoryContent) {
             if (directoryContent->d_name[0] != '.')
-                _availableGames.emplace_back(directoryContent->d_name);
-            directoryContent = readdir(directory);
+                gamePath = std::string("./games/") + directoryContent->d_name;
+                gameDirectory = opendir(gamePath.data());
+                if (gameDirectory) {
+                    _availableGames.emplace_back(directoryContent->d_name);
+                    closedir(gameDirectory);
+                }
+            directoryContent = readdir(gamesDirectory);
         }
-        closedir(directory);
+        closedir(gamesDirectory);
         if (_availableGames.empty())
            throw launcherException("No games available");
         return true;

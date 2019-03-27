@@ -20,7 +20,7 @@ int print_usage()
     std::cout << "  ./arcade    library" << std::endl << std::endl;
     std::cout << "DESCRIPTION" << std::endl;
     std::cout << "  library     the library containing the graphics libraries to use" << std::endl;
-    return 0;
+    return 84;
 }
 
 /**
