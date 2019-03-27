@@ -173,9 +173,12 @@ void displayModule::SDL2DisplayModule::clearScreen()
     SDL_RenderClear(_renderer);
 }
 
-void displayModule::SDL2DisplayModule::start_sound(const std::string &path,
+void displayModule::SDL2DisplayModule::startSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::SDL2DisplayModule::stopSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::SDL2DisplayModule::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
-
-void displayModule::SDL2DisplayModule::stop_sound(const std::string &soundKey)
-{ (void)soundKey; }

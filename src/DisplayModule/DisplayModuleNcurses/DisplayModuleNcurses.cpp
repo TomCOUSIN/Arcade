@@ -195,18 +195,12 @@ void DisplayModuleNcurses::clearScreen()
     clear();
 }
 
-/**
- * Fucntion which start the sound.
- * @param path:  void
- * @param soundKey:  void
- */
-void DisplayModuleNcurses::start_sound(const std::string &path,
+void displayModule::DisplayModuleNcurses::startSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::DisplayModuleNcurses::stopSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::DisplayModuleNcurses::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
-
-/**
- * Function which stop the sound.
- * @param soundKey: void
- */
-void DisplayModuleNcurses::stop_sound(const std::string &soundKey)
-{ (void)soundKey; }

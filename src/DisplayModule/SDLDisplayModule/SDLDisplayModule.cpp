@@ -166,8 +166,12 @@ void displayModule::SDLDisplayModule::clearScreen()
     SDL_FillRect(_window, NULL, SDL_MapRGB(_window->format, 0, 0, 0));
 }
 
-void displayModule::SDLDisplayModule::start_sound(const std::string &path, const std::string &soundKey)
-{ (void)path; (void)soundKey; }
-
-void displayModule::SDLDisplayModule::stop_sound(const std::string &soundKey)
+void displayModule::SDLDisplayModule::startSound(const std::string &soundKey)
 { (void)soundKey; }
+
+void displayModule::SDLDisplayModule::stopSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::SDLDisplayModule::createSound(const std::string &path,
+    const std::string &soundKey)
+{ (void)path; (void)soundKey; }

@@ -64,8 +64,9 @@ namespace displayModule
             virtual void refreshWindow() = 0;
             virtual void clearScreen() = 0;
             virtual e_event catchEvent() = 0;
-            virtual void start_sound(const std::string &path, const std::string &soundKey) = 0;
-            virtual void stop_sound(const std::string &soundKey) = 0;
+            virtual void createSound(const std::string &path, const std::string &soundKey) = 0;
+            virtual void startSound(const std::string &soundKey) = 0;
+            virtual void stopSound(const std::string &soundKey) = 0;
     };
 }
 

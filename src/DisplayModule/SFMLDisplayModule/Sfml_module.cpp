@@ -151,9 +151,12 @@ void displayModule::Sfml_module::clearScreen()
     this->_window.clear();
 }
 
-void displayModule::Sfml_module::start_sound(const std::string &path,
+void displayModule::Sfml_module::startSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::Sfml_module::stopSound(const std::string &soundKey)
+{ (void)soundKey; }
+
+void displayModule::Sfml_module::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
-
-void displayModule::Sfml_module::stop_sound(const std::string &soundKey)
-{ (void)soundKey; }
