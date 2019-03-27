@@ -165,13 +165,14 @@ void coreProgram::coreProgram::getAvailableGames()
         return;
     directoryContent = readdir(gamesDirectory);
     while (directoryContent) {
-        if (directoryContent->d_name[0] != '.')
+        if (directoryContent->d_name[0] != '.') {
             gamePath = std::string("./games/") + directoryContent->d_name;
             gameDirectory = opendir(gamePath.data());
             if (gameDirectory) {
                 _availableGames.emplace_back(directoryContent->d_name);
                 closedir(gameDirectory);
             }
+        }
         directoryContent = readdir(gamesDirectory);
     }
     closedir(gamesDirectory);
