@@ -11,13 +11,16 @@ all:	nibbler
 
 nibbler:
 		@make --no-print-directory -C GameModuleNibbler
+		@make --no-print-directory -C GameModulePacman
 
 clean:
 		@make --no-print-directory -C GameModuleNibbler clean
+		@make --no-print-directory -C GameModulePacman clean
 
 fclean:	clean
 		@make --no-print-directory -C GameModuleNibbler fclean
+		@make --no-print-directory -C GameModulePacman fclean
 
 re:		fclean all
 
-.PHONY:	clean fclean all re nibbler
+.PHONY:	clean fclean all re nibbler pacman
