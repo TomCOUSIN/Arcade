@@ -47,8 +47,8 @@ void GameModulePacman::move_pacman(int y, int x)
     int tmp2_x = 0;
     int tmp2_y = 0;
 
-    // if (_map[y][x] == '#')
-    //     _isQuit = true;
+    if (_map[y][x] == '#')
+        return;
     if (_map[y][x] == '.') {
         for (auto &i : pacman) {
             tmp2_x = i._x;
@@ -59,19 +59,9 @@ void GameModulePacman::move_pacman(int y, int x)
             tmp_y = tmp2_y;
         }
     }
-    // else if (_map[y][x] == ' ') {
-    //     for (auto &i : pacman) {
-    //         tmp2_x = i._x;
-    //         tmp2_y = i._y;
-    //         i._x = tmp_x;
-    //         i._y = tmp_y;
-    //         tmp_x = tmp2_x;
-    //         tmp_y = tmp2_y;
-    //     }
         pos_x = x;
         pos_y = y;
         return;
-    // }
 }
 
 displayModule::e_event GameModulePacman::catch_event()
