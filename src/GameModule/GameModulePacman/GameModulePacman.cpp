@@ -40,6 +40,32 @@ GameModulePacman::GameModulePacman() : _playerName("___")
 
 GameModulePacman::~GameModulePacman() {}
 
+int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
+{
+    int tmp2_x = 0;
+    int tmp2_y = 0;
+
+    if ((x == pos_pacball_one_x && y == pos_pacball_one_y) ||
+        (x == pos_pacball_two_x && y == pos_pacball_two_y) ||
+        (x == pos_pacball_three_x && y == pos_pacball_three_y) ||
+        (x == pos_pacball_four_x && y == pos_pacball_four_y)) {
+        for (auto &index : pacman) {
+            tmp2_x = index._x;
+            tmp2_y = index._y;
+            index._x = tmp_x;
+            index._y = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+    }
+        pacman.emplace_back(PositionPacman(tmp_x, tmp_y));
+        score += 10;
+        pos_x = x;
+        pos_y = y;
+        return -1;
+    }
+    return 0;
+}
+
 void GameModulePacman::move_pacman(int y, int x)
 {
     int tmp_x = x;
@@ -47,9 +73,23 @@ void GameModulePacman::move_pacman(int y, int x)
     int tmp2_x = 0;
     int tmp2_y = 0;
 
+    if (scoreUp(tmp_x, tmp_y, x, y) == -1)
+        return;
     if (_map[y][x] == '#')
         return;
-    if (_map[y][x] == '.') {
+    else if (_map[y][x] == '.') {
+        for (auto &i : pacman) {
+            tmp2_x = i._x;
+            tmp2_y = i._y;
+            i._x = tmp_x;
+            i._y = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+        }
+        score += 1;
+        _map[y][x] = ' ';
+    }
+        else if (_map[y][x] == ' ') {
         for (auto &i : pacman) {
             tmp2_x = i._x;
             tmp2_y = i._y;

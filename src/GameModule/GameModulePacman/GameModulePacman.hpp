@@ -26,6 +26,7 @@ namespace gameModule
             displayModule::e_event game() final;
             bool initGame(const std::shared_ptr<displayModule::IDisplayModule> &asset) final;
             bool setLib(const std::shared_ptr<displayModule::IDisplayModule> &asset) final;
+            int scoreUp(int tmp_x, int tmp_y, int x, int y);
             bool setAsset();
             void asset();
             void move_pacman(int y, int x);
