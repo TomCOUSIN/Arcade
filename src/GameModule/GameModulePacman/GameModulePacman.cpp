@@ -23,14 +23,6 @@ GameModulePacman::PositionPacman::PositionPacman(int x, int y) : _x(x), _y(y)
 
 GameModulePacman::GameModulePacman() : _playerName("___")
 {
-    pos_pacball_one_x = 1;
-    pos_pacball_one_y = 1;
-    pos_pacball_two_x = 18;
-    pos_pacball_two_y = 3;
-    pos_pacball_three_x = 18;
-    pos_pacball_three_y = 19;
-    pos_pacball_four_x = 1;
-    pos_pacball_four_y = 21;
     pacman.emplace_back(PositionPacman(17, 9));
     pos_x = 7;
     pos_y = 17;
@@ -45,10 +37,7 @@ int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
     int tmp2_x = 0;
     int tmp2_y = 0;
 
-    if ((x == pos_pacball_one_x && y == pos_pacball_one_y) ||
-        (x == pos_pacball_two_x && y == pos_pacball_two_y) ||
-        (x == pos_pacball_three_x && y == pos_pacball_three_y) ||
-        (x == pos_pacball_four_x && y == pos_pacball_four_y)) {
+    if (_map[y][x] == '@') {    
         for (auto &index : pacman) {
             tmp2_x = index._x;
             tmp2_y = index._y;
@@ -57,10 +46,14 @@ int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
     }
-        pacman.emplace_back(PositionPacman(tmp_x, tmp_y));
-        score += 10;
+        _map[y][x] = ' ';
+        _save_position.clear();
+        this->_save_position.push_back (y);
+        this->_save_position.push_back (x);
+        _position.push_back(this->_save_position);
         pos_x = x;
         pos_y = y;
+        score += 10;
         return -1;
     }
     return 0;
@@ -86,7 +79,6 @@ void GameModulePacman::move_pacman(int y, int x)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
         }
-
         _map[y][x] = ' ';
         _save_position.clear();
         this->_save_position.push_back (y);
@@ -162,10 +154,6 @@ displayModule::e_event GameModulePacman::catch_event()
 void GameModulePacman::asset()
 {
     size_t i = 0;
-    display->drawAsset("pacball", pos_pacball_one_x, pos_pacball_one_y);
-    display->drawAsset("pacball", pos_pacball_two_x, pos_pacball_two_y);
-    display->drawAsset("pacball", pos_pacball_three_x, pos_pacball_three_y);
-    display->drawAsset("pacball", pos_pacball_four_x, pos_pacball_four_y);
     display->drawAsset("head_pacman", pacman[i]._x, pacman[i]._y);
 }
 
@@ -228,6 +216,8 @@ displayModule::e_event GameModulePacman::gameloop()
                 display->drawAsset("space", i[1], i[0]);
             }
         }
+        if (score == 246)
+            _isQuit = true;
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
@@ -331,14 +321,6 @@ displayModule::e_event GameModulePacman::menuLoop()
 void GameModulePacman::resetGame()
 {
     pacman.clear();
-    pos_pacball_one_x = 1;
-    pos_pacball_one_y = 1;
-    pos_pacball_two_x = 18;
-    pos_pacball_two_y = 3;
-    pos_pacball_three_x = 18;
-    pos_pacball_three_y = 19;
-    pos_pacball_four_x = 1;
-    pos_pacball_four_y = 21;
     pacman.emplace_back(PositionPacman(17, 9));
     pos_x = 11;
     pos_y = 17;
