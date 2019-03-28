@@ -52,6 +52,8 @@ namespace gameModule
             void resetGame();
             displayModule::e_event save_key = displayModule::e_event ::KEY_Q;
             std::vector<std::string> _map;
+            std::vector<std::vector <int> > _position;
+            std::vector<int> _save_position;
             std::vector<GameModulePacman::PositionPacman> pacman;
             std::shared_ptr<displayModule::IDisplayModule> display;
             int pos_pacball_one_x;

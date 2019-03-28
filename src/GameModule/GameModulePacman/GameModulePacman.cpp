@@ -57,7 +57,6 @@ int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
     }
-        display->drawAsset("space", tmp_x, tmp_y);
         pacman.emplace_back(PositionPacman(tmp_x, tmp_y));
         score += 10;
         pos_x = x;
@@ -87,8 +86,12 @@ void GameModulePacman::move_pacman(int y, int x)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
         }
+
         _map[y][x] = ' ';
-        display->drawAsset("space", tmp_x, tmp_y);
+        _save_position.clear();
+        this->_save_position.push_back (y);
+        this->_save_position.push_back (x);
+        _position.push_back(this->_save_position);
         score += 1;
     }
     else if (_map[y][x] == ' ') {
@@ -221,6 +224,9 @@ displayModule::e_event GameModulePacman::gameloop()
     while (!_isQuit) {
         if (choosemap == 1) {
             display->drawAsset("map_pacman", 0, 0);
+            for (const auto &i: _position) {
+                display->drawAsset("space", i[1], i[0]);
+            }
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         key_return = catch_event();
