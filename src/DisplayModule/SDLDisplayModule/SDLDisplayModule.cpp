@@ -3,7 +3,6 @@
 ** OOP_arcade_2018
 ** File description:
 ** Created by tomcousin,
-}
 */
 
 #include <SDL/SDL_ttf.h>
@@ -21,6 +20,12 @@ displayModule::SDLDisplayModule::SDLDisplayModule()
 displayModule::SDLDisplayModule::~SDLDisplayModule()
 {
     TTF_Quit();
+    for (auto &sprite: _sprite) {
+        SDL_FreeSurface(sprite->second());
+    }
+    for (auto &text: _text) {
+        SDL_FreeSurface(sprite->second());
+    }
     SDL_FreeSurface(_window);
     SDL_Quit();
 }
@@ -28,10 +33,12 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const std::string &assetKey)
 {
     SDL_Surface *asset = IMG_Load(std::string(path + "/2d/" + assetKey + ".png").c_str());
-    if (_sprite.find(assetKey) != _sprite.end())
+    if (_sprite.find(assetKey) != _sprite.end()) {
+        SDL_FreeSurface(_sprite[assetKey]);
         _sprite[assetKey] = asset;
-    else
+    } else {
         _sprite.insert(std::make_pair(assetKey, asset));
+    }
     return true;
 }
 
@@ -40,10 +47,12 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
     TTF_Font *font = TTF_OpenFont("./.fonts/arial.ttf", 20);
     SDL_Color color = {255, 255, 255, 0};
     SDL_Surface *textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
-    if (_text.find(textKey) != _text.end())
+    if (_text.find(textKey) != _text.end()) {
+        SDL_FreeSurface(_sprite[assetKey]);
         _text[textKey] = textSurface;
-    else
+    } else {
         _text.insert(std::make_pair(textKey, textSurface));
+    }
     TTF_CloseFont(font);
     return true;
 }
