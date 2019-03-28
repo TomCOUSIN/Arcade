@@ -21,10 +21,10 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
 {
     TTF_Quit();
     for (auto &sprite: _sprite) {
-        SDL_FreeSurface(sprite->second());
+        SDL_FreeSurface(sprite.second);
     }
     for (auto &text: _text) {
-        SDL_FreeSurface(sprite->second());
+        SDL_FreeSurface(text.second);
     }
     SDL_FreeSurface(_window);
     SDL_Quit();
@@ -48,7 +48,7 @@ bool displayModule::SDLDisplayModule::createText(const std::string &text, const 
     SDL_Color color = {255, 255, 255, 0};
     SDL_Surface *textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
     if (_text.find(textKey) != _text.end()) {
-        SDL_FreeSurface(_sprite[assetKey]);
+        SDL_FreeSurface(_sprite[textKey]);
         _text[textKey] = textSurface;
     } else {
         _text.insert(std::make_pair(textKey, textSurface));
