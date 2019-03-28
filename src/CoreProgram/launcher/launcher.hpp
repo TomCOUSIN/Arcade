@@ -39,6 +39,10 @@ namespace coreProgram
             bool loadInformationAsset();
             bool loadAvailableGameAsset();
             bool loadAvailableLibraryAsset();
+            std::vector<std::string> retrieveHighscore(const std::string &path);
+            std::vector<std::string> sortHighscore(const std::vector <std::string> &highscore);
+            size_t findHigherScore(const std::vector<std::string> &highscore, size_t size);
+            std::vector<std::string> splitString(const std::string &stringToParse, char delimiter);
             std::vector<std::string> _availableGames;
             std::vector<std::string> _availableLibrary;
             std::shared_ptr<displayModule::IDisplayModule> _displayModule;

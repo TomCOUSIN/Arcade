@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include <zconf.h>
 #include <vector>
+#include <sstream>
 #include "launcherException.hpp"
 #include "launcher.hpp"
 #include "coreProgram.hpp"
@@ -226,27 +227,82 @@ void coreProgram::launcher::displayInfo()
 
 void coreProgram::launcher::displayHighScore()
 {
+    std::vector<std::string> sortedHighscore;
     std::vector<int> position = {70, 25};
     size_t highScoreCounter = 0;
-    std::fstream fileStream;
-    std::string fileContent;
 
     _displayModule->drawText("tableTemplate", position[0], position[1]);
     _displayModule->drawText("highscoreTitle", position[0] + 2, position[1]);
     position[1] += 2;
     for (const std::string &i: _availableGames) {
         _displayModule->drawText("tableTemplate", position[0], position[1]);
-        fileStream.open("./games/" + i + "/.score");
         _displayModule->drawText(i, position[0] + 2, position[1]);
         position[1] += 2;
-        while (getline(fileStream, fileContent, '\n') && highScoreCounter < 3) {
+        sortedHighscore = sortHighscore(retrieveHighscore(i));
+        while (highScoreCounter < 3) {
             _displayModule->drawText("tableTemplate", position[0], position[1]);
-            _displayModule->createText(fileContent, "highscore");
+            _displayModule->createText(sortedHighscore[highScoreCounter], "highscore");
             _displayModule->drawText("highscore", position[0] + 5, position[1]);
             position[1] += 2;
             ++highScoreCounter;
         }
         highScoreCounter = 0;
-        fileStream.close();
     }
+}
+
+std::vector<std::string> coreProgram::launcher::retrieveHighscore(const std::string &filename)
+{
+    std::fstream fileStream("./games/" + filename + "/.score");
+    std::vector<std::string> fileContentVector;
+    std::string fileContent;
+
+    while (getline(fileStream, fileContent, '\n')) {
+        fileContentVector.emplace_back(fileContent);
+    }
+    return fileContentVector;
+}
+
+std::vector<std::string> coreProgram::launcher::splitString(const std::string &stringToParse, char delimiter)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(stringToParse);
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+size_t coreProgram::launcher::findHigherScore(const std::vector<std::string> &highscore, size_t size)
+{
+    std::vector<std::string> playerScore;
+    size_t indexHigher = 0;
+    size_t higher = 0;
+
+    for (size_t index = 0; index < size; ++index) {
+        playerScore = splitString(highscore[index], ' ');
+        if (std::stoi(playerScore[1]) > int(higher)) {
+            higher = std::stoi(playerScore[1]);
+            indexHigher = index;
+        }
+    }
+    return indexHigher;
+}
+
+std::vector <std::string> coreProgram::launcher::sortHighscore(const std::vector<std::string> &highscore)
+{
+    std::vector<std::string> highscoreCopy = highscore;
+    std::vector<std::string> fileContentVector;
+    size_t higherIndex = 0;
+    std::string tmp;
+
+    for (size_t index = 0; index < highscoreCopy.size(); ++index) {
+        higherIndex = findHigherScore(highscoreCopy, highscoreCopy.size() - index);
+        fileContentVector.emplace_back(highscoreCopy[higherIndex]);
+        tmp = highscoreCopy[higherIndex];
+        highscoreCopy[higherIndex] = highscoreCopy[highscoreCopy.size() - 1 - index];
+        highscoreCopy[highscoreCopy.size() - 1 - index] = tmp;
+    }
+    return fileContentVector;
 }
