@@ -70,6 +70,10 @@ void GameModulePacman::move_pacman(int y, int x)
         return;
     if (_map[y][x] == '#')
         return;
+    if (_map[y][x] == '-')
+        return;
+    if (_map[y][x] == 'A' || _map[y][x] == 'B' || _map[y][x] == 'C' || _map[y][x] == 'D')
+        _isQuit = true;
     else if (_map[y][x] == '.') {
         for (auto &i : pacman) {
             tmp2_x = i._x;
@@ -320,6 +324,7 @@ displayModule::e_event GameModulePacman::menuLoop()
 
 void GameModulePacman::resetGame()
 {
+    _position.clear();
     pacman.clear();
     pacman.emplace_back(PositionPacman(17, 9));
     pos_x = 11;
