@@ -45,7 +45,7 @@ bool displayModule::SDLDisplayModule::createAsset(const std::string &path, const
 
 bool displayModule::SDLDisplayModule::createText(const std::string &text, const std::string &textKey)
 {
-    TTF_Font *font = TTF_OpenFont("./.fonts/arial.ttf", 20);
+    TTF_Font *font = TTF_OpenFont("./.fonts/default.ttf", 20);
     SDL_Color color = {255, 255, 255, 0};
     SDL_Surface *textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
     if (_text.find(textKey) != _text.end()) {
