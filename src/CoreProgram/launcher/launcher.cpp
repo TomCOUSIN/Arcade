@@ -239,7 +239,7 @@ void coreProgram::launcher::displayHighScore()
         _displayModule->drawText(i, position[0] + 2, position[1]);
         position[1] += 2;
         sortedHighscore = sortHighscore(retrieveHighscore(i));
-        while (highScoreCounter < 3 && !sortedHighscore.empty()) {
+        while (highScoreCounter < 3 && highScoreCounter < sortedHighscore.size()) {
             _displayModule->drawText("tableTemplate", position[0], position[1]);
             _displayModule->createText(sortedHighscore[highScoreCounter], "highscore");
             _displayModule->drawText("highscore", position[0] + 5, position[1]);
