@@ -57,6 +57,7 @@ int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
     }
+        display->drawAsset("space", tmp_x, tmp_y);
         pacman.emplace_back(PositionPacman(tmp_x, tmp_y));
         score += 10;
         pos_x = x;
@@ -86,10 +87,12 @@ void GameModulePacman::move_pacman(int y, int x)
             tmp_x = tmp2_x;
             tmp_y = tmp2_y;
         }
-        score += 1;
         _map[y][x] = ' ';
+        display->createAsset("games/pacman/assets/", "map_pacman");
+        display->drawAsset("space", tmp_x, tmp_y);
+        score += 1;
     }
-        else if (_map[y][x] == ' ') {
+    else if (_map[y][x] == ' ') {
         for (auto &i : pacman) {
             tmp2_x = i._x;
             tmp2_y = i._y;
@@ -99,9 +102,9 @@ void GameModulePacman::move_pacman(int y, int x)
             tmp_y = tmp2_y;
         }
     }
-        pos_x = x;
-        pos_y = y;
-        return;
+    pos_x = x;
+    pos_y = y;
+    return;
 }
 
 displayModule::e_event GameModulePacman::catch_event()
@@ -215,8 +218,9 @@ displayModule::e_event GameModulePacman::gameloop()
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
 
     while (!_isQuit) {
-        if (choosemap == 1)
+        if (choosemap == 1) {
             display->drawAsset("map_pacman", 0, 0);
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
@@ -286,6 +290,8 @@ bool GameModulePacman::setAsset()
         return false;
     if (!display->createAsset("games/pacman/assets/", "head_pacman"))
         return false;
+    if (!display->createAsset("games/pacman/assets/", "space"))
+        return false;    
     return display->createAsset("games/pacman/assets/", "pacball");
 }
 
