@@ -21,11 +21,35 @@
 GameModulePacman::PositionPacman::PositionPacman(int x, int y) : _x(x), _y(y)
 {}
 
+GameModulePacman::PositionGostRed::PositionGostRed(int x, int y) : _x_red(x), _y_red(y)
+{}
+
+GameModulePacman::PositionGostBlue::PositionGostBlue(int x, int y) : _x_blue(x), _y_blue(y)
+{}
+
+GameModulePacman::PositionGostYellow::PositionGostYellow(int x, int y) : _x_yellow(x), _y_yellow(y)
+{}
+
+GameModulePacman::PositionGostPink::PositionGostPink(int x, int y) : _x_pink(x), _y_pink(y)
+{}
+
 GameModulePacman::GameModulePacman() : _playerName("___")
 {
-    pacman.emplace_back(PositionPacman(17, 9));
-    pos_x = 7;
+    pacman.emplace_back(PositionPacman(17, 11));
+    gost_red.emplace_back(PositionGostRed(1, 3));
+    gost_blue.emplace_back(PositionGostBlue(5, 15));
+    gost_yellow.emplace_back(PositionGostYellow(7, 11));
+    gost_pink.emplace_back(PositionGostPink(21, 5));
+    pos_x = 11;
     pos_y = 17;
+    _gostRed_x = 3;
+    _gostRed_y = 1;
+    _gostBlue_x = 15;
+    _gostBlue_y = 5;
+    _gostYellow_x = 11;
+    _gostYellow_y = 7;
+    _gostPink_x = 5;
+    _gostPink_y = 21;
     _isInMenu = true;
     _isInGame = false;
 }
@@ -72,7 +96,7 @@ void GameModulePacman::move_pacman(int y, int x)
         return;
     if (_map[y][x] == '-')
         return;
-    if (_map[y][x] == 'A' || _map[y][x] == 'B' || _map[y][x] == 'C' || _map[y][x] == 'D')
+    if ((x == _gostRed_x && y == _gostRed_y) || (x == _gostBlue_x && y == _gostBlue_y) || (x == _gostYellow_x && y == _gostYellow_y) || (x == _gostPink_x && y == _gostPink_y))
         _isQuit = true;
     else if (_map[y][x] == '.') {
         for (auto &i : pacman) {
@@ -103,6 +127,136 @@ void GameModulePacman::move_pacman(int y, int x)
     pos_x = x;
     pos_y = y;
     return;
+}
+
+void GameModulePacman::move_gost_red(int y, int x)
+{
+    int tmp_x = x;
+    int tmp_y = y;
+    int tmp2_x = 0;
+    int tmp2_y = 0;
+
+    if (_map[y][x] == '#')
+        return;
+    if (_map[y][x] == '-')
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'D')) {
+        for (auto &i : gost_red) {
+            tmp2_x = i._x_red;
+            tmp2_y = i._y_red;
+            i._x_red = tmp_x;
+            i._y_red = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+        }
+    }
+    _gostRed_x = x;
+    _gostRed_y = y;
+}
+
+void GameModulePacman::move_gost_blue(int y, int x)
+{
+    int tmp_x = x;
+    int tmp_y = y;
+    int tmp2_x = 0;
+    int tmp2_y = 0;
+
+    if (_map[y][x] == '#')
+        return;
+    if (_map[y][x] == '-')
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'A') || (_map[y][x] == 'C') || (_map[y][x] == 'D')) {
+        for (auto &i : gost_blue) {
+            tmp2_x = i._x_blue;
+            tmp2_y = i._y_blue;
+            i._x_blue = tmp_x;
+            i._y_blue = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+        }
+    }
+    _gostBlue_x = x;
+    _gostBlue_y = y;
+}
+
+void GameModulePacman::move_gost_yellow(int y, int x)
+{
+    int tmp_x = x;
+    int tmp_y = y;
+    int tmp2_x = 0;
+    int tmp2_y = 0;
+
+    if (_map[y][x] == '#')
+        return;
+    if (_map[y][x] == '-')
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'A') || (_map[y][x] == 'B') || (_map[y][x] == 'D')) {
+        for (auto &i : gost_yellow) {
+            tmp2_x = i._x_yellow;
+            tmp2_y = i._y_yellow;
+            i._x_yellow = tmp_x;
+            i._y_yellow = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+        }
+    }
+    _gostYellow_x = x;
+    _gostYellow_y = y;
+}
+
+void GameModulePacman::move_gost_pink(int y, int x)
+{
+    int tmp_x = x;
+    int tmp_y = y;
+    int tmp2_x = 0;
+    int tmp2_y = 0;
+
+    if (_map[y][x] == '#')
+        return;
+    if (_map[y][x] == '-')
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'A')) {
+        for (auto &i : gost_pink) {
+            tmp2_x = i._x_pink;
+            tmp2_y = i._y_pink;
+            i._x_pink = tmp_x;
+            i._y_pink = tmp_y;
+            tmp_x = tmp2_x;
+            tmp_y = tmp2_y;
+        }
+    }
+    _gostPink_x = x;
+    _gostPink_y = y;
+}
+
+void GameModulePacman::gost_Ai()
+{
+    int stock = (std::rand() % 4);
+
+    if (stock == 0) {
+        move_gost_red(_gostRed_y - 1, _gostRed_x);
+        move_gost_blue(_gostBlue_y - 1, _gostBlue_x);
+        move_gost_yellow(_gostYellow_y - 1, _gostYellow_x);
+        move_gost_pink(_gostPink_y - 1, _gostPink_x);
+    }
+    else if (stock == 1) {
+        move_gost_red(_gostRed_y, _gostRed_x - 1);
+        move_gost_blue(_gostBlue_y, _gostBlue_x - 1);
+        move_gost_yellow(_gostYellow_y, _gostYellow_x - 1);
+        move_gost_pink(_gostPink_y, _gostPink_x - 1);
+    }
+    else if (stock == 2) {
+        move_gost_red(_gostRed_y + 1, _gostRed_x);
+        move_gost_blue(_gostBlue_y + 1, _gostBlue_x);
+        move_gost_yellow(_gostYellow_y + 1, _gostYellow_x);
+        move_gost_pink(_gostPink_y + 1, _gostPink_x);
+    }
+    else if (stock == 3) {
+        move_gost_red(_gostRed_y, _gostRed_x + 1);
+        move_gost_blue(_gostBlue_y, _gostBlue_x + 1);
+        move_gost_yellow(_gostYellow_y, _gostYellow_x + 1);
+        move_gost_pink(_gostPink_y, _gostPink_x + 1);
+    }
 }
 
 displayModule::e_event GameModulePacman::catch_event()
@@ -158,7 +312,16 @@ displayModule::e_event GameModulePacman::catch_event()
 void GameModulePacman::asset()
 {
     size_t i = 0;
+    size_t r = 0;
+    size_t b = 0;
+    size_t y = 0;
+    size_t p = 0;
+
     display->drawAsset("head_pacman", pacman[i]._x, pacman[i]._y);
+    display->drawAsset("gost_red", gost_red[r]._x_red, gost_red[r]._y_red);
+    display->drawAsset("gost_blue", gost_blue[b]._x_blue, gost_blue[b]._y_blue);
+    display->drawAsset("gost_yellow", gost_yellow[y]._x_yellow, gost_yellow[y]._y_yellow);
+    display->drawAsset("gost_pink", gost_pink[p]._x_pink, gost_pink[p]._y_pink);
 }
 
 displayModule::e_event GameModulePacman::game()
@@ -220,9 +383,10 @@ displayModule::e_event GameModulePacman::gameloop()
                 display->drawAsset("space", i[1], i[0]);
             }
         }
-        if (score == 246)
+        if (score == 238)
             _isQuit = true;
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        gost_Ai();
         key_return = catch_event();
         if (key_return == displayModule::ESCAPE || key_return == displayModule::ARROW_LEFT
         || key_return == displayModule::ARROW_RIGHT || key_return == displayModule::KEY_R) {
@@ -275,6 +439,14 @@ bool GameModulePacman::setAsset()
 {
     if (!display->createAsset("games/pacman/assets/", "map_pacman"))
         return false;
+    if (!display->createAsset("games/pacman/assets/", "gost_red"))
+        return false;
+    if (!display->createAsset("games/pacman/assets/", "gost_blue"))
+        return false;
+    if (!display->createAsset("games/pacman/assets/", "gost_yellow"))
+        return false;
+    if (!display->createAsset("games/pacman/assets/", "gost_pink"))
+        return false;
     if (!display->createText("Score: ", "playerScore"))
         return false;
     if (!display->createText("Enter your player name: ", "playerNameRequest"))
@@ -326,10 +498,21 @@ void GameModulePacman::resetGame()
 {
     _position.clear();
     pacman.clear();
-    pacman.emplace_back(PositionPacman(17, 9));
+    pacman.emplace_back(PositionPacman(17, 11));
     pos_x = 11;
     pos_y = 17;
-    score = 0;
+    gost_red.emplace_back(PositionGostRed(1, 3));
+    gost_blue.emplace_back(PositionGostBlue(5, 15));
+    gost_yellow.emplace_back(PositionGostYellow(7, 11));
+    gost_pink.emplace_back(PositionGostPink(21, 5));
+    _gostRed_x = 3;
+    _gostRed_y = 1;
+    _gostBlue_x = 15;
+    _gostBlue_y = 5;
+    _gostYellow_x = 11;
+    _gostYellow_y = 7;
+    _gostPink_x = 5;
+    _gostPink_y = 21;
     _isInMenu = true;
     _isInGame = false;
     _playerName.clear();
