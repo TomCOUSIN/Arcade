@@ -7,7 +7,7 @@
 
 SHELL	=	bash
 
-all:	sfml sdle ncurses
+all:	sfml sdl ncurses
 
 sfml:
 		@make --no-print-directory -C SFMLDisplayModule
