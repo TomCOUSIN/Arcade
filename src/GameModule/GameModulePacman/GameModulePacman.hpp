@@ -75,16 +75,4 @@ namespace gameModule
     };
 }
 
-extern "C"
-{
-    gameModule::GameModulePacman *allocator()
-    {
-        return new gameModule::GameModulePacman();
-    }
-
-    void deleter(gameModule::GameModulePacman *ptr)
-    {
-        delete ptr;
-    }
-}
 #endif /* !GAMEMODULEPACMAN_HPP_ */

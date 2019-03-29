@@ -185,3 +185,11 @@ void displayModule::SDLDisplayModule::stopSound(const std::string &soundKey)
 void displayModule::SDLDisplayModule::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
+
+extern "C"
+{
+    std::shared_ptr<displayModule::SDLDisplayModule> allocator()
+    {
+        return std::make_shared<displayModule::SDLDisplayModule>();
+    }
+}

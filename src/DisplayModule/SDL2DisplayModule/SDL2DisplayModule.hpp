@@ -39,16 +39,4 @@ namespace displayModule {
     };
 }
 
-extern "C"
-{
-    displayModule::SDL2DisplayModule *allocator()
-    {
-        return new displayModule::SDL2DisplayModule();
-    }
-    void deleter(displayModule::SDL2DisplayModule *ptr)
-    {
-        delete ptr;
-    }
-}
-
 #endif //OOP_ARCADE_2018_SDLDISPLAYMODULE_HPP

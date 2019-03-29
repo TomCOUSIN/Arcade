@@ -48,18 +48,4 @@ namespace displayModule {
     };
 }
 
-extern "C"
-{
-    displayModule::Sfml_module *allocator()
-    {
-        return new displayModule::Sfml_module();
-    }
-
-    void deleter(displayModule::Sfml_module *ptr)
-    {
-        delete  ptr;
-    }
-}
-
-
 #endif /* !SFML_MODULE_HPP_ */

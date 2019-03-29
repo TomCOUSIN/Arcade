@@ -70,17 +70,4 @@ namespace gameModule
     };
 }
 
-extern "C"
-{
-    gameModule::GameModuleNibbler *allocator()
-    {
-        return new gameModule::GameModuleNibbler();
-    }
-
-    void deleter(gameModule::GameModuleNibbler *ptr)
-    {
-        delete ptr;
-    }
-}
-
 #endif //OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP

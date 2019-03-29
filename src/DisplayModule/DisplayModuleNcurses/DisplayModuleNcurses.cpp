@@ -204,3 +204,11 @@ void displayModule::DisplayModuleNcurses::stopSound(const std::string &soundKey)
 void displayModule::DisplayModuleNcurses::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
+
+extern "C"
+{
+    std::shared_ptr<displayModule::DisplayModuleNcurses> allocator()
+    {
+        return std::make_shared<displayModule::DisplayModuleNcurses>();
+    }
+}

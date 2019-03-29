@@ -538,3 +538,11 @@ displayModule::e_event GameModuleNibbler::setPlayerHighscoreLoop()
         display->refreshWindow();
     }
 }
+
+extern "C"
+{
+    std::shared_ptr<gameModule::GameModuleNibbler> allocator()
+    {
+        return std::make_shared<gameModule::GameModuleNibbler>();
+    }
+}

@@ -87,18 +87,16 @@ bool dlloader::DLLoader<T>::closeLibrary()
 template <class T>
 std::shared_ptr<T> dlloader::DLLoader<T>::getInstance()
 {
-    using allocClass = T *(*)();
-    using deleteClass = void (*)(T *);
+    using allocClass = std::shared_ptr<T>(*)();
 
     try {
         auto allocator = reinterpret_cast<allocClass>(dlsym(_handle,"allocator"));
-        auto destructor = reinterpret_cast<deleteClass >(dlsym(_handle,"deleter"));
 
-        if (!allocator || !destructor) {
+        if (!allocator) {
             closeLibrary();
             throw DLLoaderException(dlerror());
         }
-        return std::shared_ptr<T>(allocator(), [destructor](T *p) {destructor(p); });
+        return allocator();
     }
     catch (const DLLoaderException &exception) {
         std::cerr << exception.getComponent() << ": " << exception.what() << std::endl;

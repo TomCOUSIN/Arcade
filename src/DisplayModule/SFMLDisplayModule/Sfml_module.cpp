@@ -160,3 +160,11 @@ void displayModule::Sfml_module::stopSound(const std::string &soundKey)
 void displayModule::Sfml_module::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
+
+extern "C"
+{
+    std::shared_ptr<displayModule::Sfml_module> allocator()
+    {
+        return std::make_shared<displayModule::Sfml_module>();
+    }
+}

@@ -391,3 +391,11 @@ displayModule::e_event GameModulePacman::setPlayerHighscoreLoop()
         display->refreshWindow();
     }
 }
+
+extern "C"
+{
+    std::shared_ptr<gameModule::GameModulePacman> allocator()
+    {
+        return std::make_shared<gameModule::GameModulePacman>();
+    }
+}

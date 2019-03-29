@@ -46,17 +46,4 @@ namespace displayModule
 
 }
 
-extern "C"
-{
-    displayModule::DisplayModuleNcurses *allocator()
-    {
-        return new displayModule::DisplayModuleNcurses();
-    }
-
-    void deleter(displayModule::DisplayModuleNcurses *ptr)
-    {
-        delete  ptr;
-    }
-}
-
 #endif //OOP_ARCADE_2018_MONITORDISPLAYNCURSES_HPP

@@ -15,7 +15,7 @@ NAME		=	lib_arcade_sfml.so
 
 CXXFLAGS	=	-I.
 CXXFLAGS	+=	-I..
-CXXFLAGS	+=	-Wall -Wextra -Werror
+CXXFLAGS	+=	-Wall -Wextra
 
 SFMLFLAGS 	= -lsfml-graphics -lsfml-window -lsfml-system
 
