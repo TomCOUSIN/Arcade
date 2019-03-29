@@ -25,7 +25,6 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
 {
     while (this->_window.pollEvent(this->_event)) {
         if (this->_event.type == sf::Event::KeyPressed) {
-
             if (this->_event.key.code == sf::Keyboard::Up)
                 return ARROW_UP;
             if (this->_event.key.code == sf::Keyboard::Down)

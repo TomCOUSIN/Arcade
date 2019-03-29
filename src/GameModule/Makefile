@@ -7,10 +7,12 @@
 
 SHELL	=	bash
 
-all:	nibbler
+all:	nibbler pacman
 
 nibbler:
 		@make --no-print-directory -C GameModuleNibbler
+
+pacman:
 		@make --no-print-directory -C GameModulePacman
 
 clean:
