@@ -399,6 +399,10 @@ bool GameModuleNibbler::setAsset()
         return false;
     if (!display->createText("-Press E to load and play with the easy map.", "map_easy_nibbler"))
         return false;
+    if (!display->createText("-Press L to return to the lib menu.", "keyboard_L"))
+        return false;
+    if (!display->createText("-Press R to return the game menu.", "keyboard_R"))
+        return false;
     if (!display->createAsset("games/nibbler/assets/", "map_nibbler_hard"))
         return false;
     if (!display->createAsset("games/nibbler/assets/", "head_nibbler"))
@@ -427,6 +431,8 @@ displayModule::e_event GameModuleNibbler::menuLoop()
         display->drawText("choose_map_nibbler", 20, 22);
         display->drawText("map_easy_nibbler", 24, 26);
         display->drawText("map_hard_nibbler", 24, 28);
+        display->drawText("keyboard_L", 24, 30);
+        display->drawText("keyboard_R", 24, 32);
         key_return = display->catchEvent();
         if (key_return == displayModule::KEY_H) {
             if (!init_map_hard())

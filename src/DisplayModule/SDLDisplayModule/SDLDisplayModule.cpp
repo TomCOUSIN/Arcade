@@ -7,6 +7,7 @@
 
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
+#include <memory>
 #include "SDLDisplayModule.hpp"
 
 displayModule::SDLDisplayModule::SDLDisplayModule()

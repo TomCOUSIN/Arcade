@@ -5,6 +5,7 @@
 ** Sfml_module
 */
 
+#include <memory>
 #include "Sfml_module.hpp"
 
 displayModule::Sfml_module::Sfml_module() : _window(sf::VideoMode(1920, 1080), "Arcade")
