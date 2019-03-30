@@ -140,7 +140,9 @@ void GameModulePacman::move_gost_red(int y, int x)
         return;
     if (_map[y][x] == '-')
         return;
-    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'D')) {
+    if ((_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'D'))
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@')) {
         for (auto &i : gost_red) {
             tmp2_x = i._x_red;
             tmp2_y = i._y_red;
@@ -165,7 +167,9 @@ void GameModulePacman::move_gost_blue(int y, int x)
         return;
     if (_map[y][x] == '-')
         return;
-    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'A') || (_map[y][x] == 'C') || (_map[y][x] == 'D')) {
+    if ((_map[y][x] == 'A') || (_map[y][x] == 'C') || (_map[y][x] == 'D'))
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@')) {
         for (auto &i : gost_blue) {
             tmp2_x = i._x_blue;
             tmp2_y = i._y_blue;
@@ -190,7 +194,9 @@ void GameModulePacman::move_gost_yellow(int y, int x)
         return;
     if (_map[y][x] == '-')
         return;
-    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'A') || (_map[y][x] == 'B') || (_map[y][x] == 'D')) {
+    if ((_map[y][x] == 'A') || (_map[y][x] == 'B') || (_map[y][x] == 'D'))
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@')) {
         for (auto &i : gost_yellow) {
             tmp2_x = i._x_yellow;
             tmp2_y = i._y_yellow;
@@ -215,7 +221,9 @@ void GameModulePacman::move_gost_pink(int y, int x)
         return;
     if (_map[y][x] == '-')
         return;
-    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@') || (_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'A')) {
+    if ((_map[y][x] == 'B') || (_map[y][x] == 'C') || (_map[y][x] == 'A'))
+        return;
+    else if ((_map[y][x] == '.') || (_map[y][x] == ' ') || (_map[y][x] == '@')) {
         for (auto &i : gost_pink) {
             tmp2_x = i._x_pink;
             tmp2_y = i._y_pink;
@@ -395,7 +403,7 @@ displayModule::e_event GameModulePacman::gameloop()
         asset();
         std::string _score = std::string("Score: ") + std::to_string(score);
         display->createText(_score, "score");
-        display->drawText("score", 0, 40);
+        display->drawText("score", 0, 60);
         display->refreshWindow();
     }
     display->refreshWindow();
@@ -455,17 +463,19 @@ bool GameModulePacman::setAsset()
         return false;
     if (!display->createText("How To Play:", "htp_pacman"))
         return false;
-    if (!display->createText("-The aim of the pacman is to get all the pacball in the map.", "1rules_pacman"))
+    if (!display->createText("-The aim of the pacman is to eat all the pacball and the ball in the map, but be carefull, four ghost want to kill you !.", "1rules_pacman"))
         return false;
     if (!display->createText("-If pacman touch one gost, the game is over.", "2rules_pacman"))
         return false;
     if (!display->createText("-Press E to play the game.", "start_game"))
         return false;
+    if (!display->createText("-Press L to return to the lib menu.", "keyboard_L"))
+        return false;
+    if (!display->createText("-Press R to return the game menu.", "keyboard_R"))
+        return false;
     if (!display->createAsset("games/pacman/assets/", "head_pacman"))
         return false;
-    if (!display->createAsset("games/pacman/assets/", "space"))
-        return false;    
-    return display->createAsset("games/pacman/assets/", "pacball");
+    return (display->createAsset("games/pacman/assets/", "space"));
 }
 
 displayModule::e_event GameModulePacman::menuLoop()
@@ -477,6 +487,8 @@ displayModule::e_event GameModulePacman::menuLoop()
         display->drawText("htp_pacman", 20, 13);
         display->drawText("1rules_pacman", 24, 16);
         display->drawText("2rules_pacman", 24, 18);
+        display->drawText("keyboard_L", 24, 20);
+        display->drawText("keyboard_R", 24, 32);
         display->drawText("start_game", 24, 26);
         key_return = display->catchEvent();
         if (key_return == displayModule::KEY_E) {
@@ -513,6 +525,7 @@ void GameModulePacman::resetGame()
     _gostYellow_y = 7;
     _gostPink_x = 5;
     _gostPink_y = 21;
+    score = 0;
     _isInMenu = true;
     _isInGame = false;
     _playerName.clear();
