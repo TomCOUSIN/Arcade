@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file LauncherException.cpp
+ */
+
 #include "launcherException.hpp"
 
 launcherException::launcherException(const std::string &message)

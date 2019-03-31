@@ -5,6 +5,10 @@
 ** GameModulePacman
 */
 
+/**
+ * @file GameModulePacman.cpp
+ */
+
 #include "GameModulePacman.hpp"
 #include <fstream>
 #include <map>

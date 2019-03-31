@@ -6,7 +6,11 @@
 */
 
 #ifndef GAMEMODULEPACMAN_HPP_
-    #define GAMEMODULEPACMAN_HPP_
+#define GAMEMODULEPACMAN_HPP_
+
+/**
+ * @file GameModulePacman.hpp
+ */
 
 #include "../IGameModule.hpp"
 #include <vector>

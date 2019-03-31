@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_COREPROGRAMEXCEPTION_HPP
 #define OOP_ARCADE_2018_COREPROGRAMEXCEPTION_HPP
 
+/**
+ * @file coreProgramException.hpp
+ */
+
 #include <iostream>
 
 namespace coreProgram

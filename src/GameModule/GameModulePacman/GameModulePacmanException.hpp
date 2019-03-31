@@ -8,6 +8,10 @@
 #ifndef GAMEMODULEPACMANEXCEPTION_HPP_
 #define GAMEMODULEPACMANEXCEPTION_HPP_
 
+/**
+ * @file GameModulePacmanException.hpp
+ */
+
 #include <iostream>
 
 class GameModulePacmanException : public std::exception

@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_LAUNCHEREXCEPTION_HPP
 #define OOP_ARCADE_2018_LAUNCHEREXCEPTION_HPP
 
+/**
+ * @file LauncherException.hpp
+ */
+
 #include <iostream>
 
     class launcherException : public std::exception

@@ -5,6 +5,10 @@
 ** Created by tronche,
 */
 
+/**
+ * @file GameModuleNibbler.cpp
+ */
+
 #include "GameModuleNibbler.hpp"
 #include <fstream>
 #include <map>

@@ -5,6 +5,10 @@
 ** GameModulePacmanException
 */
 
+/**
+ * @file GameModulePacmanException.cpp
+ */
+
 #include "GameModulePacmanException.hpp"
 
 GameModulePacmanException::GameModulePacmanException(const std::string &message) : _message(message)

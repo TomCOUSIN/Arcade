@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file launcher.cpp
+ */
+
 #include <fstream>
 #include <dirent.h>
 #include <zconf.h>

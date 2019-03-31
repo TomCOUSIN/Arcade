@@ -5,6 +5,10 @@
 ** Created by tronche,
 */
 
+/**
+ * @file DisplayModuleNcurses.cpp
+ */
+
 #include "DisplayModuleNcurses.hpp"
 #include "DisplayModuleNcursesException.hpp"
 #include <fstream>

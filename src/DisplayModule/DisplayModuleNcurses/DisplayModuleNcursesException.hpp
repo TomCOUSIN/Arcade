@@ -7,6 +7,10 @@
 #ifndef OOP_ARCADE_2018_DISPLAYMODULENCURSESEXCEPTION_HPP
 #define OOP_ARCADE_2018_DISPLAYMODULENCURSESEXCEPTION_HPP
 
+/**
+ * @file DisplayModuleNcursesException.hpp
+ */
+
 #include <iostream>
 
 class DisplayModuldeNcursesException : public std::exception

@@ -7,6 +7,10 @@
 #ifndef OOP_ARCADE_2018_DISPLAYMODULENCURSES_HPP
 #define OOP_ARCADE_2018_DISPLAYMODULENCURSES_HPP
 
+/**
+ * @file DisplayModuleNcurses.hpp
+ */
+
 #include "../IDisplayModule.hpp"
 #include <ncurses.h>
 #include <unordered_map>

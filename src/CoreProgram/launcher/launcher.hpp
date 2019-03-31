@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_LAUNCHER_HPP
 #define OOP_ARCADE_2018_LAUNCHER_HPP
 
+/**
+ * @file launcher.hpp
+ */
+
 #include <vector>
 #include <memory>
 #include <iostream>

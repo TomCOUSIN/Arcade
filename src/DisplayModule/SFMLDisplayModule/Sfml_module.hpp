@@ -6,7 +6,12 @@
 */
 
 #ifndef SFML_MODULE_HPP_
-    #define SFML_MODULE_HPP_
+#define SFML_MODULE_HPP_
+
+/**
+ * @file SFMLDisplayModule.hpp
+ */
+
 #include "../IDisplayModule.hpp"
 #include <iostream>
 #include <string>

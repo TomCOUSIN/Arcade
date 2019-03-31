@@ -4,6 +4,11 @@
 ** File description:
 ** Created by tronche,
 */
+
+/**
+ * @file DisplayModuleNcursesException.cpp
+ */
+
 #include "DisplayModuleNcursesException.hpp"
 
 /**

@@ -7,6 +7,10 @@
 #ifndef OOP_ARCADE_2018_GAMEMODULENIBBLEREXCEPTION_HPP
 #define OOP_ARCADE_2018_GAMEMODULENIBBLEREXCEPTION_HPP
 
+/**
+ * @file GameModuleNibblerException.hpp
+ */
+
 #include <iostream>
 
 class GameModuleNibblerException : public std::exception

@@ -7,6 +7,9 @@
 #ifndef OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
 #define OOP_ARCADE_2018_GAMEMODULENIBBLER_HPP
 
+/**
+ * @file GameModuleNibbler.hpp
+ */
 
 #include <../IGameModule.hpp>
 #include <vector>

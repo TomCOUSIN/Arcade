@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/*
+ * @file main.cpp
+ */
+
 #include "coreProgram.hpp"
 #include <iostream>
 

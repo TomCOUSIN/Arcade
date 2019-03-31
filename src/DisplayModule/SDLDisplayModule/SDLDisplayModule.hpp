@@ -8,6 +8,10 @@
 #ifndef OOP_ARCADE_2018_SDLDISPLAYMODULE_HPP
 #define OOP_ARCADE_2018_SDLDISPLAYMODULE_HPP
 
+/**
+ * @file SDLDisplayModule.hpp
+ */
+
 #include <iostream>
 #include <unordered_map>
 #include <SDL/SDL.h>

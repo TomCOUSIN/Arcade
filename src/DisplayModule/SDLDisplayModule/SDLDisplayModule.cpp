@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file SDLDisplayModule.cpp
+ */
+
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_image.h>
 #include <memory>

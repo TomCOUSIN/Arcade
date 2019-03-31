@@ -4,6 +4,11 @@
 ** File description:
 ** Created by tronche,
 */
+
+/**
+ * @file GameModuleNibblerException.cpp
+ */
+
 #include "GameModuleNibblerException.hpp"
 
 /**

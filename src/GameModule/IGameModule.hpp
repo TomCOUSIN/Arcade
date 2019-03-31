@@ -7,6 +7,10 @@
 #ifndef OOP_ARCADE_2018_IGAMEMODULE_HPP
 #define OOP_ARCADE_2018_IGAMEMODULE_HPP
 
+/**
+ * @file IGameModule.hpp
+ */
+
 #include <iostream>
 #include <memory>
 #include "../DisplayModule/IDisplayModule.hpp"

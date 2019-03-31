@@ -5,6 +5,10 @@
 ** Created by tomcousin,
 */
 
+/**
+ * @file coreProgramException.cpp
+ */
+
 #include "coreProgramException.hpp"
 
 coreProgram::coreProgramException::coreProgramException(const std::string &message)
