@@ -43,13 +43,13 @@ namespace displayModule {
             void startSound(const std::string &soundKey) final;
             void stopSound(const std::string &soundKey) final;
 
-            sf::RenderWindow _window;
-            sf::Event _event;
-            sf::Texture _texture;
         protected:
         private:
         std::unordered_map<std::string, sf::Texture> umap_sfmlsprite_asset;
         std::unordered_map<std::string, std::string> umap_sfmltext_asset;
+        sf::RenderWindow _window;
+        sf::Event _event;
+        sf::Texture _texture;
     };
 }
 

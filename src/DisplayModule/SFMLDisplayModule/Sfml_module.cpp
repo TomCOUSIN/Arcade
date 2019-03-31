@@ -13,20 +13,34 @@
 #include <memory>
 #include "Sfml_module.hpp"
 
+/**
+ * Constructor : open the sfml window
+ */
 displayModule::Sfml_module::Sfml_module() : _window(sf::VideoMode(1920, 1080), "Arcade")
 {
 }
 
+/**
+ * Destructor : close the sfml window
+ */
 displayModule::Sfml_module::~Sfml_module()
 {
     this->_window.close();
 }
 
+/**
+ * refreshWindow : refresh the sfml window
+ */
 void displayModule::Sfml_module::refreshWindow()
 {
     this->_window.display();
     this->_window.clear();
- }
+}
+
+/**
+ * catchEvent: function which catch the event of the keypad and return a enum e_event for the keypad
+ * @return the pattern of the correct enum for the keypad event
+ */
 displayModule::e_event displayModule::Sfml_module::catchEvent()
 {
     while (this->_window.pollEvent(this->_event)) {
@@ -106,6 +120,12 @@ displayModule::e_event displayModule::Sfml_module::catchEvent()
     return NOTHING;
 }
 
+/**
+ * createAsset : function which create the asset in the unordered_map
+ * @param path : path to the asset : toto/1d/map.txt
+ * @param assetName : name of the asset
+ * @return true
+ */
 bool displayModule::Sfml_module::createAsset(const std::string &path, const std::string &assetName)
 {
     std::string true_name = path + "/2d/" + assetName + ".png";
@@ -117,6 +137,14 @@ bool displayModule::Sfml_module::createAsset(const std::string &path, const std:
     return true;
 }
 
+/**
+ * drawAsset : function which draw the asset in the sfml window
+ * @param assetName : name of the asset
+ * @param x : horizontal coordinates of the asset in the sfml window
+ * @param y : vertical coordinates of the asset in the sfml window
+ * @return false if it's can't draw the asset
+ * @return true if it's can draw the asset
+ */
 bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, int y)
 {
     if (umap_sfmlsprite_asset.find(assetName) == umap_sfmlsprite_asset.end())
@@ -128,6 +156,12 @@ bool displayModule::Sfml_module::drawAsset(const std::string &assetName, int x, 
     return true;
 }
 
+/**
+ * createText : function which create a text in an unordered_map
+ * @param text : text to draw!!
+ * @param assetName : key to find the text in the unordered_map
+ * @return true because no error
+ */
 bool displayModule::Sfml_module::createText(const std::string &text, const std::string &textName)
 {
     if (umap_sfmltext_asset.find(textName) != umap_sfmltext_asset.end())
@@ -137,6 +171,14 @@ bool displayModule::Sfml_module::createText(const std::string &text, const std::
     return true;
 }
 
+/**
+ * drawText : function which draw the text in the sfml window
+ * @param textName : key of the text name
+ * @param x : horizontal coordinates of the text in the sfml window
+ * @param y : vertical coordinates of the text in the sfml window
+ * @return false if it's can't draw the text
+ * @return true because no error
+ */
 bool displayModule::Sfml_module::drawText(const std::string &textName, int x, int y)
 {
     if (umap_sfmltext_asset.find(textName) == umap_sfmltext_asset.end())
@@ -151,17 +193,29 @@ bool displayModule::Sfml_module::drawText(const std::string &textName, int x, in
     return true;
 }
 
+/**
+ * clearScreen : clear the sfml window
+ */
 void displayModule::Sfml_module::clearScreen()
 {
     this->_window.clear();
 }
 
+/**
+ * startSound : start the sound
+ */
 void displayModule::Sfml_module::startSound(const std::string &soundKey)
 { (void)soundKey; }
 
+/**
+ * stopSound : stop the sound
+ */
 void displayModule::Sfml_module::stopSound(const std::string &soundKey)
 { (void)soundKey; }
 
+/**
+ * createSound : create the sound
+ */
 void displayModule::Sfml_module::createSound(const std::string &path,
     const std::string &soundKey)
 { (void)path; (void)soundKey; }
