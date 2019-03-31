@@ -11,6 +11,24 @@
 
 #include "coreProgram.hpp"
 #include <iostream>
+#include <cstring>
+
+/**
+ * Check the environment variable to avoid segfault
+ * @param char **envp
+ * @return 0 if Success
+ * @return 84 if Failure
+ */
+int check_env(char **envp)
+{
+    if (!envp)
+        return 84;
+    for (size_t index = 0; envp[index]; ++index) {
+        if (std::strncmp(envp[index], "DISPLAY=", 8) == 0)
+            return 0;
+    }
+    return 84;
+}
 
 /**
  * Print the usage when arcade is launched with more or less than 1 argument
@@ -49,12 +67,15 @@ int launch_arcade(char **argv)
  * @return 0 if Success
  * @return 84 if Failure
  */
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
     if (argc != 2) {
         return print_usage();
     }
     else {
-        return launch_arcade(argv);
+        if (check_env(envp) != 84)
+            return launch_arcade(argv);
+        else
+            return 84;
     }
 }
