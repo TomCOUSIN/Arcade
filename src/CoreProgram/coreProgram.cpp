@@ -87,7 +87,6 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
             return 0;
         else {
             _displayModule->clearScreen();
-            _launcher.setSelectedLibrary(_selectedLibrary);
         }
     }
 }
@@ -102,12 +101,13 @@ coreProgram::e_returnValue coreProgram::coreProgram::launcherLoop()
 {
     if (!_launcher.initLauncher(_displayModule, _availableLibrary))
         return ERROR;
+    _launcher.setSelectedLibrary(_selectedLibrary);
     while (true) {
         size_t returnValue = _launcher.launchLauncher();
         switch (returnValue) {
             case 0: return QUIT;
-            case 1: changeGraphicLibrary(false); _launcher.changeLibrary(_displayModule); break;
-            case 2: changeGraphicLibrary(true); _launcher.changeLibrary(_displayModule); break;
+            case 1: changeGraphicLibrary(false); _displayModule->clearScreen(); _launcher.changeLibrary(_displayModule); break;
+            case 2: changeGraphicLibrary(true); _displayModule->clearScreen(); _launcher.changeLibrary(_displayModule); break;
             case 3: return START_GAME;
             default: break;
         }
