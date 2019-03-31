@@ -22,21 +22,49 @@
 #include <chrono>
 #include <thread>
 
+/**
+ * Constructor of the position of the pacman asset.
+ * @param x: horizontal coordinates of the pacman asset in the ncurses window.
+ * @param y: vertical coordinates of the pacman asset in the ncurses window.
+ */
 GameModulePacman::PositionPacman::PositionPacman(int x, int y) : _x(x), _y(y)
 {}
 
+/**
+ * Constructor of the position of the red gost asset.
+ * @param x: horizontal coordinates of the red gost asset in the ncurses window.
+ * @param y: vertical coordinates of the red gost asset in the ncurses window.
+ */
 GameModulePacman::PositionGostRed::PositionGostRed(int x, int y) : _x_red(x), _y_red(y)
 {}
 
+/**
+ * Constructor of the position of the blue gost asset.
+ * @param x: horizontal coordinates of the blue gost asset in the ncurses window.
+ * @param y: vertical coordinates of the blue gost asset in the ncurses window.
+ */
 GameModulePacman::PositionGostBlue::PositionGostBlue(int x, int y) : _x_blue(x), _y_blue(y)
 {}
 
+/**
+ * Constructor of the position of the yellow gost asset.
+ * @param x: horizontal coordinates of the yellow gost asset in the ncurses window.
+ * @param y: vertical coordinates of the yellow gost asset in the ncurses window.
+ */
 GameModulePacman::PositionGostYellow::PositionGostYellow(int x, int y) : _x_yellow(x), _y_yellow(y)
 {}
 
+/**
+ * Constructor of the position of the pink gost asset.
+ * @param x: horizontal coordinates of the pink gost asset in the ncurses window.
+ * @param y: vertical coordinates of the pink gost asset in the ncurses window.
+ */
 GameModulePacman::PositionGostPink::PositionGostPink(int x, int y) : _x_pink(x), _y_pink(y)
 {}
 
+/**
+ * Constructor of the pacman game.
+ */
 GameModulePacman::GameModulePacman() : _playerName("___")
 {
     pacman.emplace_back(PositionPacman(17, 11));
@@ -58,8 +86,19 @@ GameModulePacman::GameModulePacman() : _playerName("___")
     _isInGame = false;
 }
 
+/**
+ * Destructor of the pacman game.
+ */
 GameModulePacman::~GameModulePacman() {}
 
+/**
+ * Fucntion which move the pacman when he find an pacman.
+ * @param tmp_x: copy of the horizontal position of one part of the pacman.
+ * @param tmp_y: copy of the vertical position of one of the pacman.
+ * @param x: horizontal position when we want to move the pacman.
+ * @param y: vertical position when we want to move the pacman.
+ * @return -1 when the pacman catch an pacball and add 10 on the score.
+ */
 int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
 {
     int tmp2_x = 0;
@@ -87,6 +126,11 @@ int GameModulePacman::scoreUp(int tmp_x, int tmp_y, int x, int y)
     return 0;
 }
 
+/**
+ * Function which move the pacman when he doesn't find an obstacle, and stop the game when pacman touch a gost.
+ * @param y: vertical position when we want to move the pacman.
+ * @param x: horizontal position when we want to move the pacman.
+ */
 void GameModulePacman::move_pacman(int y, int x)
 {
     int tmp_x = x;
@@ -133,6 +177,11 @@ void GameModulePacman::move_pacman(int y, int x)
     return;
 }
 
+/**
+ * Function which move the red gost
+ * @param y: vertical position of the gost.
+ * @param x: horizontal position of the gost.
+ */
 void GameModulePacman::move_gost_red(int y, int x)
 {
     int tmp_x = x;
@@ -160,6 +209,11 @@ void GameModulePacman::move_gost_red(int y, int x)
     _gostRed_y = y;
 }
 
+/**
+ * Function which move the blue gost
+ * @param y: vertical position of the gost.
+ * @param x: horizontal position of the gost.
+ */
 void GameModulePacman::move_gost_blue(int y, int x)
 {
     int tmp_x = x;
@@ -187,6 +241,11 @@ void GameModulePacman::move_gost_blue(int y, int x)
     _gostBlue_y = y;
 }
 
+/**
+ * Function which move the yellow gost
+ * @param y: vertical position of the gost.
+ * @param x: horizontal position of the gost.
+ */
 void GameModulePacman::move_gost_yellow(int y, int x)
 {
     int tmp_x = x;
@@ -213,7 +272,11 @@ void GameModulePacman::move_gost_yellow(int y, int x)
     _gostYellow_x = x;
     _gostYellow_y = y;
 }
-
+/**
+ * Function which move the pink gost
+ * @param y: vertical position of the gost.
+ * @param x: horizontal position of the gost.
+ */
 void GameModulePacman::move_gost_pink(int y, int x)
 {
     int tmp_x = x;
@@ -241,6 +304,9 @@ void GameModulePacman::move_gost_pink(int y, int x)
     _gostPink_y = y;
 }
 
+/**
+ * Function which create the AI of each gost
+ */
 void GameModulePacman::gost_Ai()
 {
     int stock = (std::rand() % 4);
@@ -271,6 +337,10 @@ void GameModulePacman::gost_Ai()
     }
 }
 
+/**
+ * Function which catch events of the keyboard.
+ * @return an event when one of the keyboard touch is press.
+ */
 displayModule::e_event GameModulePacman::catch_event()
 {
     displayModule::e_event key = display->catchEvent();
@@ -321,6 +391,9 @@ displayModule::e_event GameModulePacman::catch_event()
     return key;
 }
 
+/**
+ * Function which draw the pacman asset and gost asset.
+ */
 void GameModulePacman::asset()
 {
     size_t i = 0;
@@ -336,6 +409,10 @@ void GameModulePacman::asset()
     display->drawAsset("gost_pink", gost_pink[p]._x_pink, gost_pink[p]._y_pink);
 }
 
+/**
+ * Function which contain all the event of the pacman game.
+ * @return an event of the keyboard.
+ */
 displayModule::e_event GameModulePacman::game()
 {
     displayModule::e_event event;
@@ -384,6 +461,10 @@ displayModule::e_event GameModulePacman::game()
     }  
 }
 
+/**
+ * Function which contain all pacman game.
+ * @return an keyboard event.
+ */
 displayModule::e_event GameModulePacman::gameloop()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
@@ -414,17 +495,34 @@ displayModule::e_event GameModulePacman::gameloop()
     return displayModule::e_event::NOTHING;
 }
 
+/**
+ * Function which call the function setLib
+ * @param asset: asset of the lib call.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModulePacman::initGame(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     return setLib(asset);
 }
 
+/**
+ * Function which set the lib.
+ * @param asset: asset of the lib call.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModulePacman::setLib(const std::shared_ptr<displayModule::IDisplayModule> &asset)
 {
     display = asset;
     return setAsset();
 }
 
+/**
+ * Function which init the easy map of the pacman.
+ * @return true when the stockage of the map in an array works.
+ * @return false when find an exception.
+ */
 bool GameModulePacman::init_map()
 {
     std::fstream file("games/pacman/assets/1d/map_pacman.txt", std::fstream::in);
@@ -447,6 +545,11 @@ bool GameModulePacman::init_map()
     return true;
 }
 
+/**
+ * Function which set asset.
+ * @return true it's working
+ * @return false when it's find an exception
+ */
 bool GameModulePacman::setAsset()
 {
     if (!display->createAsset("games/pacman/assets/", "map_pacman"))
@@ -482,6 +585,10 @@ bool GameModulePacman::setAsset()
     return (display->createAsset("games/pacman/assets/", "space"));
 }
 
+/**
+ * Function which conatin all of the menu loop.
+ * @return a keyboard event.
+ */
 displayModule::e_event GameModulePacman::menuLoop()
 {
     displayModule::e_event key_return = displayModule::e_event::NOTHING;
@@ -510,6 +617,9 @@ displayModule::e_event GameModulePacman::menuLoop()
     }
 }
 
+/**
+ * Function which reset the nibbler game.
+ */
 void GameModulePacman::resetGame()
 {
     _position.clear();
@@ -535,6 +645,11 @@ void GameModulePacman::resetGame()
     _playerName.clear();
 }
 
+/**
+ * Function which catch the player name.
+ * @param event: event of the keyboard.
+ * @return a char of the letter press.
+ */
 char GameModulePacman::catchPlayercharacterName(const displayModule::e_event &event)
 {
     std::vector<char> characterVector = {
@@ -558,6 +673,9 @@ char GameModulePacman::catchPlayercharacterName(const displayModule::e_event &ev
     return 0;
 }
 
+/**
+ * Function which write the name of the player in a file.
+ */
 void GameModulePacman::writePlayerNameInFile()
 {
     std::ofstream scorefile("./games/pacman/.score", std::ios::app);
@@ -565,6 +683,10 @@ void GameModulePacman::writePlayerNameInFile()
     scorefile.close();
 }
 
+/**
+ * Function which setr the player highScore
+ * @return a keyboard event.
+ */
 displayModule::e_event GameModulePacman::setPlayerHighscoreLoop()
 {
     displayModule::e_event event;
