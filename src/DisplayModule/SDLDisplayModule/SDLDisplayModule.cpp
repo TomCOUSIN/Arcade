@@ -32,7 +32,6 @@ displayModule::SDLDisplayModule::~SDLDisplayModule()
         SDL_FreeSurface(text.second);
     }
     SDL_FreeSurface(_window);
-    SDL_QuitSubSystem(SDL_INIT_VIDEO);
     SDL_Quit();
 }
 
