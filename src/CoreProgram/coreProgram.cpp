@@ -87,7 +87,7 @@ size_t coreProgram::coreProgram::playCoreProgramLoop()
             return 0;
         else {
             _displayModule->clearScreen();
-            _launcher.changeLibrary(_displayModule);
+            _launcher.setSelectedLibrary(_selectedLibrary);
         }
     }
 }

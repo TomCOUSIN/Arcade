@@ -310,3 +310,8 @@ std::vector <std::string> coreProgram::launcher::sortHighscore(const std::vector
     }
     return fileContentVector;
 }
+
+void coreProgram::launcher::setSelectedLibrary(size_t selectedLibrary)
+{
+    _selectedLibrary = selectedLibrary;
+}

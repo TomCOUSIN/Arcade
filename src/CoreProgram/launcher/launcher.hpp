@@ -29,6 +29,7 @@ namespace coreProgram
             bool initLauncher(const std::shared_ptr<displayModule::IDisplayModule> &displayModule, const std::vector<std::string> &graphicLibrariesNames);
             size_t launchLauncher();
             size_t getSelectedGame();
+            void setSelectedLibrary(size_t selectedLibrary);
 
         private:
             void changeSelectedGame(bool lower);
