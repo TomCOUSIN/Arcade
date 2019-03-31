@@ -11,6 +11,7 @@
 
 #include "coreProgram.hpp"
 #include <iostream>
+#include <cstring>
 
 /**
  * Check the environment variable to avoid segfault
